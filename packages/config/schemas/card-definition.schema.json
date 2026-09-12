@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://genoryx.com.br/schemas/card-definition.json",
+  "title": "GENORYX CombatCardSpec",
+  "description": "Carta de combate competitiva V2. Campos canônicos em camelCase. Aliases PT: Custo_Mana=cost, Custo_Momentum_Alternativo=momentumAltCost, Alcance=range, Gatilho_Intervencao=interventionTrigger, Peso_Draft=draftWeightBase, Efeitos=effects.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["key", "name", "type", "cost", "element", "range", "effects"],
+  "properties": {
+    "key": { "type": "string", "minLength": 1 },
+    "name": { "type": "string", "minLength": 1 },
+    "type": {
+      "type": "string",
+      "enum": ["ATTACK", "SKILL", "REACTION", "ULTIMATE", "GENETIC", "SYNERGY"]
+    },
+    "cost": { "type": "integer", "minimum": 0, "maximum": 12, "description": "Custo_Mana" },
+    "rank": { "type": "integer", "minimum": 1, "maximum": 10 },
+    "element": {
+      "type": "string",
+      "enum": ["FIRE", "WATER", "NATURE", "EARTH", "ELECTRIC", "ICE", "LIGHT", "DARK", "ARCANE"]
+    },
+    "typology": {
+      "type": "string",
+      "enum": [
+        "AGGRO", "CONTROL", "TANK", "SUSTAIN", "BURN", "POISON", "BLEED",
+        "CRITICAL", "SPEED", "SHIELD", "COMBO", "COUNTER", "SUMMON", "HEAL", "BURST"
+      ]
+    },
+    "range": {
+      "type": "string",
+      "enum": ["SHORT", "MEDIUM", "LONG", "AOE"],
+      "description": "Alcance: SHORT=vanguarda; MEDIUM=vanguarda ou meio vulnerável; LONG=qualquer; AOE=múltiplos"
+    },
+    "targetType": {
+      "type": "string",
+      "enum": ["SELF", "ALLY", "ENEMY", "ALL_ENEMIES", "ALL_ALLIES"]
+    },
+    "momentumAltCost": {
+      "type": ["integer", "null"],
+      "minimum": 1,
+      "maximum": 8,
+      "description": "Custo_Momentum_Alternativo — defesa emergencial no turno inimigo"
+    },
+    "interventionTrigger": {
+      "type": "string",
+      "enum": ["NONE", "ON_ENEMY_RESOLVE", "ON_STACK"],
+      "description": "Gatilho_Intervencao"
+    },
+    "draftWeightBase": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 8,
+      "default": 1,
+      "description": "Peso_Draft base (tipo não usado = 1)"
+    },
+    "locusRole": { "type": "string" },
+    "tags": { "type": "array", "items": { "type": "string" } },
+    "species": { "type": "array", "items": { "type": "string" } },
+    "effects": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["op"],
+        "properties": {
+          "op": {
+            "type": "string",
+            "enum": ["DAMAGE", "HEAL", "SHIELD", "APPLY_STATUS", "REMOVE_STATUS", "DRAW", "GAIN_ENERGY", "GAIN_MOMENTUM"]
+          },
+          "value": { "type": "number" },
+          "status": {
+            "type": "string",
+            "enum": ["BURN", "BLEED", "POISON", "STUN", "SHIELD", "MOLTEN"]
+          },
+          "duration": { "type": "integer", "minimum": 1, "maximum": 8 }
+        }
+      }
+    }
+  }
+}

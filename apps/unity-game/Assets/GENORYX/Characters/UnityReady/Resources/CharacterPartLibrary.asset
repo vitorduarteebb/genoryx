@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dae84eebdba804949b31c88c2d901659, type: 3}
+  m_Name: CharacterPartLibrary
+  m_EditorClassIdentifier: 
+  bodyPrefab: {fileID: 1835124551816796740, guid: 56f4a985bc883d74a986eab582d5944f, type: 3}
+  canonicalAvatar: {fileID: 9000000, guid: 715aedcd139dd6449828ef51cfe661f1, type: 3}
+  animator: {fileID: 9100000, guid: be817f06858301e4a8d01ee17cd5d9a3, type: 2}
+  hair01: {fileID: 4900290800925194677, guid: be6f7a6f1a4e91040b40fed127e9ed66, type: 3}
+  hair02: {fileID: 4281298710738794111, guid: 5f2c88e18f7d7e94aba75b328ee28770, type: 3}
+  chest01: {fileID: 6269508022504176077, guid: a3b70b5ae5277fe49a599ae7dc080297, type: 3}
+  chest02: {fileID: 5398836419129233396, guid: 1f1245d12ee273044a57525f4b1f79bf, type: 3}
+  pants01: {fileID: 8625106993240935629, guid: 0ff8cbafda480bd48b438a7b5efc5677, type: 3}
+  pants02: {fileID: 2852378232630352497, guid: 02c6e1693ba789b49ad9d1cd1dddd51e, type: 3}
+  boots01: {fileID: 8481601626055728175, guid: 0b1d9eb17ef82cd4cb113cec9367b15f, type: 3}
+  boots02: {fileID: 701283187955982112, guid: 0da130bf909cbc14da6fab0db4243e33, type: 3}
+  skinMaterial: {fileID: 0}
+  underwearMaterial: {fileID: 0}
+  eyeMaterial: {fileID: 0}
+  debugBody: {fileID: 2100000, guid: 8bff55c3796af7049ae558e9a37fc4e9, type: 2}
+  debugHair: {fileID: 2100000, guid: ff0493267c0a9f94188d81ce5f3746b1, type: 2}
+  debugChest: {fileID: 2100000, guid: 8addb3866063f3f489a47db02b2a644b, type: 2}
+  debugPants: {fileID: 2100000, guid: 18111e8f2bad6b040b573346ed289c1f, type: 2}
+  debugBoots: {fileID: 2100000, guid: e9fecd035f51db344bd0617ccde3f894, type: 2}

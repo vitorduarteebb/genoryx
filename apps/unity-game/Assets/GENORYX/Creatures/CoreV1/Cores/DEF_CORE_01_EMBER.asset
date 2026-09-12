@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bad4ae3d1d09cb418a7785543135f0a, type: 3}
+  m_Name: DEF_CORE_01_EMBER
+  m_EditorClassIdentifier: 
+  id: CORE_01_EMBER
+  element: 0
+  mesh: {fileID: 4300000, guid: 80f08b019801cbe4998500fc14b037ab, type: 2}
+  emissionColor: {r: 0.902, g: 0.365, b: 0.129, a: 1}
+  emissionIntensity: 1.3
+  vfxPrefab: {fileID: 0}
+  combatTag: CORE_EMBER

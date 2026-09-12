@@ -1,0 +1,57 @@
+{
+  "file": "c:\\Users\\oem\\Desktop\\GENORYX-Genesis\\apps\\unity-game\\Assets\\StreamingAssets\\GENORYX\\Characters\\Generated\\Hair\\hair_01.glb",
+  "slot": "HAIR",
+  "bytes": 5084048,
+  "meshCount": 1,
+  "materialCount": 1,
+  "materials": [
+    {
+      "name": "material.001",
+      "kind": "unknown",
+      "baseColor": "textured"
+    }
+  ],
+  "connectedComponents": 3186,
+  "vertexCount": 15772,
+  "faceCount": 9824,
+  "skeleton": {
+    "present": false,
+    "armatures": []
+  },
+  "meshes": [
+    {
+      "name": "mesh_node",
+      "vertices": 15772,
+      "faces": 9824,
+      "islands": 3186,
+      "materials": [
+        "material.001"
+      ],
+      "bounds": {
+        "min": [
+          -0.0828,
+          -0.0954,
+          0.0
+        ],
+        "max": [
+          0.0825,
+          0.095,
+          0.24
+        ],
+        "size": [
+          0.1654,
+          0.1904,
+          0.24
+        ],
+        "height": 0.24
+      },
+      "hasShapeKeys": false
+    }
+  ],
+  "skinAndClothOnSeparateMeshes": false,
+  "skinAndClothOnDifferentMaterials": false,
+  "humanoidScale": false,
+  "heightMetersApprox": 0.24,
+  "verdict": "SALVAGE_CANDIDATE",
+  "reason": "H\u00e1 submesh, material ou componente solto para tentar extra\u00e7\u00e3o."
+}

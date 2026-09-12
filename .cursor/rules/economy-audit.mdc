@@ -1,0 +1,13 @@
+---
+description: Ledger e auditoria admin obrigatórios
+alwaysApply: true
+---
+
+# Economia e auditoria
+
+- Nunca `balance = balance + n` sem `CurrencyTransaction`.
+- Ledger grava `source`, `referenceId`, `balanceBefore`, `balanceAfter` na mesma transação do saldo.
+- Marketplace: lock do ativo, débito, taxa, troca de dono, commit ou rollback.
+- Ação admin (grant, ban, drop edit) sempre gera `AdminActionLog` com motivo.
+- NEX não vende poder (dano, genes, captura, win).
+- Saldos são `BigInt`. Float é bug.

@@ -1,0 +1,20 @@
+---
+description: Cliente nunca decide economia, combate ou progresso
+alwaysApply: true
+---
+
+# Servidor authoritative
+
+O cliente envia intenção. O servidor calcula e persiste.
+
+Proibido aceitar do body/socket: Gold, NEX, XP, damage, loot, drop, capture chance, genes, fertility, MMR, vencedor de PvP.
+
+```ts
+// ❌
+await wallet.add(dto.gold);
+
+// ✅
+await ledger.credit(userId, "GOLD", goldFromConfig, { source: "QUEST_REWARD", referenceId: questId });
+```
+
+Regras em `@nexora/game-engine`. Números em `@nexora/config`. RNG só via `RandomService` (nunca `Math.random` em combate, captura, breed, loot).

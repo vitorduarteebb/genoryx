@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a07398d2a6c8e314aa83cdbc3ab30677, type: 3}
+  m_Name: EYES_04_NATURE
+  m_EditorClassIdentifier: 
+  id: EYES_04_NATURE
+  displayName: Nature
+  slot: 2
+  mesh: {fileID: 4300000, guid: e95f44a547d058b43b02d865ae14d141, type: 2}
+  prefab: {fileID: 0}
+  compatibleChassis: GENORYX_CORE_CHASSIS_V1
+  rarity: 1
+  boundsSize: {x: 0.059389286, y: 0.076, z: 0.08710428}
+  socket: EYE_L,EYE_R
+  fitProfile:
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scaleMultiplier: 1
+  materialProfile: 3
+  mutationCompatibility:
+  - GENESIS_EYES
+  mirrored: 1
+  centered: 0

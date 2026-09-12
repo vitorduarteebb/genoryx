@@ -1,0 +1,34 @@
+{
+  "file": "c:\\Users\\oem\\Desktop\\GENORYX-Genesis\\apps\\unity-game\\Assets\\StreamingAssets\\GENORYX\\Characters\\Generated\\Hair\\hair_test_01.glb",
+  "bytes": 6307708,
+  "meshes": [
+    {
+      "name": "mesh_node",
+      "verts": 17956,
+      "faces": 12353,
+      "materials": [
+        "material"
+      ],
+      "vertexGroups": [],
+      "bounds": {
+        "min": [
+          -0.9486,
+          -0.8826,
+          -0.8748
+        ],
+        "max": [
+          0.9497,
+          0.8783,
+          0.8762
+        ],
+        "size": [
+          1.8983,
+          1.7609,
+          1.751
+        ],
+        "height": 1.8983
+      }
+    }
+  ],
+  "armatures": []
+}

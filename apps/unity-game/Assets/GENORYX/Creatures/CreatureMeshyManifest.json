@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "system": "GENORYX_CREATURE_SYSTEM_V1",
+  "chassis": "GENORYX_CORE_CHASSIS_V1",
+  "rig": "GENORYX_CORE_RIG",
+  "runtimeRule": "Meshy NUNCA e chamado em runtime. Breeding/nascimento resolve DNA -> IDs de peca -> CreatureAssembler. Nenhum caminho de codigo em Assets/GENORYX/Scripts/Creature referencia Meshy, HTTP ou GLB.",
+  "creditsSpent": 0,
+  "jobsSubmitted": 0,
+  "assetsGenerated": 0,
+  "assetsRejected": 0,
+  "decision": {
+    "summary": "V1 fechou com 37 malhas proprias, deterministicas e versionadas no projeto. Nenhum job Meshy foi submetido.",
+    "reasoning": [
+      "O wrapper real disponivel e MeshyMultiImageClient (openapi/v1/multi-image-to-3d) em apps/api/src/modules/creature-models/meshy.client.ts. Ele exige imagens de referencia por vista.",
+      "As regras 17 e 18 exigem referencia contendo APENAS a peca isolada. A imagem de referencia do sistema e um infografico com criaturas completas, corpo, fundo e texto: usa-la como image-to-3D violaria a regra e retornaria corpo inteiro, que teria de ser REJEITADO.",
+      "A regra 54 proibe gastar credito sem necessidade. Submeter jobs com referencia invalida seria gasto garantidamente descartado.",
+      "As 37 malhas foram construidas em CreatureMeshLab e bakeadas em .asset pelo builder do Editor. Elas cumprem o contrato de socket, tem bind ao rig canonico e satisfazem os critenios de aceite sem dependencia externa."
+    ],
+    "upgradePath": "CreaturePartDefinition.mesh aceita malha autorada e tem PRIORIDADE sobre o procedural (CreatureAssembler.Resolve). Trocar uma peca por um asset Meshy nao exige mudanca de codigo de runtime: rode tools/creature_pipeline e aponte o campo mesh para a malha do FBX."
+  },
+  "pipeline": {
+    "root": "tools/creature_pipeline",
+    "stages": [
+      "inspect_asset.py",
+      "normalize_part.py",
+      "fit_to_chassis.py",
+      "bind_to_skeleton.py",
+      "transfer_weights.py",
+      "validate_socket.py",
+      "export_unity_fbx.py",
+      "generate_preview.py"
+    ],
+    "orchestrator": "run_pipeline.py",
+    "contract": "tools/creature_pipeline/chassis_contract.json (exportado pelo builder do Unity)"
+  },
+  "promptTemplates": {
+    "note": "Prompts prontos para quando existir referencia ISOLADA por peca. Cada um proibe explicitamente corpo/criatura, conforme regra 18.",
+    "HEAD": "Standalone stylized creature head asset only. Rounded organic skull, very short neck stub for socket attachment, no horns, no eyes, no body, no limbs, no tail, no mannequin, no base, no floor. GENORYX original universe, game-ready, clean silhouette.",
+    "EYES": "Standalone single stylized creature eye asset only. Small convex lens shape. No head, no face, no skull, no body, no creature, no eyelid geometry, no base.",
+    "HORNS": "Standalone single creature horn asset only. Tapered curved horn growing from a flat base. No head, no skull, no face, no neck, no body, no creature, no animal, no mannequin, no base plate.",
+    "BACK": "Standalone dorsal trait asset only. Row of plates or spines meant to sit on a creature back. No creature, no body, no spine bones, no head, no tail, no base.",
+    "TAIL": "Standalone creature tail asset only. Tapered segmented tail starting from a flat root cross-section. No creature body, no hips, no legs, no head, no base.",
+    "LIMBS": "Standalone creature leg asset only. Short compact leg with a wide simple foot. No body, no torso, no hips, no creature, no other legs, no base.",
+    "CORE": "Standalone embedded crystal core object only. Faceted gem meant to be inset into a creature flank. No creature, no body, no flesh, no socket ring, no base, no stand."
+  },
+  "rejectionCriteria": [
+    "asset contem corpo, torso, cabeca inteira ou criatura completa quando o slot pede peca isolada",
+    "spanRatioVsChassis acima do limite do slot em inspect_asset.py",
+    "mais de 4 materiais ou mais de 6 malhas separadas no GLB",
+    "peca estoura socketBounds em validate_socket.py",
+    "slot skinado sem os 21 vertex groups na ordem canonica do GENORYX_CORE_RIG",
+    "vertice sem peso em slot skinado: ficaria parado durante a animacao"
+  ],
+  "jobs": []
+}

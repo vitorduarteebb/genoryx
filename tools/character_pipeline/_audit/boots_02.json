@@ -1,0 +1,57 @@
+{
+  "file": "c:\\Users\\oem\\Desktop\\GENORYX-Genesis\\apps\\unity-game\\Assets\\StreamingAssets\\GENORYX\\Characters\\Generated\\Boots\\boots_02.glb",
+  "slot": "BOOTS",
+  "bytes": 6149540,
+  "meshCount": 1,
+  "materialCount": 1,
+  "materials": [
+    {
+      "name": "material",
+      "kind": "unknown",
+      "baseColor": "textured"
+    }
+  ],
+  "connectedComponents": 1956,
+  "vertexCount": 11375,
+  "faceCount": 8149,
+  "skeleton": {
+    "present": false,
+    "armatures": []
+  },
+  "meshes": [
+    {
+      "name": "mesh_node",
+      "vertices": 11375,
+      "faces": 8149,
+      "islands": 1956,
+      "materials": [
+        "material"
+      ],
+      "bounds": {
+        "min": [
+          -0.2104,
+          -0.1395,
+          0.0
+        ],
+        "max": [
+          0.21,
+          0.1393,
+          0.3
+        ],
+        "size": [
+          0.4204,
+          0.2788,
+          0.3
+        ],
+        "height": 0.4204
+      },
+      "hasShapeKeys": false
+    }
+  ],
+  "skinAndClothOnSeparateMeshes": false,
+  "skinAndClothOnDifferentMaterials": false,
+  "humanoidScale": false,
+  "heightMetersApprox": 0.4204,
+  "verdict": "SALVAGE_CANDIDATE",
+  "reason": "H\u00e1 submesh, material ou componente solto para tentar extra\u00e7\u00e3o."
+}

@@ -1,0 +1,96 @@
+{
+  "version": 1,
+  "parts": [
+    {
+      "id": "canonical_body",
+      "slot": "BODY",
+      "file": "Bodies/canonical_body.glb",
+      "bone": "",
+      "displayName": "Canonical Body",
+      "hiddenBodyRegions": "",
+      "rarity": "COMMON",
+      "compatibleBody": "canonical_body"
+    },
+    {
+      "id": "hair_01",
+      "slot": "HAIR",
+      "file": "Hair/hair_test_01.glb",
+      "bone": "Head",
+      "displayName": "Hair 01",
+      "hiddenBodyRegions": "SCALP",
+      "rarity": "COMMON",
+      "compatibleBody": "canonical_body"
+    },
+    {
+      "id": "hair_02",
+      "slot": "HAIR",
+      "file": "Hair/hair_02.glb",
+      "bone": "Head",
+      "displayName": "Hair 02",
+      "hiddenBodyRegions": "SCALP",
+      "rarity": "COMMON",
+      "compatibleBody": "canonical_body"
+    },
+    {
+      "id": "chest_01",
+      "slot": "CHEST",
+      "file": "Chest/chest_01.glb",
+      "bone": "Chest",
+      "displayName": "Chest 01",
+      "hiddenBodyRegions": "",
+      "rarity": "COMMON",
+      "compatibleBody": "canonical_body"
+    },
+    {
+      "id": "chest_02",
+      "slot": "CHEST",
+      "file": "Chest/chest_02.glb",
+      "bone": "Chest",
+      "displayName": "Chest 02",
+      "hiddenBodyRegions": "",
+      "rarity": "COMMON",
+      "compatibleBody": "canonical_body"
+    },
+    {
+      "id": "pants_01",
+      "slot": "LEGS",
+      "file": "Legs/pants_01.glb",
+      "bone": "Hips",
+      "displayName": "Pants 01",
+      "hiddenBodyRegions": "",
+      "rarity": "COMMON",
+      "compatibleBody": "canonical_body"
+    },
+    {
+      "id": "pants_02",
+      "slot": "LEGS",
+      "file": "Legs/pants_02.glb",
+      "bone": "Hips",
+      "displayName": "Pants 02",
+      "hiddenBodyRegions": "",
+      "rarity": "COMMON",
+      "compatibleBody": "canonical_body"
+    },
+    {
+      "id": "boots_01",
+      "slot": "BOOTS",
+      "file": "Boots/boots_01.glb",
+      "bone": "Hips",
+      "displayName": "Boots 01",
+      "hiddenBodyRegions": "",
+      "rarity": "COMMON",
+      "compatibleBody": "canonical_body"
+    },
+    {
+      "id": "boots_02",
+      "slot": "BOOTS",
+      "file": "Boots/boots_02.glb",
+      "bone": "Hips",
+      "displayName": "Boots 02",
+      "hiddenBodyRegions": "",
+      "rarity": "COMMON",
+      "compatibleBody": "canonical_body"
+    }
+  ]
+}
+

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 420" fill="none">
+  <defs>
+    <linearGradient id="earthGold" x1="18" y1="10" x2="282" y2="408" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#E4C36A"/>
+      <stop offset="0.5" stop-color="#C4A24A"/>
+      <stop offset="1" stop-color="#7A5A28"/>
+    </linearGradient>
+    <linearGradient id="earthMineral" x1="40" y1="20" x2="260" y2="380" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#C4B48A"/>
+      <stop offset="1" stop-color="#5A4A32"/>
+    </linearGradient>
+  </defs>
+  <rect x="8" y="8" width="284" height="404" rx="10" stroke="url(#earthGold)" stroke-width="3.2"/>
+  <rect x="16" y="16" width="268" height="388" rx="6" stroke="url(#earthMineral)" stroke-width="1.6" opacity="0.9"/>
+  <path d="M22 48h38l8-10h28M278 48h-38l-8-10h-28M22 372h38l8 10h28M278 372h-38l-8 10h-28" stroke="url(#earthMineral)" stroke-width="2" stroke-linejoin="miter"/>
+  <path d="M36 22l12 16-6 14M264 22l-12 16 6 14M36 398l12-16-6-14M264 398l-12-16 6-14" stroke="url(#earthGold)" stroke-width="1.4"/>
+  <rect x="24" y="24" width="8" height="8" transform="rotate(45 28 28)" fill="#E4C36A" opacity="0.85"/>
+  <rect x="268" y="24" width="8" height="8" transform="rotate(45 272 28)" fill="#E4C36A" opacity="0.85"/>
+  <rect x="24" y="388" width="8" height="8" transform="rotate(45 28 392)" fill="#C4A24A" opacity="0.75"/>
+  <rect x="268" y="388" width="8" height="8" transform="rotate(45 272 392)" fill="#C4A24A" opacity="0.75"/>
+  <path d="M132 10h36l8 10h-52z" fill="#8A7040" opacity="0.85"/>
+  <path d="M132 400h36l8 10h-52z" fill="#6A5430" opacity="0.7"/>
+</svg>

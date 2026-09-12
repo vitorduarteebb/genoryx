@@ -1,0 +1,34 @@
+{
+  "file": "c:\\Users\\oem\\Desktop\\GENORYX-Genesis\\apps\\unity-game\\Assets\\StreamingAssets\\GENORYX\\Characters\\Generated\\Chest\\chest_01.glb",
+  "bytes": 7671032,
+  "meshes": [
+    {
+      "name": "mesh_node",
+      "verts": 17153,
+      "faces": 14333,
+      "materials": [
+        "material"
+      ],
+      "vertexGroups": [],
+      "bounds": {
+        "min": [
+          -0.1937,
+          -0.1364,
+          0.0
+        ],
+        "max": [
+          0.194,
+          0.1373,
+          0.6
+        ],
+        "size": [
+          0.3878,
+          0.2737,
+          0.6
+        ],
+        "height": 0.6
+      }
+    }
+  ],
+  "armatures": []
+}

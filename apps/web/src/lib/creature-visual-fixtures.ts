@@ -1,0 +1,6 @@
+import { CHASSIS_ID, CHASSIS_BODY_ID, chassisHeads,chassisEyes,chassisHorns,chassisLimbs,chassisTails,chassisBacks,chassisCores,chassisPatterns,chassisAuras,chassisBodyColorIds,chassisAccentColorIds,chassisEmissiveColorIds,type ChassisView } from "@nexora/config";
+/** Explicit development fixtures. Never called by game screens or server genetics. */
+export function visualFixture(index:number,stage:"BABY"|"YOUNG"|"ADULT"="ADULT"):ChassisView {
+  const choose=(list:readonly string[],offset=0)=>{const d=list[(index+offset)%list.length];return {d,r1:d,r2:d};};
+  return {chassisId:CHASSIS_ID,body:{d:CHASSIS_BODY_ID,r1:CHASSIS_BODY_ID,r2:CHASSIS_BODY_ID},head:choose(chassisHeads),eyes:choose(chassisEyes),horns:choose(chassisHorns),limbs:choose(chassisLimbs),tail:choose(chassisTails),back:choose(chassisBacks,2),core:choose(chassisCores),pattern:choose(chassisPatterns),aura:choose(chassisAuras),primaryColorId:chassisBodyColorIds[index%chassisBodyColorIds.length],secondaryColorId:chassisAccentColorIds[index%chassisAccentColorIds.length],patternColorId:chassisEmissiveColorIds[(index+3)%chassisEmissiveColorIds.length],eyeColorId:chassisEmissiveColorIds[index%chassisEmissiveColorIds.length],coreColorId:chassisEmissiveColorIds[index%chassisEmissiveColorIds.length],growthStage:stage==="BABY"?"Baby":stage==="YOUNG"?"Juvenile":"Adult"};
+}

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 420" fill="none">
+  <defs>
+    <linearGradient id="ultGold" x1="10" y1="6" x2="290" y2="414" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFF3C4"/>
+      <stop offset="0.5" stop-color="#E4C36A"/>
+      <stop offset="1" stop-color="#8A6A20"/>
+    </linearGradient>
+    <linearGradient id="ultLeaf" x1="30" y1="20" x2="270" y2="390" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#C6E87A"/>
+      <stop offset="1" stop-color="#1F4A28"/>
+    </linearGradient>
+  </defs>
+  <rect x="5" y="5" width="290" height="410" rx="24" stroke="url(#ultGold)" stroke-width="4"/>
+  <rect x="13" y="13" width="274" height="394" rx="18" stroke="url(#ultLeaf)" stroke-width="1.6"/>
+  <rect x="20" y="20" width="260" height="380" rx="14" stroke="#E4C36A" stroke-width="0.7" opacity="0.45"/>
+  <path d="M24 70c28-42 70-52 110-28M276 70c-28-42-70-52-110-28M24 350c28 42 70 52 110 28M276 350c-28 42-70 52-110 28" stroke="url(#ultLeaf)" stroke-width="2.2" stroke-linecap="round"/>
+  <path d="M150 8l6 14h16l-13 10 5 16-14-9-14 9 5-16-13-10h16z" fill="#E4C36A"/>
+  <path d="M36 24c12 14 10 30-4 42M264 24c-12 14-10 30 4 42M36 396c12-14 10-30-4-42M264 396c-12-14-10-30 4-42" stroke="url(#ultGold)" stroke-width="1.5" stroke-linecap="round"/>
+  <circle cx="26" cy="26" r="4" fill="#E4C36A"/>
+  <circle cx="274" cy="26" r="4" fill="#E4C36A"/>
+  <circle cx="26" cy="394" r="4" fill="#E4C36A"/>
+  <circle cx="274" cy="394" r="4" fill="#E4C36A"/>
+</svg>

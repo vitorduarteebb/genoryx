@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>GENORYX: Genesis</title>
+    <style>
+      html, body, #unity-canvas { margin: 0; width: 100%; height: 100%; background: #07080c; }
+      #boot {
+        position: fixed; inset: 0; display: grid; place-items: center;
+        color: #7ee0d6; font-family: Georgia, serif; letter-spacing: 0.18em;
+      }
+      #boot strong { display: block; color: #d4af37; font-size: 1.6rem; }
+    </style>
+  </head>
+  <body>
+    <div id="boot"><div><strong>GENORYX: GENESIS</strong>carregando world · criaturas</div></div>
+    <canvas id="unity-canvas"></canvas>
+    <script src="Build/{{{ LOADER_FILENAME }}}"></script>
+    <script>
+      createUnityInstance(document.querySelector("#unity-canvas"), {
+        dataUrl: "Build/{{{ DATA_FILENAME }}}",
+        frameworkUrl: "Build/{{{ FRAMEWORK_FILENAME }}}",
+        codeUrl: "Build/{{{ CODE_FILENAME }}}",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "GENORYX",
+        productName: "GENORYX",
+        productVersion: "0.1.0"
+      }).then(function () {
+        document.getElementById("boot").remove();
+      });
+    </script>
+  </body>
+</html>

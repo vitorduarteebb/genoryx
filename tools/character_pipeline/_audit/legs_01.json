@@ -1,0 +1,57 @@
+{
+  "file": "c:\\Users\\oem\\Desktop\\GENORYX-Genesis\\apps\\unity-game\\Assets\\StreamingAssets\\GENORYX\\Characters\\Generated\\Legs\\legs_01.glb",
+  "slot": "LEGS",
+  "bytes": 6750908,
+  "meshCount": 1,
+  "materialCount": 1,
+  "materials": [
+    {
+      "name": "material",
+      "kind": "unknown",
+      "baseColor": "textured"
+    }
+  ],
+  "connectedComponents": 1485,
+  "vertexCount": 12035,
+  "faceCount": 10369,
+  "skeleton": {
+    "present": false,
+    "armatures": []
+  },
+  "meshes": [
+    {
+      "name": "mesh_node",
+      "vertices": 12035,
+      "faces": 10369,
+      "islands": 1485,
+      "materials": [
+        "material"
+      ],
+      "bounds": {
+        "min": [
+          -0.1887,
+          -0.1356,
+          0.0
+        ],
+        "max": [
+          0.1817,
+          0.1276,
+          1.05
+        ],
+        "size": [
+          0.3704,
+          0.2631,
+          1.05
+        ],
+        "height": 1.05
+      },
+      "hasShapeKeys": false
+    }
+  ],
+  "skinAndClothOnSeparateMeshes": false,
+  "skinAndClothOnDifferentMaterials": false,
+  "humanoidScale": false,
+  "heightMetersApprox": 1.05,
+  "verdict": "SALVAGE_CANDIDATE",
+  "reason": "H\u00e1 submesh, material ou componente solto para tentar extra\u00e7\u00e3o."
+}

@@ -1,0 +1,147 @@
+.genesis-egg {
+  width: 7.5rem;
+  height: 10rem;
+  border-radius: 50% 50% 50% 50% / 58% 58% 42% 42%;
+  background:
+    radial-gradient(circle at 35% 28%, rgba(244, 239, 228, 0.35), transparent 36%),
+    linear-gradient(180deg, #3a2a28, #120c14);
+  box-shadow: 0 0 40px rgba(228, 195, 106, 0.16);
+}
+
+.genesis-lab {
+  --lab-cyan: #7ee0d6;
+  --lab-gold: #e4c36a;
+  --lab-violet: #6b3fa0;
+  position: relative;
+}
+
+.genesis-lab-hero {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.75rem;
+  border: 1px solid rgba(126, 224, 214, 0.22);
+  background:
+    radial-gradient(circle at 50% 40%, rgba(107, 63, 160, 0.22), transparent 42%),
+    radial-gradient(circle at 18% 20%, rgba(126, 224, 214, 0.12), transparent 34%),
+    radial-gradient(circle at 82% 80%, rgba(228, 195, 106, 0.1), transparent 32%),
+    rgba(10, 8, 18, 0.92);
+  box-shadow: inset 0 0 80px rgba(126, 224, 214, 0.04);
+}
+
+.genesis-lab-hero::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(126, 224, 214, 0.04) 1px, transparent 1px);
+  background-size: 100% 7px;
+  opacity: 0.35;
+}
+
+.genesis-core {
+  position: relative;
+  width: min(100%, 16rem);
+  aspect-ratio: 1;
+  margin-inline: auto;
+}
+
+.genesis-core-ring {
+  position: absolute;
+  inset: 12%;
+  border-radius: 999px;
+  border: 1px solid rgba(126, 224, 214, 0.35);
+  box-shadow: 0 0 40px rgba(126, 224, 214, 0.12);
+}
+
+.genesis-core-heart {
+  position: absolute;
+  inset: 32%;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(228, 195, 106, 0.55), rgba(107, 63, 160, 0.2) 55%, transparent 70%);
+}
+
+.genesis-core.active .genesis-core-heart {
+  animation: genesis-pulse 2.8s ease-in-out infinite;
+}
+
+.genesis-core.merging .genesis-core-heart {
+  animation: genesis-pulse 0.7s ease-in-out infinite;
+}
+
+.dna-stream {
+  pointer-events: none;
+  position: absolute;
+  top: 48%;
+  height: 2px;
+  width: 28%;
+  background: linear-gradient(90deg, transparent, var(--lab-cyan), var(--lab-gold), transparent);
+  opacity: 0.55;
+}
+
+.dna-stream.left {
+  left: 4%;
+}
+
+.dna-stream.right {
+  right: 4%;
+}
+
+.genesis-core.active .dna-stream {
+  animation: dna-flow 2.4s linear infinite;
+}
+
+@keyframes genesis-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+}
+
+@keyframes dna-flow {
+  from {
+    filter: hue-rotate(0deg);
+    opacity: 0.35;
+  }
+  to {
+    filter: hue-rotate(40deg);
+    opacity: 0.8;
+  }
+}
+
+.egg-breathe {
+  animation: egg-breathe 3.6s ease-in-out infinite;
+}
+
+.egg-cracks {
+  box-shadow: inset 0 0 0 1px rgba(228, 195, 106, 0.35), 0 0 24px rgba(126, 224, 214, 0.18);
+}
+
+@keyframes egg-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
+  }
+}
+
+@media (max-width: 1023px) {
+  .genesis-lab-hero .lg\:grid-cols-\[1fr_auto_1fr\] {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .genesis-core.active .genesis-core-heart,
+  .genesis-core.merging .genesis-core-heart,
+  .genesis-core.active .dna-stream,
+  .egg-breathe {
+    animation: none;
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "title": "Terranox G1–G10",
+  "species": "terranox",
+  "creatureId": "d9d89416-50c2-4a45-8224-2bcfd1132178",
+  "lifeStage": "BABY",
+  "geneticPower": "Núcleo Pétreo",
+  "cards": [
+    { "cardKey": "quake_stomp", "name": "Pisada Sísmica", "locus": "G1", "status": "READY", "imageUrl": "/dev-proof/d9d89416-50c2-4a45-8224-2bcfd1132178/G1.png", "imageHash": "8d30ffe59636f246bafddea1df1f4f26e914628035ce4a6f7ef515a1752cf750", "failureReason": null },
+    { "cardKey": "boulder_toss", "name": "Lançamento de Rocha", "locus": "G2", "status": "READY", "imageUrl": "/dev-proof/d9d89416-50c2-4a45-8224-2bcfd1132178/G2.png", "imageHash": "e07394f92ed87bfbfa289af35bd176029725d10767a73688a8e0bc26a4c55a60", "failureReason": null },
+    { "cardKey": "tremor_pulse", "name": "Pulso Sísmico", "locus": "G3", "status": "READY", "imageUrl": "/dev-proof/d9d89416-50c2-4a45-8224-2bcfd1132178/G3.png", "imageHash": "20518248298e0dcee7180a946f186cad9f9c259af14b9034571a0484dcab202c", "failureReason": null },
+    { "cardKey": "stone_guard", "name": "Guarda de Pedra", "locus": "G4", "status": "READY", "imageUrl": "/dev-proof/d9d89416-50c2-4a45-8224-2bcfd1132178/G4.png", "imageHash": "52411d6ec8c1e5f415c3a0bf9c91d7f58611c44ef720c06e334d22db3a46561a", "failureReason": null },
+    { "cardKey": "stone_brace", "name": "Trava de Pedra", "locus": "G5", "status": "READY", "imageUrl": "/dev-proof/d9d89416-50c2-4a45-8224-2bcfd1132178/G5.png", "imageHash": "efc4ee2540d9c19f4dcda8267bd0d45a6c05a8edcd81fad3cfbb3d4f8a90d1c7", "failureReason": null },
+    { "cardKey": "dust_cloud", "name": "Nuvem de Poeira", "locus": "G6", "status": "READY", "imageUrl": "/dev-proof/d9d89416-50c2-4a45-8224-2bcfd1132178/G6.png", "imageHash": "724f234bb8a21c906a120d4c36f9b2aa6972e9fc25a909611531920da48e3b1e", "failureReason": null },
+    { "cardKey": "rumble_guard", "name": "Guarda do Tremor", "locus": "G7", "status": "READY", "imageUrl": "/dev-proof/d9d89416-50c2-4a45-8224-2bcfd1132178/G7.png", "imageHash": "3c9725b5be0784539b96788430b748338b53ed98848cf4e49b8a95cb4b494d55", "failureReason": null },
+    { "cardKey": "bedrock_pact", "name": "Pacto do Leito", "locus": "G8", "status": "READY", "imageUrl": "/dev-proof/d9d89416-50c2-4a45-8224-2bcfd1132178/G8.png", "imageHash": "1264fc99a525709c345aed4bd410044a1283aeca17069d01586f60eee3736721", "failureReason": null },
+    { "cardKey": "titan_growl", "name": "Rosnado Titânico", "locus": "G9", "status": "READY", "imageUrl": "/dev-proof/d9d89416-50c2-4a45-8224-2bcfd1132178/G9.png", "imageHash": "3e53b32a4eaa47ab48859e0d2067929b0ede3524ed00a679299e32313d3324be", "failureReason": null },
+    { "cardKey": "mountain_crash", "name": "Queda da Montanha", "locus": "G10", "status": "READY", "imageUrl": "/dev-proof/d9d89416-50c2-4a45-8224-2bcfd1132178/G10.png", "imageHash": "194944136fd851c0819247cc1053eec61917f403cc36391e973bb7f75b8bbfe3", "failureReason": null }
+  ]
+}

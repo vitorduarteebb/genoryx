@@ -1,0 +1,12 @@
+{
+  "profiles": [
+    { "id": "chest_01", "positionOffset": { "x": 0, "y": 0, "z": 0 }, "eulerOffset": { "x": 0, "y": 0, "z": 0 }, "scale": { "x": 1, "y": 1, "z": 1 }, "width": 1, "depth": 1 },
+    { "id": "chest_02", "positionOffset": { "x": 0, "y": 0, "z": 0 }, "eulerOffset": { "x": 0, "y": 0, "z": 0 }, "scale": { "x": 1, "y": 1, "z": 1 }, "width": 1, "depth": 1 },
+    { "id": "pants_01", "positionOffset": { "x": 0, "y": 0, "z": 0 }, "eulerOffset": { "x": 0, "y": 0, "z": 0 }, "scale": { "x": 1, "y": 1, "z": 1 }, "width": 1, "depth": 1 },
+    { "id": "pants_02", "positionOffset": { "x": 0, "y": 0, "z": 0 }, "eulerOffset": { "x": 0, "y": 0, "z": 0 }, "scale": { "x": 1, "y": 1, "z": 1 }, "width": 1, "depth": 1 },
+    { "id": "boots_01", "positionOffset": { "x": 0, "y": 0, "z": 0 }, "eulerOffset": { "x": 0, "y": 0, "z": 0 }, "scale": { "x": 1, "y": 1, "z": 1 }, "width": 1, "depth": 1 },
+    { "id": "boots_02", "positionOffset": { "x": 0, "y": 0, "z": 0 }, "eulerOffset": { "x": 0, "y": 0, "z": 0 }, "scale": { "x": 1, "y": 1, "z": 1 }, "width": 1, "depth": 1 },
+    { "id": "hair_01", "positionOffset": { "x": 0, "y": 0, "z": 0 }, "eulerOffset": { "x": 0, "y": 0, "z": 0 }, "scale": { "x": 1, "y": 1, "z": 1 }, "width": 1, "depth": 1 },
+    { "id": "hair_02", "positionOffset": { "x": 0, "y": 0, "z": 0 }, "eulerOffset": { "x": 0, "y": 0, "z": 0 }, "scale": { "x": 1, "y": 1, "z": 1 }, "width": 1, "depth": 1 }
+  ]
+}

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bad4ae3d1d09cb418a7785543135f0a, type: 3}
+  m_Name: DEF_CORE_03_NATURE
+  m_EditorClassIdentifier: 
+  id: CORE_03_NATURE
+  element: 2
+  mesh: {fileID: 4300000, guid: 94456ecba1809024bab177ddf1fe4e19, type: 2}
+  emissionColor: {r: 0.427, g: 0.639, b: 0.318, a: 1}
+  emissionIntensity: 0.95
+  vfxPrefab: {fileID: 0}
+  combatTag: CORE_NATURE

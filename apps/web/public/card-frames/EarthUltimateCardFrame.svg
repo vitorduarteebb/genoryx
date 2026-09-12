@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 420" fill="none">
+  <defs>
+    <linearGradient id="earthUltGold" x1="10" y1="6" x2="290" y2="414" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F0D878"/>
+      <stop offset="0.45" stop-color="#E4C36A"/>
+      <stop offset="1" stop-color="#8A6020"/>
+    </linearGradient>
+    <linearGradient id="earthUltRock" x1="40" y1="20" x2="260" y2="380" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#D8C898"/>
+      <stop offset="1" stop-color="#4A3824"/>
+    </linearGradient>
+  </defs>
+  <rect x="6" y="6" width="288" height="408" rx="12" stroke="url(#earthUltGold)" stroke-width="4"/>
+  <rect x="14" y="14" width="272" height="392" rx="8" stroke="url(#earthUltRock)" stroke-width="1.8"/>
+  <path d="M20 42h48l12-14h40M280 42h-48l-12-14h-40M20 378h48l12 14h40M280 378h-48l-12 14h-40" stroke="url(#earthUltGold)" stroke-width="2.2"/>
+  <path d="M40 18l16 20-8 18M260 18l-16 20 8 18M40 402l16-20-8-18M260 402l-16-20 8-18" stroke="url(#earthUltRock)" stroke-width="1.6"/>
+  <rect x="22" y="22" width="10" height="10" transform="rotate(45 27 27)" fill="#F0D878"/>
+  <rect x="268" y="22" width="10" height="10" transform="rotate(45 273 27)" fill="#F0D878"/>
+  <rect x="22" y="388" width="10" height="10" transform="rotate(45 27 393)" fill="#E4C36A"/>
+  <rect x="268" y="388" width="10" height="10" transform="rotate(45 273 393)" fill="#E4C36A"/>
+  <path d="M118 8h64l12 14H106z" fill="#E4C36A" opacity="0.9"/>
+  <path d="M118 398h64l12 14H106z" fill="#C4A24A" opacity="0.75"/>
+</svg>

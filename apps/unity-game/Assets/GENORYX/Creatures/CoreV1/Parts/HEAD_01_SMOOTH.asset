@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a07398d2a6c8e314aa83cdbc3ab30677, type: 3}
+  m_Name: HEAD_01_SMOOTH
+  m_EditorClassIdentifier: 
+  id: HEAD_01_SMOOTH
+  displayName: Smooth
+  slot: 1
+  mesh: {fileID: 4300000, guid: e80a34478cc58ae4fbcc4755a72b12a3, type: 2}
+  prefab: {fileID: 0}
+  compatibleChassis: GENORYX_CORE_CHASSIS_V1
+  rarity: 0
+  boundsSize: {x: 0.496, y: 0.35738742, z: 0.27699998}
+  socket: HEAD_SOCKET
+  fitProfile:
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scaleMultiplier: 1
+  materialProfile: 0
+  mutationCompatibility: []
+  mirrored: 0
+  centered: 0

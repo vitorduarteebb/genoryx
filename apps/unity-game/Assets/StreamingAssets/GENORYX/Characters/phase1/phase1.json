@@ -1,0 +1,10 @@
+{
+  "assetId": "phase1_tamer",
+  "heightMeters": 1.8,
+  "animations": [
+    "idle",
+    "walk",
+    "run"
+  ],
+  "consumedCredits": 38
+}

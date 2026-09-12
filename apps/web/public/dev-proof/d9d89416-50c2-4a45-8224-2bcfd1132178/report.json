@@ -1,0 +1,144 @@
+{
+  "creatureId": "d9d89416-50c2-4a45-8224-2bcfd1132178",
+  "species": "terranox",
+  "lifeStage": "BABY",
+  "geneticPower": "Núcleo Pétreo",
+  "scope": "CREATURE",
+  "model": "gpt-image-2-2026-04-21",
+  "canonicalVisualImageHash": "d9dfa448f1eabefc8f194368872e891bcb176eb6ea5e026ba270eec1723bb859",
+  "otherCreaturesProcessed": 0,
+  "cards": [
+    {
+      "locus": "G1",
+      "key": "quake_stomp",
+      "name": "Pisada Sísmica",
+      "type": "ATTACK",
+      "mechanics": "seismic stomp, ground rupture",
+      "art": "The exact reference creature stomps the ground with force. Soil ruptures. Seismic waves radiate from the paws. Stones lift. Dynamic EARTH composition. Stone Core language — mineral plates and weight — even in this offensive beat.",
+      "skipped": true,
+      "imageHash": "8d30ffe59636f246bafddea1df1f4f26e914628035ce4a6f7ef515a1752cf750",
+      "bytes": 1775091,
+      "file": "/out/G1.png"
+    },
+    {
+      "locus": "G2",
+      "key": "boulder_toss",
+      "name": "Lançamento de Rocha",
+      "type": "ATTACK",
+      "mechanics": "hurled rock fragment",
+      "art": "The exact reference creature hurls a large rock fragment using terrestrial force or earth energy. The creature remains fully recognizable. Stone Core mineral identity.",
+      "skipped": true,
+      "imageHash": "e07394f92ed87bfbfa289af35bd176029725d10767a73688a8e0bc26a4c55a60",
+      "bytes": 1603615,
+      "file": "/out/G2.png"
+    },
+    {
+      "locus": "G3",
+      "key": "tremor_pulse",
+      "name": "Pulso Sísmico",
+      "type": "SKILL",
+      "mechanics": "concentric seismic pressure",
+      "art": "The exact reference creature at the center. Concentric seismic waves cross the soil. Mineral energy, dust, small fragments. Pressure and territorial control. Stone Core.",
+      "skipped": true,
+      "imageHash": "20518248298e0dcee7180a946f186cad9f9c259af14b9034571a0484dcab202c",
+      "bytes": 1827569,
+      "file": "/out/G3.png"
+    },
+    {
+      "locus": "G4",
+      "key": "stone_guard",
+      "name": "Guarda de Pedra",
+      "type": "SKILL",
+      "mechanics": "mineral barrier, tank defense",
+      "art": "The exact reference creature in a defensive stance. Mineral plates rise around it as a barrier. Do not fully hide the creature. Tank identity of Stone Core is obvious.",
+      "skipped": true,
+      "imageHash": "52411d6ec8c1e5f415c3a0bf9c91d7f58611c44ef720c06e334d22db3a46561a",
+      "bytes": 1692209,
+      "file": "/out/G4.png"
+    },
+    {
+      "locus": "G5",
+      "key": "stone_brace",
+      "name": "Trava de Pedra",
+      "type": "SKILL",
+      "mechanics": "body reinforcement, shield readiness",
+      "art": "The exact reference creature reinforcing its own body. Mineral structures lock onto it as genetic protection. Shield and readiness. Do not draw a playing card or a draw symbol.",
+      "skipped": true,
+      "imageHash": "efc4ee2540d9c19f4dcda8267bd0d45a6c05a8edcd81fad3cfbb3d4f8a90d1c7",
+      "bytes": 1812872,
+      "file": "/out/G5.png"
+    },
+    {
+      "locus": "G6",
+      "key": "dust_cloud",
+      "name": "Nuvem de Poeira",
+      "type": "SKILL",
+      "mechanics": "controlled dust burst, obscured sight",
+      "art": "The exact reference creature produces a controlled dust burst spreading toward an unseen foe. Eyes or opponent partly obscured. Blind as visual dust, never the word Blind.",
+      "skipped": true,
+      "imageHash": "724f234bb8a21c906a120d4c36f9b2aa6972e9fc25a909611531920da48e3b1e",
+      "bytes": 1609115,
+      "file": "/out/G6.png"
+    },
+    {
+      "locus": "G7",
+      "key": "rumble_guard",
+      "name": "Guarda do Tremor",
+      "type": "REACTION",
+      "mechanics": "instant mineral barrier",
+      "art": "Reaction. The exact reference creature anticipates an impact. The soil answers instantly. A mineral barrier erupts. Immediate response. Strong Tank / Stone Core.",
+      "skipped": true,
+      "imageHash": "3c9725b5be0784539b96788430b748338b53ed98848cf4e49b8a95cb4b494d55",
+      "bytes": 1959562,
+      "file": "/out/G7.png"
+    },
+    {
+      "locus": "G8",
+      "key": "bedrock_pact",
+      "name": "Pacto do Leito",
+      "type": "SKILL",
+      "mechanics": "earth resonance, synergy",
+      "art": "The exact reference creature connected to deep bedrock. Energy lines travel through stones, soil, and the creature's core. Synergy, momentum, earth resonance. No diagrams.",
+      "skipped": true,
+      "imageHash": "1264fc99a525709c345aed4bd410044a1283aeca17069d01586f60eee3736721",
+      "bytes": 1838731,
+      "file": "/out/G8.png"
+    },
+    {
+      "locus": "G9",
+      "key": "titan_growl",
+      "name": "Rosnado Titânico",
+      "type": "SIGNATURE",
+      "mechanics": "titanic Stone Core presence",
+      "art": "SIGNATURE. Strongest Stone Core presence. The exact Baby Terranox assumes titanic presence. Terrestrial energy radiates from the body. A pressure roar, not literal sound waves. Lineage manifestation.",
+      "skipped": false,
+      "imageHash": "3e53b32a4eaa47ab48859e0d2067929b0ede3524ed00a679299e32313d3324be",
+      "bytes": 1830883,
+      "usage": {
+        "inputTokens": 1336,
+        "outputTokens": 196,
+        "totalTokens": 1532
+      },
+      "ms": 17014,
+      "file": "/out/G9.png"
+    },
+    {
+      "locus": "G10",
+      "key": "mountain_crash",
+      "name": "Queda da Montanha",
+      "type": "ULTIMATE",
+      "mechanics": "epic mineral collapse",
+      "art": "ULTIMATE. The exact reference creature is the focus. Greater terrestrial manifestation. Rocks and mineral mass collapse toward a target. Epic but still readable as a card. Do not bury the creature in effects.",
+      "skipped": false,
+      "imageHash": "194944136fd851c0819247cc1053eec61917f403cc36391e973bb7f75b8bbfe3",
+      "bytes": 1704417,
+      "usage": {
+        "inputTokens": 1332,
+        "outputTokens": 439,
+        "totalTokens": 1771
+      },
+      "ms": 28877,
+      "file": "/out/G10.png"
+    }
+  ]
+}

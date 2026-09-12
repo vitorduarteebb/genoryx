@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a07398d2a6c8e314aa83cdbc3ab30677, type: 3}
+  m_Name: EYES_05_VOID
+  m_EditorClassIdentifier: 
+  id: EYES_05_VOID
+  displayName: Void
+  slot: 2
+  mesh: {fileID: 4300000, guid: 7ecbcdbe7cf122945b8e7cb3a28c3471, type: 2}
+  prefab: {fileID: 0}
+  compatibleChassis: GENORYX_CORE_CHASSIS_V1
+  rarity: 4
+  boundsSize: {x: 0.06532821, y: 0.088, z: 0.110860005}
+  socket: EYE_L,EYE_R
+  fitProfile:
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scaleMultiplier: 1
+  materialProfile: 3
+  mutationCompatibility:
+  - GENESIS_EYES
+  mirrored: 1
+  centered: 0

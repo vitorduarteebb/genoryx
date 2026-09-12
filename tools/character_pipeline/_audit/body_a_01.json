@@ -1,0 +1,88 @@
+{
+  "file": "c:\\Users\\oem\\Desktop\\GENORYX-Genesis\\apps\\unity-game\\Assets\\StreamingAssets\\GENORYX\\Characters\\Generated\\Bodies\\body_a_01.glb",
+  "slot": "BODY",
+  "bytes": 7924084,
+  "meshCount": 2,
+  "materialCount": 1,
+  "materials": [
+    {
+      "name": "Material_1",
+      "kind": "unknown",
+      "baseColor": "textured"
+    }
+  ],
+  "connectedComponents": 4341,
+  "vertexCount": 36304,
+  "faceCount": 31304,
+  "skeleton": {
+    "present": true,
+    "armatures": [
+      {
+        "name": "Armature",
+        "bones": 24
+      }
+    ]
+  },
+  "meshes": [
+    {
+      "name": "char1",
+      "vertices": 36262,
+      "faces": 31224,
+      "islands": 4340,
+      "materials": [
+        "Material_1"
+      ],
+      "bounds": {
+        "min": [
+          -0.6289,
+          -0.2664,
+          -0.0
+        ],
+        "max": [
+          0.6289,
+          0.2664,
+          1.8
+        ],
+        "size": [
+          1.2578,
+          0.5329,
+          1.8
+        ],
+        "height": 1.8
+      },
+      "hasShapeKeys": false
+    },
+    {
+      "name": "Icosphere",
+      "vertices": 42,
+      "faces": 80,
+      "islands": 1,
+      "materials": [],
+      "bounds": {
+        "min": [
+          -0.9511,
+          -1.0,
+          -1.0
+        ],
+        "max": [
+          0.9511,
+          1.0,
+          1.0
+        ],
+        "size": [
+          1.9021,
+          2.0,
+          2.0
+        ],
+        "height": 2.0
+      },
+      "hasShapeKeys": false
+    }
+  ],
+  "skinAndClothOnSeparateMeshes": false,
+  "skinAndClothOnDifferentMaterials": false,
+  "humanoidScale": true,
+  "heightMetersApprox": 2.0,
+  "verdict": "SALVAGE_CANDIDATE",
+  "reason": "H\u00e1 submesh, material ou componente solto para tentar extra\u00e7\u00e3o."
+}

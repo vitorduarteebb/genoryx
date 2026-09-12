@@ -1,0 +1,20 @@
+---
+description: Regras centrais de desenvolvimento do GENORYX
+alwaysApply: true
+---
+
+# GENORYX — núcleo
+
+Marca pública: **GENORYX: Genesis**. Packages internos: `@nexora/*` até refactor (ADR 0012).
+
+Leia `docs/GAME_DESIGN.md` e `docs/ROADMAP.md` antes de implementar.
+
+- Um sistema pequeno por vez. Siga a ordem absoluta do GDD §99.
+- Antes da milestone: objetivo, arquivos, banco, APIs, riscos.
+- Depois: `npm run test`, `lint`, `typecheck`, `build`. Corrija tudo.
+- Banco só com Prisma Migrate. Sem schema solto no app.
+- Evite arquivos com milhares de linhas. Separe domínio de infraestrutura.
+- TODO crítico sem linha em `docs/ROADMAP.md` não existe.
+- Mudança de arquitetura exige ADR em `docs/adr/`.
+- Gameplay (Phaser, combate, captura, breed, market, PvP) não entra na M0.
+- UI deve parecer jogo, não SaaS. Placeholders visuais são preferíveis a arte demais cedo.

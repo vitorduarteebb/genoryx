@@ -1,0 +1,114 @@
+{
+  "version": 1,
+  "units": "meters",
+  "up": "Y",
+  "source": "EggVisualController",
+  "serverGenetics": "unchanged; public grade controls shell style",
+  "assets": [
+    {
+      "grade": "COMMON",
+      "style": "MOTTLED",
+      "file": "GXR_EGG_COMMON.glb",
+      "bytes": 486144,
+      "shards": 24,
+      "clips": [
+        {
+          "name": "Egg_Incubate",
+          "duration": 8
+        },
+        {
+          "name": "Egg_Crack",
+          "duration": 1
+        },
+        {
+          "name": "Egg_Hatch",
+          "duration": 1.5
+        }
+      ]
+    },
+    {
+      "grade": "REFINED",
+      "style": "SCALED",
+      "file": "GXR_EGG_REFINED.glb",
+      "bytes": 486092,
+      "shards": 24,
+      "clips": [
+        {
+          "name": "Egg_Incubate",
+          "duration": 8
+        },
+        {
+          "name": "Egg_Crack",
+          "duration": 1
+        },
+        {
+          "name": "Egg_Hatch",
+          "duration": 1.5
+        }
+      ]
+    },
+    {
+      "grade": "RARE",
+      "style": "CRYSTAL",
+      "file": "GXR_EGG_RARE.glb",
+      "bytes": 496544,
+      "shards": 24,
+      "clips": [
+        {
+          "name": "Egg_Incubate",
+          "duration": 8
+        },
+        {
+          "name": "Egg_Crack",
+          "duration": 1
+        },
+        {
+          "name": "Egg_Hatch",
+          "duration": 1.5
+        }
+      ]
+    },
+    {
+      "grade": "EXCEPTIONAL",
+      "style": "OBSIDIAN",
+      "file": "GXR_EGG_EXCEPTIONAL.glb",
+      "bytes": 486320,
+      "shards": 24,
+      "clips": [
+        {
+          "name": "Egg_Incubate",
+          "duration": 8
+        },
+        {
+          "name": "Egg_Crack",
+          "duration": 1
+        },
+        {
+          "name": "Egg_Hatch",
+          "duration": 1.5
+        }
+      ]
+    },
+    {
+      "grade": "GENESIS",
+      "style": "CELESTIAL",
+      "file": "GXR_EGG_GENESIS.glb",
+      "bytes": 496560,
+      "shards": 24,
+      "clips": [
+        {
+          "name": "Egg_Incubate",
+          "duration": 8
+        },
+        {
+          "name": "Egg_Crack",
+          "duration": 1
+        },
+        {
+          "name": "Egg_Hatch",
+          "duration": 1.5
+        }
+      ]
+    }
+  ]
+}

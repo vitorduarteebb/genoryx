@@ -1,0 +1,31 @@
+[
+  {
+    "id": "hair_02",
+    "taskId": "01a06b25-a0ea-7196-aa33-172234a45f4b",
+    "credits": 30,
+    "bytes": 5930816
+  },
+  {
+    "id": "pants_01",
+    "taskId": "01a06b25-a0f0-747d-8b2b-81e173dea034",
+    "credits": 30,
+    "bytes": 6637212
+  },
+  {
+    "id": "pants_02",
+    "taskId": "01a06b25-a0ee-74c4-aebd-315ce1482626",
+    "credits": 30,
+    "bytes": 7437376
+  },
+  {
+    "id": "canonical_body",
+    "taskId": "01a06b28-6c0c-77d2-9fd5-a48a1c1ffd99",
+    "credits": 38,
+    "bytes": 8155424,
+    "extra": {
+      "previewId": "01a06b25-a0ef-73c5-815e-775b0f8476e2",
+      "refineId": "01a06b27-19e6-74bc-9512-49384b2a3a23",
+      "rigId": "01a06b28-6c0c-77d2-9fd5-a48a1c1ffd99"
+    }
+  }
+]

@@ -1,0 +1,34 @@
+{
+  "file": "c:\\Users\\oem\\Desktop\\GENORYX-Genesis\\apps\\unity-game\\Assets\\StreamingAssets\\GENORYX\\Characters\\Generated\\Boots\\boots_01.glb",
+  "bytes": 8914612,
+  "meshes": [
+    {
+      "name": "mesh_node",
+      "verts": 13028,
+      "faces": 8110,
+      "materials": [
+        "material.001"
+      ],
+      "vertexGroups": [],
+      "bounds": {
+        "min": [
+          -0.2433,
+          -0.1719,
+          0.0
+        ],
+        "max": [
+          0.2427,
+          0.1727,
+          0.45
+        ],
+        "size": [
+          0.486,
+          0.3446,
+          0.45
+        ],
+        "height": 0.486
+      }
+    }
+  ],
+  "armatures": []
+}

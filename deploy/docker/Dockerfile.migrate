@@ -1,0 +1,13 @@
+FROM node:22-alpine
+WORKDIR /app
+# prisma CLI é devDependency — precisa entrar nesta imagem.
+
+COPY package.json package-lock.json ./
+COPY packages/database/package.json packages/database/
+RUN npm ci --workspace=@nexora/database --include-workspace-root --include=dev
+
+COPY packages/database/prisma packages/database/prisma
+COPY packages/database/package.json packages/database/
+
+WORKDIR /app/packages/database
+CMD ["npx", "prisma", "migrate", "deploy"]

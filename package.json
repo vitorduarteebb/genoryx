@@ -1,0 +1,44 @@
+{
+  "name": "nexora",
+  "version": "0.0.0",
+  "private": true,
+  "description": "GENORYX: Genesis — RPG online de genética evolutiva",
+  "packageManager": "npm@10.9.2",
+  "engines": {
+    "node": ">=20"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "typecheck": "turbo typecheck",
+    "test": "turbo test",
+    "db:generate": "npm run db:generate -w @nexora/database",
+    "db:migrate": "npm run db:migrate -w @nexora/database",
+    "db:migrate:dev": "npm run db:migrate:dev -w @nexora/database",
+    "db:migrate:deploy": "npm run db:migrate:deploy -w @nexora/database",
+    "db:seed": "npm run db:seed -w @nexora/database",
+    "db:studio": "npm run db:studio -w @nexora/database",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "alpha:up": "sh deploy/scripts/alpha-up.sh",
+    "alpha:ready": "sh deploy/scripts/alpha-ready.sh",
+    "alpha:backup": "sh deploy/scripts/backup-postgres.sh",
+    "character:phase1": "npx tsx apps/api/src/modules/character-assets/run-phase1.ts",
+    "character:parts": "npx tsx apps/api/src/modules/character-assets/run-parts.ts",
+    "character:audit": "npx tsx apps/api/src/modules/character-assets/write-audit.ts",
+    "character:hair-test": "npx tsx apps/api/src/modules/character-assets/run-hair-test.ts",
+    "character:canonical": "npx tsx apps/api/src/modules/character-assets/run-canonical-modular.ts"
+  },
+  "devDependencies": {
+    "turbo": "^2.5.6",
+    "typescript": "^5.8.3"
+  },
+  "overrides": {
+    "@colyseus/core": "0.16.24"
+  }
+}

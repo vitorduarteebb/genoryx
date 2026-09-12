@@ -1,0 +1,176 @@
+# NEXORA ALPHA — VPS compartilhada (85.31.60.84).
+# 80/443 já são AURORA / Palworld. Este compose NÃO publica portas públicas.
+# TLS fica no nginx do host em 8443. Postgres e Redis só na rede Docker.
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: nexora-alpha-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-nexora}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:-nexora}
+    volumes:
+      - nexora_alpha_pg:/var/lib/postgresql/data
+    networks:
+      - nexora-internal
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: nexora-alpha-redis
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - nexora_alpha_redis:/data
+    networks:
+      - nexora-internal
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  migrate:
+    build:
+      context: .
+      dockerfile: deploy/docker/Dockerfile.migrate
+    profiles: ["migrate"]
+    environment:
+      DATABASE_URL: ${DATABASE_URL:?set DATABASE_URL}
+    networks:
+      - nexora-internal
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  seed:
+    build:
+      context: .
+      dockerfile: deploy/docker/Dockerfile.seed
+    profiles: ["seed"]
+    environment:
+      DATABASE_URL: ${DATABASE_URL:?set DATABASE_URL}
+    networks:
+      - nexora-internal
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  api:
+    build:
+      context: .
+      dockerfile: deploy/docker/Dockerfile.api
+    container_name: nexora-alpha-api
+    restart: unless-stopped
+    env_file:
+      - .env.production
+    environment:
+      NODE_ENV: production
+      API_PORT: "3001"
+      CREATURE_IMAGE_STORAGE_DIR: /app/var/creature-visuals
+      CREATURE_MODEL_STORAGE_DIR: /app/var/creature-models
+      CARD_ART_STORAGE_DIR: /app/var/card-art
+      CREATURE_VISUAL_GENERATION_CONCURRENCY: ${CREATURE_VISUAL_GENERATION_CONCURRENCY:-2}
+    volumes:
+      - creature_visuals:/app/var/creature-visuals
+      - creature_models:/app/var/creature-models
+      - card_art:/app/var/card-art
+    ports:
+      - "127.0.0.1:3101:3001"
+    networks:
+      - nexora-internal
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:3001/health').then((r)=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))",
+        ]
+      interval: 15s
+      timeout: 5s
+      retries: 8
+
+  game-server:
+    build:
+      context: .
+      dockerfile: deploy/docker/Dockerfile.game-server
+    container_name: nexora-alpha-game
+    restart: unless-stopped
+    env_file:
+      - .env.production
+    environment:
+      NODE_ENV: production
+      GAME_SERVER_PORT: "2567"
+    ports:
+      - "127.0.0.1:3567:2567"
+    networks:
+      - nexora-internal
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:2567/health').then((r)=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))",
+        ]
+      interval: 15s
+      timeout: 5s
+      retries: 8
+
+  web:
+    build:
+      context: .
+      dockerfile: deploy/docker/Dockerfile.web
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:?set NEXT_PUBLIC_API_URL}
+        NEXT_PUBLIC_GAME_SERVER_URL: ${NEXT_PUBLIC_GAME_SERVER_URL:?set NEXT_PUBLIC_GAME_SERVER_URL}
+        NEXT_PUBLIC_RELEASE_CHANNEL: ${NEXT_PUBLIC_RELEASE_CHANNEL:-alpha}
+        NEXT_PUBLIC_BUILD_ID: ${NEXT_PUBLIC_BUILD_ID:-dev}
+    container_name: nexora-alpha-web
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      CREATURE_VISUAL_LAB: ${CREATURE_VISUAL_LAB:-0}
+    ports:
+      - "127.0.0.1:3100:3000"
+    networks:
+      - nexora-internal
+    depends_on:
+      - api
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:3000').then((r)=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))",
+        ]
+      interval: 20s
+      timeout: 5s
+      retries: 8
+
+networks:
+  nexora-internal:
+    driver: bridge
+
+volumes:
+  nexora_alpha_pg:
+  nexora_alpha_redis:
+  creature_visuals:
+  creature_models:
+  card_art:

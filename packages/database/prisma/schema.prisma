@@ -1,0 +1,1329 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  PLAYER
+  ADMIN
+}
+
+enum CharacterClass {
+  GUARDIAN
+  ARCANIST
+  HUNTER
+  TAMER
+  ALCHEMIST
+}
+
+enum Element {
+  FIRE
+  WATER
+  NATURE
+  EARTH
+  ELECTRIC
+  ICE
+  LIGHT
+  DARK
+  ARCANE
+}
+
+enum GeneRank {
+  F
+  E
+  D
+  C
+  B
+  A
+  S
+  SS
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum Currency {
+  GOLD
+  NEX
+}
+
+enum TransactionType {
+  CREDIT
+  DEBIT
+}
+
+enum ItemRarity {
+  COMMON
+  UNCOMMON
+  RARE
+  EPIC
+  LEGENDARY
+  ANCIENT
+  MYTHIC
+}
+
+enum InventoryCategory {
+  EQUIPMENT
+  MATERIALS
+  CONSUMABLES
+  QUEST
+  BREEDING
+  EGGS
+  COSMETICS
+}
+
+enum CharacterEquipSlot {
+  WEAPON
+  HELMET
+  ARMOR
+  GLOVES
+  BOOTS
+  RING
+  AMULET
+  RELIC
+}
+
+enum CreatureEquipSlot {
+  RUNE
+  ARTIFACT
+  CHARM
+}
+
+enum TraitSlot {
+  DOMINANT
+  RECESSIVE
+}
+
+enum AssetLock {
+  NONE
+  MARKET
+  BATTLE
+  BREEDING
+}
+
+enum SkillType {
+  PHYSICAL
+  MAGIC
+  SUPPORT
+  HEAL
+  BUFF
+  DEBUFF
+  CONTROL
+  SHIELD
+  DOT
+  AOE
+}
+
+enum SkillSlot {
+  SKILL_1
+  SKILL_2
+  SKILL_3
+  SKILL_4
+  PASSIVE
+  ULTIMATE
+}
+
+enum MapType {
+  TOWN
+  EXPLORATION
+  DUNGEON
+}
+
+enum ListingStatus {
+  ACTIVE
+  SOLD
+  CANCELLED
+}
+
+enum ListingAssetType {
+  CREATURE
+  ITEM
+  EGG
+}
+
+enum BattleType {
+  PVE
+  PVP
+}
+
+enum BattleStatus {
+  PENDING
+  ACTIVE
+  FINISHED
+  FLED
+}
+
+enum EggStatus {
+  INCUBATING
+  READY
+  HATCHED
+}
+
+enum GenesisGrade {
+  COMMON
+  REFINED
+  RARE
+  EXCEPTIONAL
+  GENESIS
+}
+
+enum GeneticPowerOrigin {
+  GENESIS
+  INHERITED_FATHER
+  INHERITED_MOTHER
+  MUTATED_NEW
+}
+
+enum BreedingStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
+
+enum ProfessionKey {
+  GENETICIST
+  BLACKSMITH
+  ALCHEMIST
+  COOK
+  ENCHANTER
+  MINER
+  EXPLORER
+  BREEDER
+}
+
+enum PvpRank {
+  BRONZE
+  SILVER
+  GOLD
+  PLATINUM
+  DIAMOND
+  MASTER
+  GRANDMASTER
+  LEGEND
+}
+
+enum BodyPlan {
+  QUADRUPED
+  BIPED
+  SERPENT_WYRM
+  FLOATING
+  HUMANOID_BEAST
+  AVIAN
+  ARACHNID
+  GOLEM
+  AMPHIBIAN
+  ABYSSAL
+  CENTAUROID
+  INSECTOID_BIPED
+}
+
+enum HeadType {
+  DRACONIC
+  BEAST
+  SERPENT
+  EXOTIC
+}
+
+enum CreatureOrigin {
+  STARTER
+  WILD
+  BRED
+}
+
+enum GeneticLocusKey {
+  G1
+  G2
+  G3
+  G4
+  G5
+  G6
+  G7
+  G8
+  G9
+  G10
+}
+
+enum LifeStage {
+  EGG
+  BABY
+  YOUNG
+  ADULT
+}
+
+enum Temperament {
+  FRIENDLY
+  NOBLE
+  WILD
+  FERAL
+  MENACING
+  ABYSSAL
+}
+
+enum VisualAssetStatus {
+  PENDING
+  GENERATING
+  VALIDATING
+  READY
+  FAILED
+  FAILED_REVIEW
+}
+
+enum CardArtScope {
+  SHARED
+  CREATURE
+}
+
+enum CreatureRevealStatus {
+  NOT_REQUIRED
+  PENDING_VISUAL
+  READY_TO_REVEAL
+  REVEALED
+}
+
+enum EvolutionStatus {
+  NONE
+  READY_TO_EVOLVE
+  EVOLVING
+}
+
+enum MaturationState {
+  GROWING
+  READY
+  MATURE
+}
+
+enum VisualImageProvider {
+  MOCK
+  OPENAI
+}
+
+enum ModelAssetStatus {
+  PENDING
+  PREPARING
+  READY
+  FAILED
+}
+
+model User {
+  id           String    @id @default(uuid())
+  email        String    @unique
+  passwordHash String    @map("password_hash")
+  role         UserRole  @default(PLAYER)
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+  deletedAt    DateTime? @map("deleted_at")
+
+  profile              Profile?
+  sessions             Session[]
+  refreshTokens        RefreshToken[]
+  character            Character?
+  wallets              Wallet[]
+  currencyTransactions CurrencyTransaction[]
+  marketListings       MarketListing[]
+  adminActions         AdminActionLog[]      @relation("AdminActions")
+
+  @@map("users")
+}
+
+model Profile {
+  id          String  @id @default(uuid())
+  userId      String  @unique @map("user_id")
+  displayName String? @map("display_name")
+  bio         String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("profiles")
+}
+
+model Session {
+  id         String    @id @default(uuid())
+  userId     String    @map("user_id")
+  userAgent  String?   @map("user_agent")
+  ip         String?
+  expiresAt  DateTime  @map("expires_at")
+  revokedAt  DateTime? @map("revoked_at")
+  lastUsedAt DateTime? @map("last_used_at")
+  createdAt  DateTime  @default(now()) @map("created_at")
+
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  refreshTokens RefreshToken[]
+
+  @@index([userId])
+  @@map("sessions")
+}
+
+model RefreshToken {
+  id           String    @id @default(uuid())
+  userId       String    @map("user_id")
+  sessionId    String    @map("session_id")
+  tokenHash    String    @unique @map("token_hash")
+  expiresAt    DateTime  @map("expires_at")
+  revokedAt    DateTime? @map("revoked_at")
+  replacedById String?   @map("replaced_by_id")
+  createdAt    DateTime  @default(now()) @map("created_at")
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  session Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([sessionId])
+  @@map("refresh_tokens")
+}
+
+model Character {
+  id             String          @id @default(uuid())
+  userId         String          @unique @map("user_id")
+  name           String
+  nameNormalized String          @unique @map("name_normalized")
+  avatar         String?
+  level          Int             @default(1)
+  xp             Int             @default(0)
+  class          CharacterClass  @default(HUNTER)
+  title   String?
+  energy  Int             @default(0)
+  mapKey  String          @default("haven") @map("map_key")
+  posX    Float           @default(0) @map("pos_x")
+  posY    Float           @default(0) @map("pos_y")
+  guildId String?         @map("guild_id")
+  starterChosen Boolean   @default(false) @map("starter_chosen")
+  appearanceJson Json?    @map("appearance_json")
+  appearanceConfirmed Boolean @default(false) @map("appearance_confirmed")
+  createdAt DateTime      @default(now()) @map("created_at")
+  updatedAt DateTime      @updatedAt @map("updated_at")
+
+  user              User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  guild             Guild?                 @relation(fields: [guildId], references: [id])
+  creatures         Creature[]             @relation("OwnedCreatures")
+  bredCreatures     Creature[]             @relation("BredCreatures")
+  eggs              Egg[]
+  breedingSessions  BreedingSession[]
+  inventorySlots    InventorySlot[]
+  equipment         Equipment[]
+  questProgress     QuestProgress[]
+  achievements      CharacterAchievement[]
+  professions       CharacterProfession[]
+  battleParticipants BattleParticipant[]
+  pvpMatchesA       PvpMatch[]             @relation("PvpChallenger")
+  pvpMatchesB       PvpMatch[]             @relation("PvpOpponent")
+  rankings          Ranking[]
+  partySlots        PartySlot[]
+  encounterOffers   EncounterOffer[]
+  fusionDiscoveries FusionDiscovery[]
+
+  @@map("characters")
+}
+
+model GameMap {
+  id     String  @id @default(uuid())
+  key    String  @unique
+  name   String
+  type   MapType
+  width  Int     @default(1280)
+  height Int     @default(720)
+
+  spawns MapSpawn[]
+  npcs   Npc[]
+
+  @@map("maps")
+}
+
+model MapSpawn {
+  id        String @id @default(uuid())
+  mapId     String @map("map_id")
+  speciesId String @map("species_id")
+  weight    Int
+  minLevel  Int    @default(1) @map("min_level")
+  maxLevel  Int    @default(5) @map("max_level")
+
+  map     GameMap         @relation(fields: [mapId], references: [id], onDelete: Cascade)
+  species CreatureSpecies @relation(fields: [speciesId], references: [id])
+
+  @@index([mapId])
+  @@map("map_spawns")
+}
+
+model Npc {
+  id    String @id @default(uuid())
+  mapId String @map("map_id")
+  key   String @unique
+  name  String
+  role  String
+  posX  Float  @default(0) @map("pos_x")
+  posY  Float  @default(0) @map("pos_y")
+
+  map GameMap @relation(fields: [mapId], references: [id], onDelete: Cascade)
+
+  @@map("npcs")
+}
+
+model CreatureSpecies {
+  id               String  @id @default(uuid())
+  key              String  @unique
+  name             String
+  elementPrimary   Element @map("element_primary")
+  elementSecondary Element? @map("element_secondary")
+  baseHp           Int     @map("base_hp")
+  baseAtk          Int     @map("base_atk")
+  baseDef          Int     @map("base_def")
+  baseMag          Int     @map("base_mag")
+  baseRes          Int     @map("base_res")
+  baseSpd          Int     @map("base_spd")
+  isStarter        Boolean @default(false) @map("is_starter")
+
+  creatures Creature[]
+  spawns    MapSpawn[]
+  skills    CreatureSpeciesSkill[]
+  mutations Mutation[]
+
+  @@map("creature_species")
+}
+
+model Mutation {
+  id               String   @id @default(uuid())
+  speciesId        String?  @map("species_id")
+  key              String   @unique
+  name             String
+  elementSecondary Element? @map("element_secondary")
+
+  species   CreatureSpecies? @relation(fields: [speciesId], references: [id])
+  creatures Creature[]
+
+  @@map("mutations")
+}
+
+model Creature {
+  id                String    @id @default(uuid())
+  ownerCharacterId  String    @map("owner_id")
+  speciesId         String    @map("species_id")
+  name              String?
+  level             Int       @default(1)
+  xp                Int       @default(0)
+  gender            Gender
+  generation        Int       @default(0)
+  fatherId          String?   @map("father_id")
+  motherId          String?   @map("mother_id")
+  breederId         String?   @map("breeder_id")
+  fertility         Int       @default(5)
+  elementPrimary    Element   @map("element_primary")
+  elementSecondary  Element?  @map("element_secondary")
+  hpGene            GeneRank  @map("hp_gene")
+  attackGene        GeneRank  @map("attack_gene")
+  defenseGene       GeneRank  @map("defense_gene")
+  magicGene         GeneRank  @map("magic_gene")
+  resistanceGene    GeneRank  @map("resistance_gene")
+  speedGene         GeneRank  @map("speed_gene")
+  critGene          GeneRank  @map("crit_gene")
+  critDamageGene    GeneRank  @map("crit_damage_gene")
+  precisionGene     GeneRank  @map("precision_gene")
+  evasionGene       GeneRank  @map("evasion_gene")
+  statusGene        GeneRank  @default(C) @map("status_gene")
+  mutationId        String?   @map("mutation_id")
+  geneticPurity     Decimal   @default(100.00) @map("genetic_purity") @db.Decimal(5, 2)
+  lock              AssetLock @default(NONE)
+  birthDate         DateTime  @default(now()) @map("birth_date")
+  origin            CreatureOrigin @default(WILD)
+  geneticHash       String    @default("") @map("genetic_hash")
+  genesisSeed       Int       @default(0) @map("genesis_seed")
+  bodyPlanExpressed BodyPlan  @default(QUADRUPED) @map("body_plan_expressed")
+  bodyPlanRecessive BodyPlan  @default(BIPED) @map("body_plan_recessive")
+  headExpressed     HeadType  @default(DRACONIC) @map("head_expressed")
+  headRecessive     HeadType  @default(BEAST) @map("head_recessive")
+  lifeStage         LifeStage @default(BABY) @map("life_stage")
+  evolutionStatus   EvolutionStatus @default(NONE) @map("evolution_status")
+  maturationXp      Int @default(0) @map("maturation_xp")
+  maturationState   MaturationState @default(GROWING) @map("maturation_state")
+  readyToEvolveAt   DateTime? @map("ready_to_evolve_at")
+  temperament       Temperament @default(WILD)
+  visualSeed        String    @default("") @map("visual_seed")
+  visualStatus      VisualAssetStatus @default(PENDING) @map("visual_status")
+  visualGenomeJson  Json?     @map("visual_genome_json")
+  chassisSignature  String?   @unique @map("chassis_signature")
+  revealStatus      CreatureRevealStatus @default(REVEALED) @map("reveal_status")
+  geneticEngineVersion String? @map("genetic_engine_version")
+  combatManifestJson   Json?   @map("combat_manifest_json")
+
+  owner     Character       @relation("OwnedCreatures", fields: [ownerCharacterId], references: [id])
+  species   CreatureSpecies @relation(fields: [speciesId], references: [id])
+  mutation  Mutation?       @relation(fields: [mutationId], references: [id])
+  breeder   Character?      @relation("BredCreatures", fields: [breederId], references: [id])
+  father    Creature?       @relation("CreatureFather", fields: [fatherId], references: [id])
+  fathered  Creature[]      @relation("CreatureFather")
+  mother    Creature?       @relation("CreatureMother", fields: [motherId], references: [id])
+  mothered  Creature[]      @relation("CreatureMother")
+  traits    CreatureTrait[]
+  skills    CreatureSkill[]
+  equipment CreatureEquipment[]
+  ancestry  CreatureAncestry?
+  listings  MarketListing[]
+  loci      CreatureLocus[]
+  partySlots PartySlot[]
+  visualAssets CreatureVisualAsset[]
+  modelAssets  CreatureModelAsset[]
+  geneticPower CreaturePower?
+  cardArtAssets CardArtAsset[]
+  maturationEvents MaturationEvent[]
+
+  @@index([ownerCharacterId])
+  @@map("creatures")
+}
+
+model CreatureVisualAsset {
+  id                   String            @id @default(uuid())
+  creatureId           String            @map("creature_id")
+  lifeStage            LifeStage         @map("life_stage")
+  status               VisualAssetStatus @default(PENDING)
+  storageKey           String?           @map("storage_key")
+  publicUrl            String?           @map("public_url")
+  imageHash            String?           @map("image_hash")
+  generationKey        String            @map("generation_key")
+  provider             VisualImageProvider @default(MOCK)
+  model                String
+  modelSnapshot        String            @map("model_snapshot")
+  artBibleVersion      Int               @map("art_bible_version")
+  promptVersion        Int               @map("prompt_version")
+  visualGenomeVersion  Int               @map("visual_genome_version")
+  promptHash           String            @default("") @map("prompt_hash")
+  promptText           String?           @map("prompt_text")
+  generatedAt          DateTime?         @map("generated_at")
+  approvedAt           DateTime?         @map("approved_at")
+  failureReason        String?           @map("failure_reason")
+  qaScore              Decimal?          @map("qa_score") @db.Decimal(5, 4)
+  qaJson               Json?             @map("qa_json")
+  attemptCount         Int               @default(0) @map("attempt_count")
+  nextAttemptAt        DateTime?         @map("next_attempt_at")
+  createdAt            DateTime          @default(now()) @map("created_at")
+  updatedAt            DateTime          @updatedAt @map("updated_at")
+
+  creature Creature @relation(fields: [creatureId], references: [id], onDelete: Cascade)
+  modelAssets CreatureModelAsset[]
+
+  @@unique([creatureId, lifeStage, generationKey])
+  @@index([status, nextAttemptAt])
+  @@map("creature_visual_assets")
+}
+
+model CreatureModelAsset {
+  id                   String           @id @default(uuid())
+  creatureId           String           @map("creature_id")
+  lifeStage            LifeStage        @map("life_stage")
+  status               ModelAssetStatus @default(PENDING)
+  version              Int              @default(1)
+  sourceVisualAssetId  String           @map("source_visual_asset_id")
+  meshyTaskId          String?          @map("meshy_task_id")
+  meshyModel           String           @default("latest") @map("meshy_model")
+  storageKey           String?          @map("storage_key")
+  publicUrl            String?          @map("public_url")
+  modelHash            String?          @map("model_hash")
+  viewsJson            Json?            @map("views_json")
+  failureReason        String?          @map("failure_reason")
+  createdAt            DateTime         @default(now()) @map("created_at")
+  updatedAt            DateTime         @updatedAt @map("updated_at")
+
+  creature     Creature            @relation(fields: [creatureId], references: [id], onDelete: Cascade)
+  sourceVisual CreatureVisualAsset @relation(fields: [sourceVisualAssetId], references: [id])
+
+  @@unique([creatureId, lifeStage, version])
+  @@index([status])
+  @@map("creature_model_assets")
+}
+
+model CardArtAsset {
+  id                           String               @id @default(uuid())
+  cardDefinitionId             String               @map("card_definition_id")
+  variantKey                   String               @default("BASE") @map("variant_key")
+  element                      String
+  scope                        CardArtScope         @default(SHARED)
+  creatureId                   String?              @map("creature_id")
+  geneticCardManifestationId   String?              @map("genetic_card_manifestation_id")
+  lifeStage                    LifeStage?           @map("life_stage")
+  cardArtLifeStage             LifeStage?           @map("card_art_life_stage")
+  sourceCreatureVisualAssetId  String?              @map("source_creature_visual_asset_id")
+  status                       VisualAssetStatus    @default(PENDING)
+  provider                     VisualImageProvider  @default(MOCK)
+  model                        String
+  modelSnapshot                String               @map("model_snapshot")
+  artBibleVersion              Int                  @map("art_bible_version")
+  cardArtVersion               Int                  @map("card_art_version")
+  promptVersion                Int                  @map("prompt_version")
+  promptHash                   String               @default("") @map("prompt_hash")
+  promptText                   String?              @map("prompt_text")
+  imageHash                    String?              @map("image_hash")
+  storageKey                   String?              @map("storage_key")
+  publicUrl                    String?              @map("public_url")
+  generationKey                String               @map("generation_key")
+  approvedAt                   DateTime?            @map("approved_at")
+  generatedAt                  DateTime?            @map("generated_at")
+  failureReason                String?              @map("failure_reason")
+  qaScore                      Decimal?             @map("qa_score") @db.Decimal(5, 4)
+  qaJson                       Json?                @map("qa_json")
+  attemptCount                 Int                  @default(0) @map("attempt_count")
+  nextAttemptAt                DateTime?            @map("next_attempt_at")
+  createdAt                    DateTime             @default(now()) @map("created_at")
+  updatedAt                    DateTime             @updatedAt @map("updated_at")
+
+  creature Creature? @relation(fields: [creatureId], references: [id], onDelete: SetNull)
+
+  @@unique([cardDefinitionId, variantKey, generationKey])
+  @@index([status, nextAttemptAt])
+  @@index([cardDefinitionId, variantKey])
+  @@index([creatureId, geneticCardManifestationId])
+  @@index([scope, status])
+  @@map("card_art_assets")
+}
+
+model CreatureLocus {
+  id                 String           @id @default(uuid())
+  creatureId         String           @map("creature_id")
+  locusKey           GeneticLocusKey  @map("locus_key")
+  expressedCardKey   String           @map("expressed_card_key")
+  recessiveCardKey   String           @map("recessive_card_key")
+  expressedJson      Json             @map("expressed_json")
+  recessiveJson      Json             @map("recessive_json")
+
+  creature Creature @relation(fields: [creatureId], references: [id], onDelete: Cascade)
+
+  @@unique([creatureId, locusKey])
+  @@map("creature_loci")
+}
+
+model PartySlot {
+  id          String @id @default(uuid())
+  characterId String @map("character_id")
+  slot        Int
+  creatureId  String @unique @map("creature_id")
+
+  character Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+  creature  Creature  @relation(fields: [creatureId], references: [id])
+
+  @@unique([characterId, slot])
+  @@map("party_slots")
+}
+
+model EncounterOffer {
+  id          String    @id @default(uuid())
+  characterId String    @map("character_id")
+  mapKey      String    @map("map_key")
+  speciesKey  String    @map("species_key")
+  family      String    @default("COMMON")
+  spawnKey    String?   @map("spawn_key")
+  level       Int
+  seed        Int
+  expiresAt   DateTime  @map("expires_at")
+  consumedAt  DateTime? @map("consumed_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
+
+  character Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+
+  @@index([characterId, consumedAt])
+  @@map("encounter_offers")
+}
+
+model MaturationEvent {
+  id              String   @id @default(uuid())
+  creatureId      String   @map("creature_id")
+  battleId        String   @map("battle_id")
+  source          String   @default("MATURATION_XP_GRANTED")
+  mobSpecies      String?  @map("mob_species")
+  mapKey          String?  @map("map_key")
+  family          String?
+  amount          Int
+  participation   Float
+  diversityShare  Float    @map("diversity_share")
+  discovery       Boolean  @default(false)
+  outcome         String
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  creature Creature @relation(fields: [creatureId], references: [id], onDelete: Cascade)
+
+  @@unique([battleId, creatureId])
+  @@index([creatureId, createdAt])
+  @@index([creatureId, mobSpecies, mapKey])
+  @@map("maturation_events")
+}
+
+model CreatureTrait {
+  id         String    @id @default(uuid())
+  creatureId String    @map("creature_id")
+  slot       TraitSlot
+  traitKey   String    @map("trait_key")
+
+  creature Creature @relation(fields: [creatureId], references: [id], onDelete: Cascade)
+
+  @@unique([creatureId, slot])
+  @@map("creature_genes")
+}
+
+model CreatureAncestry {
+  id             String  @id @default(uuid())
+  creatureId     String  @unique @map("creature_id")
+  originalBreederId String? @map("original_breeder_id")
+  treeJson       Json    @map("tree_json")
+
+  creature Creature @relation(fields: [creatureId], references: [id], onDelete: Cascade)
+
+  @@map("creature_ancestry")
+}
+
+model SkillTemplate {
+  id      String    @id @default(uuid())
+  key     String    @unique
+  name    String
+  type    SkillType
+  element Element?
+
+  speciesLinks CreatureSpeciesSkill[]
+  creatureLinks CreatureSkill[]
+
+  @@map("skill_templates")
+}
+
+model CreatureSpeciesSkill {
+  id        String    @id @default(uuid())
+  speciesId String    @map("species_id")
+  skillId   String    @map("skill_id")
+  slot      SkillSlot
+
+  species CreatureSpecies @relation(fields: [speciesId], references: [id], onDelete: Cascade)
+  skill   SkillTemplate   @relation(fields: [skillId], references: [id])
+
+  @@unique([speciesId, slot])
+  @@map("species_skills")
+}
+
+model CreatureSkill {
+  id         String    @id @default(uuid())
+  creatureId String    @map("creature_id")
+  skillId    String    @map("skill_id")
+  slot       SkillSlot
+
+  creature Creature      @relation(fields: [creatureId], references: [id], onDelete: Cascade)
+  skill    SkillTemplate @relation(fields: [skillId], references: [id])
+
+  @@unique([creatureId, slot])
+  @@map("creature_skills")
+}
+
+model BreedingSession {
+  id                  String          @id @default(uuid())
+  breederCharacterId  String          @map("breeder_id")
+  parentAId           String          @map("parent_a_id")
+  parentBId           String          @map("parent_b_id")
+  costGold            BigInt          @map("cost_gold")
+  rngSeed             Int             @map("rng_seed")
+  status              BreedingStatus  @default(PENDING)
+  createdAt           DateTime        @default(now()) @map("created_at")
+
+  breeder Character @relation(fields: [breederCharacterId], references: [id])
+  egg     Egg?
+
+  @@map("breeding_sessions")
+}
+
+model Egg {
+  id                    String             @id @default(uuid())
+  ownerCharacterId      String             @map("owner_id")
+  rarity                ItemRarity
+  status                EggStatus          @default(INCUBATING)
+  hatchesAt             DateTime           @map("hatches_at")
+  hatchedCreatureId     String?            @unique @map("hatched_creature_id")
+  breedingSessionId     String?            @unique @map("breeding_session_id")
+  lock                  AssetLock          @default(NONE)
+  createdAt             DateTime           @default(now()) @map("created_at")
+  generation            Int                @default(1)
+  geneticSeed           Int                @default(0) @map("genetic_seed")
+  geneticHash           String             @default("") @map("genetic_hash")
+  parentAId             String             @default("") @map("parent_a_id")
+  parentBId             String             @default("") @map("parent_b_id")
+  speciesKey            String             @default("") @map("species_key")
+  offspringJson         Json?
+  genesisGrade          GenesisGrade       @default(COMMON) @map("genesis_grade")
+  complexityScore       Int                @default(0) @map("complexity_score")
+  incubationStartedAt   DateTime           @default(now()) @map("incubation_started_at")
+  eggVisualStatus       VisualAssetStatus  @default(PENDING) @map("egg_visual_status")
+  eggVisualJson         Json?              @map("egg_visual_json")
+  powerPlanJson         Json?              @map("power_plan_json")
+
+  owner        Character         @relation(fields: [ownerCharacterId], references: [id])
+  session      BreedingSession?  @relation(fields: [breedingSessionId], references: [id])
+  visualAssets EggVisualAsset[]
+
+  @@index([ownerCharacterId, status])
+  @@map("eggs")
+}
+
+model EggVisualAsset {
+  id                  String               @id @default(uuid())
+  eggId               String               @map("egg_id")
+  status              VisualAssetStatus    @default(PENDING)
+  storageKey          String?              @map("storage_key")
+  publicUrl           String?              @map("public_url")
+  imageHash           String?              @map("image_hash")
+  generationKey       String               @map("generation_key")
+  provider            VisualImageProvider  @default(MOCK)
+  model               String
+  modelSnapshot       String               @map("model_snapshot")
+  artBibleVersion     Int                  @map("art_bible_version")
+  promptVersion       Int                  @map("prompt_version")
+  visualGenomeVersion Int                  @map("visual_genome_version")
+  promptHash          String               @default("") @map("prompt_hash")
+  promptText          String?              @map("prompt_text")
+  generatedAt         DateTime?            @map("generated_at")
+  failureReason       String?              @map("failure_reason")
+  attemptCount        Int                  @default(0) @map("attempt_count")
+  nextAttemptAt       DateTime?            @map("next_attempt_at")
+  createdAt           DateTime             @default(now()) @map("created_at")
+  updatedAt           DateTime             @updatedAt @map("updated_at")
+
+  egg Egg @relation(fields: [eggId], references: [id], onDelete: Cascade)
+
+  @@unique([eggId, generationKey])
+  @@index([status, nextAttemptAt])
+  @@map("egg_visual_assets")
+}
+
+model ItemTemplate {
+  id       String            @id @default(uuid())
+  key      String            @unique
+  name     String
+  category InventoryCategory
+  rarity   ItemRarity        @default(COMMON)
+  stackable Boolean          @default(true)
+
+  items Item[]
+
+  @@map("item_templates")
+}
+
+model Item {
+  id           String    @id @default(uuid())
+  templateId   String    @map("template_id")
+  affixes      Json?
+  lock         AssetLock @default(NONE)
+  createdAt    DateTime  @default(now()) @map("created_at")
+
+  template       ItemTemplate    @relation(fields: [templateId], references: [id])
+  inventorySlots InventorySlot[]
+  equipment      Equipment[]
+  creatureEquip  CreatureEquipment[]
+  listings       MarketListing[]
+
+  @@map("items")
+}
+
+model InventorySlot {
+  id          String            @id @default(uuid())
+  characterId String            @map("character_id")
+  itemId      String            @map("item_id")
+  category    InventoryCategory
+  quantity    Int               @default(1)
+
+  character Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+  item      Item      @relation(fields: [itemId], references: [id])
+
+  @@index([characterId, category])
+  @@map("inventory")
+}
+
+model Equipment {
+  id          String              @id @default(uuid())
+  characterId String              @map("character_id")
+  slot        CharacterEquipSlot
+  itemId      String              @map("item_id")
+
+  character Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+  item      Item      @relation(fields: [itemId], references: [id])
+
+  @@unique([characterId, slot])
+  @@map("equipment")
+}
+
+model CreatureEquipment {
+  id         String            @id @default(uuid())
+  creatureId String            @map("creature_id")
+  slot       CreatureEquipSlot
+  itemId     String            @map("item_id")
+
+  creature Creature @relation(fields: [creatureId], references: [id], onDelete: Cascade)
+  item     Item     @relation(fields: [itemId], references: [id])
+
+  @@unique([creatureId, slot])
+  @@map("creature_equipment")
+}
+
+model Wallet {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  currency  Currency
+  balance   BigInt   @default(0)
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, currency])
+  @@map("wallets")
+}
+
+model CurrencyTransaction {
+  id            String          @id @default(uuid())
+  userId        String          @map("user_id")
+  currency      Currency
+  amount        BigInt
+  type          TransactionType
+  source        String
+  referenceId   String?         @map("reference_id")
+  balanceBefore BigInt          @map("balance_before")
+  balanceAfter  BigInt          @map("balance_after")
+  createdAt     DateTime        @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Restrict)
+
+  @@index([userId, createdAt])
+  @@index([source, createdAt])
+  @@map("currency_transactions")
+}
+
+model ItemFlow {
+  id           String   @id @default(uuid())
+  characterId  String   @map("character_id")
+  templateKey  String   @map("template_key")
+  quantity     Int
+  source       String
+  referenceId  String?  @map("reference_id")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  @@index([templateKey, createdAt])
+  @@index([characterId, createdAt])
+  @@map("item_flows")
+}
+
+model EconomyDailySnapshot {
+  id                  String   @id @default(uuid())
+  date                DateTime @unique @db.Date
+  activeUsers         Int      @map("active_users")
+  goldMinted          BigInt   @map("gold_minted")
+  goldSunk            BigInt   @map("gold_sunk")
+  netGold             BigInt   @map("net_gold")
+  goldPerActiveUser   Decimal  @default(0) @map("gold_per_active_user") @db.Decimal(12, 2)
+  marketGmv           BigInt   @map("market_gmv")
+  marketFees          BigInt   @map("market_fees")
+  breedCount          Int      @map("breed_count")
+  eggCount            Int      @map("egg_count")
+  captureCount        Int      @map("capture_count")
+  creaturesCreated    Int      @map("creatures_created")
+  catalystsGenerated  Int      @map("catalysts_generated")
+  catalystsConsumed   Int      @map("catalysts_consumed")
+  nexOrbsPurchased    Int      @map("nex_orbs_purchased")
+  createdAt           DateTime @default(now()) @map("created_at")
+  updatedAt           DateTime @updatedAt @map("updated_at")
+
+  @@map("economy_daily_snapshots")
+}
+
+model MarketListing {
+  id             String           @id @default(uuid())
+  sellerUserId   String           @map("seller_user_id")
+  assetType      ListingAssetType @map("asset_type")
+  creatureId     String?          @map("creature_id")
+  itemId         String?          @map("item_id")
+  eggId          String?          @map("egg_id")
+  priceGold      BigInt           @map("price_gold")
+  status         ListingStatus    @default(ACTIVE)
+  createdAt      DateTime         @default(now()) @map("created_at")
+  soldAt         DateTime?        @map("sold_at")
+
+  seller    User               @relation(fields: [sellerUserId], references: [id])
+  creature  Creature?          @relation(fields: [creatureId], references: [id])
+  item      Item?              @relation(fields: [itemId], references: [id])
+  transactions MarketTransaction[]
+
+  @@index([status, createdAt])
+  @@map("market_listings")
+}
+
+model MarketTransaction {
+  id          String   @id @default(uuid())
+  listingId   String   @map("listing_id")
+  buyerUserId String   @map("buyer_user_id")
+  grossGold   BigInt   @map("gross_gold")
+  feeGold     BigInt   @map("fee_gold")
+  netGold     BigInt   @map("net_gold")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  listing MarketListing @relation(fields: [listingId], references: [id])
+
+  @@map("market_transactions")
+}
+
+model Quest {
+  id   String @id @default(uuid())
+  key  String @unique
+  name String
+  type String
+
+  progress QuestProgress[]
+
+  @@map("quests")
+}
+
+model QuestProgress {
+  id          String    @id @default(uuid())
+  characterId String    @map("character_id")
+  questId     String    @map("quest_id")
+  status      String    @default("ACTIVE")
+  completedAt DateTime? @map("completed_at")
+
+  character Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+  quest     Quest     @relation(fields: [questId], references: [id])
+
+  @@unique([characterId, questId])
+  @@map("quest_progress")
+}
+
+model Achievement {
+  id   String @id @default(uuid())
+  key  String @unique
+  name String
+
+  unlocks CharacterAchievement[]
+
+  @@map("achievements")
+}
+
+model CharacterAchievement {
+  id            String   @id @default(uuid())
+  characterId   String   @map("character_id")
+  achievementId String   @map("achievement_id")
+  unlockedAt    DateTime @default(now()) @map("unlocked_at")
+
+  character   Character   @relation(fields: [characterId], references: [id], onDelete: Cascade)
+  achievement Achievement @relation(fields: [achievementId], references: [id])
+
+  @@unique([characterId, achievementId])
+  @@map("character_achievements")
+}
+
+model CharacterProfession {
+  id          String        @id @default(uuid())
+  characterId String        @map("character_id")
+  profession  ProfessionKey
+  level       Int           @default(1)
+  xp          Int           @default(0)
+
+  character Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+
+  @@unique([characterId, profession])
+  @@map("professions")
+}
+
+model CraftRecipe {
+  id           String @id @default(uuid())
+  key          String @unique
+  name         String
+  profession   ProfessionKey
+  resultKey    String @map("result_key")
+  ingredients  Json
+  goldCost     BigInt @default(0) @map("gold_cost")
+
+  @@map("craft_recipes")
+}
+
+model Battle {
+  id                 String       @id @default(uuid())
+  type               BattleType
+  status             BattleStatus @default(PENDING)
+  rngSeed            Int          @map("rng_seed")
+  mapKey             String?      @map("map_key")
+  encounterFamily    String?      @map("encounter_family")
+  mobSpecies         String?      @map("mob_species")
+  spawnKey           String?      @map("spawn_key")
+  winnerCharacterId  String?      @map("winner_character_id")
+  createdAt          DateTime     @default(now()) @map("created_at")
+  finishedAt         DateTime?    @map("finished_at")
+  stateJson          Json?        @map("state_json")
+  currentRound       Int          @default(0) @map("current_round")
+  rulesVersion       String       @default("V1") @map("rules_version")
+
+  logs         BattleLog[]
+  participants BattleParticipant[]
+
+  @@map("battles")
+}
+
+model BattleParticipant {
+  id          String  @id @default(uuid())
+  battleId    String  @map("battle_id")
+  characterId String? @map("character_id")
+  isNpc       Boolean @default(false) @map("is_npc")
+  team        Int
+
+  battle    Battle     @relation(fields: [battleId], references: [id], onDelete: Cascade)
+  character Character? @relation(fields: [characterId], references: [id])
+
+  @@map("battle_participants")
+}
+
+model BattleLog {
+  id            String   @id @default(uuid())
+  battleId      String   @map("battle_id")
+  turn          Int
+  action        String
+  actorId       String?  @map("actor_id")
+  targetId      String?  @map("target_id")
+  damage        Int?
+  statusApplied String?  @map("status_applied")
+  payload       Json?
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  battle Battle @relation(fields: [battleId], references: [id], onDelete: Cascade)
+
+  @@index([battleId, turn])
+  @@map("battle_logs")
+}
+
+model PvpMatch {
+  id                 String    @id @default(uuid())
+  seasonKey          String    @map("season_key")
+  challengerId       String    @map("challenger_id")
+  opponentId         String    @map("opponent_id")
+  winnerId           String?   @map("winner_id")
+  challengerMmrDelta Int       @default(0) @map("challenger_mmr_delta")
+  opponentMmrDelta   Int       @default(0) @map("opponent_mmr_delta")
+  battleId           String?   @map("battle_id")
+  createdAt          DateTime  @default(now()) @map("created_at")
+
+  challenger Character @relation("PvpChallenger", fields: [challengerId], references: [id])
+  opponent   Character @relation("PvpOpponent", fields: [opponentId], references: [id])
+
+  @@map("pvp_matches")
+}
+
+model Ranking {
+  id          String  @id @default(uuid())
+  characterId String  @map("character_id")
+  seasonKey   String  @map("season_key")
+  mmr         Int     @default(1000)
+  rank        PvpRank @default(BRONZE)
+
+  character Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+
+  @@unique([characterId, seasonKey])
+  @@map("rankings")
+}
+
+model Guild {
+  id    String @id @default(uuid())
+  name  String @unique
+  tag   String @unique
+  level Int    @default(1)
+  xp    Int    @default(0)
+
+  members    GuildMember[]
+  characters Character[]
+
+  @@map("guilds")
+}
+
+model GuildMember {
+  id        String   @id @default(uuid())
+  guildId   String   @map("guild_id")
+  userId    String   @map("user_id")
+  role      String   @default("MEMBER")
+  joinedAt  DateTime @default(now()) @map("joined_at")
+
+  guild Guild @relation(fields: [guildId], references: [id], onDelete: Cascade)
+
+  @@unique([guildId, userId])
+  @@map("guild_members")
+}
+
+model WorldEvent {
+  id        String    @id @default(uuid())
+  key       String
+  name      String
+  startsAt  DateTime  @map("starts_at")
+  endsAt    DateTime? @map("ends_at")
+  payload   Json?
+
+  @@index([key, startsAt])
+  @@map("world_events")
+}
+
+model GeneticPower {
+  id             String   @id
+  powerHash      String   @unique @map("power_hash")
+  key            String
+  name           String
+  namePt         String   @map("name_pt")
+  element        Element
+  typology       String
+  definitionJson Json     @map("definition_json")
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  instances CreaturePower[]
+
+  @@map("genetic_powers")
+}
+
+model GeneticPowerLineage {
+  id               String   @id
+  originCreatureId String?  @map("origin_creature_id")
+  createdAt        DateTime @default(now()) @map("created_at")
+
+  instances CreaturePower[]
+
+  @@map("genetic_power_lineages")
+}
+
+model CreaturePower {
+  id               String             @id @default(uuid())
+  creatureId       String             @unique @map("creature_id")
+  powerId          String             @map("power_id")
+  lineageId        String             @map("lineage_id")
+  originType       GeneticPowerOrigin @map("origin_type")
+  originCreatureId String?            @map("origin_creature_id")
+  createdAt        DateTime           @default(now()) @map("created_at")
+
+  creature Creature            @relation(fields: [creatureId], references: [id], onDelete: Cascade)
+  power    GeneticPower        @relation(fields: [powerId], references: [id])
+  lineage  GeneticPowerLineage @relation(fields: [lineageId], references: [id])
+
+  @@index([powerId])
+  @@index([lineageId])
+  @@map("creature_powers")
+}
+
+model FusionDiscovery {
+  id          String   @id @default(uuid())
+  characterId String   @map("character_id")
+  familyKey   String   @map("family_key")
+  discoveredAt DateTime @default(now()) @map("discovered_at")
+
+  character Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+
+  @@unique([characterId, familyKey])
+  @@map("fusion_discoveries")
+}
+
+model AdminActionLog {
+  id          String   @id @default(uuid())
+  adminUserId String   @map("admin_user_id")
+  action      String
+  targetType  String   @map("target_type")
+  targetId    String?  @map("target_id")
+  payload     Json?
+  reason      String
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  admin User @relation("AdminActions", fields: [adminUserId], references: [id])
+
+  @@index([adminUserId, createdAt])
+  @@map("admin_action_logs")
+}

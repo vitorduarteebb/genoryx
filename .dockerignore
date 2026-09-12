@@ -1,0 +1,32 @@
+.git
+.github
+.next
+.turbo
+node_modules
+**/node_modules
+**/dist
+**/.next
+**/coverage
+**/*.log
+.env
+.env.local
+.env.production
+.env.*.local
+legacy
+docs
+agent-transcripts
+*.md
+!package.json
+!package-lock.json
+apps/admin
+# Projeto Unity: nenhuma imagem o usa, e Library sozinha tem 3.5 GB. Sem esta linha o
+# contexto de build inteiro sobe para o daemon Docker a cada `compose build`.
+# O bundle WebGL publicado vive em apps/web/public/unity-game e continua entrando.
+apps/unity-game
+apps/web/tsconfig.tsbuildinfo
+apps/admin/tsconfig.tsbuildinfo
+.cursor
+release
+dist-desktop
+downloads
+instalador

@@ -1,0 +1,161 @@
+{
+  "generatedAt": "2026-09-04T02:59:54.842Z",
+  "conclusion": "O Tamer FASE 1 é GLB real. O creator web usava PNG — isso foi removido. Peças modulares entram em Generated/ como GLB.",
+  "bodyCopied": {
+    "exists": true,
+    "bytes": 7924084,
+    "kind": "glb"
+  },
+  "tamerRigged": {
+    "exists": true,
+    "bytes": 7924084,
+    "kind": "glb"
+  },
+  "assets": [
+    {
+      "assetId": "phase1_tamer",
+      "meshyTaskId": "01a069c8-5b92-72cd-bd06-dbee856ac406",
+      "type": "character",
+      "status": "SUCCEEDED",
+      "localPath": "Assets/StreamingAssets/GENORYX/Characters/phase1/tamer.rigged.glb",
+      "bytes": 7924084,
+      "fileKind": "glb",
+      "consumedCredits": 38,
+      "extra": {
+        "previewTaskId": "01a069c5-c6f0-75c4-9a9d-253df0b79352",
+        "refineTaskId": "01a069c7-2215-7512-afbe-235907310297",
+        "rigTaskId": "01a069c8-5b92-72cd-bd06-dbee856ac406",
+        "walkUrl": "anim.walk.glb",
+        "runUrl": "anim.run.glb"
+      }
+    },
+    {
+      "assetId": "hair_01_short",
+      "meshyTaskId": "01a06a4a-4e55-7743-976c-6597391dfe08",
+      "type": "refine",
+      "status": "SUCCEEDED",
+      "localPath": "Assets/StreamingAssets/GENORYX/Characters/Generated/Hair/hair_01.glb",
+      "bytes": 5084048,
+      "fileKind": "glb",
+      "consumedCredits": 30,
+      "extra": {
+        "previewTaskId": "01a06a48-a613-73ac-9fac-1d7643b5a3bf",
+        "refineTaskId": "01a06a4a-4e55-7743-976c-6597391dfe08",
+        "slot": "HAIR",
+        "bytes": 5084048
+      }
+    },
+    {
+      "assetId": "hair_02_messy",
+      "meshyTaskId": "01a06a4c-9d3e-701f-8b04-c2f233f3af53",
+      "type": "refine",
+      "status": "SUCCEEDED",
+      "localPath": "Assets/StreamingAssets/GENORYX/Characters/Generated/Hair/hair_02.glb",
+      "bytes": 5935104,
+      "fileKind": "glb",
+      "consumedCredits": 30,
+      "extra": {
+        "previewTaskId": "01a06a4b-4005-712d-9a95-b02f31a5ca30",
+        "refineTaskId": "01a06a4c-9d3e-701f-8b04-c2f233f3af53",
+        "slot": "HAIR",
+        "bytes": 5935104
+      }
+    },
+    {
+      "assetId": "chest_novice_tamer",
+      "meshyTaskId": "01a06a4f-2c5d-71a8-ab80-c7f17c827ab8",
+      "type": "refine",
+      "status": "SUCCEEDED",
+      "localPath": "Assets/StreamingAssets/GENORYX/Characters/Generated/Chest/chest_01.glb",
+      "bytes": 7671032,
+      "fileKind": "glb",
+      "consumedCredits": 30,
+      "extra": {
+        "previewTaskId": "01a06a4d-8f05-7064-b1dc-e452624bb691",
+        "refineTaskId": "01a06a4f-2c5d-71a8-ab80-c7f17c827ab8",
+        "slot": "CHEST",
+        "bytes": 7671032
+      }
+    },
+    {
+      "assetId": "chest_field_explorer",
+      "meshyTaskId": "01a06a51-7c0e-7048-9b0a-f2dce5d91227",
+      "type": "refine",
+      "status": "SUCCEEDED",
+      "localPath": "Assets/StreamingAssets/GENORYX/Characters/Generated/Chest/chest_02.glb",
+      "bytes": 7922172,
+      "fileKind": "glb",
+      "consumedCredits": 30,
+      "extra": {
+        "previewTaskId": "01a06a50-2210-73de-8965-e85ad2c068d8",
+        "refineTaskId": "01a06a51-7c0e-7048-9b0a-f2dce5d91227",
+        "slot": "CHEST",
+        "bytes": 7922172
+      }
+    },
+    {
+      "assetId": "legs_explorer",
+      "meshyTaskId": "01a06a53-85a5-7759-a62d-d8a7c05738af",
+      "type": "refine",
+      "status": "SUCCEEDED",
+      "localPath": "Assets/StreamingAssets/GENORYX/Characters/Generated/Legs/legs_01.glb",
+      "bytes": 6750908,
+      "fileKind": "glb",
+      "consumedCredits": 30,
+      "extra": {
+        "previewTaskId": "01a06a52-6dd7-751a-9729-cda4fe5fc3c3",
+        "refineTaskId": "01a06a53-85a5-7759-a62d-d8a7c05738af",
+        "slot": "LEGS",
+        "bytes": 6750908
+      }
+    },
+    {
+      "assetId": "legs_reinforced",
+      "meshyTaskId": "01a06a55-f44e-772b-a57d-9017235b2e0b",
+      "type": "refine",
+      "status": "SUCCEEDED",
+      "localPath": "Assets/StreamingAssets/GENORYX/Characters/Generated/Legs/legs_02.glb",
+      "bytes": 6602908,
+      "fileKind": "glb",
+      "consumedCredits": 30,
+      "extra": {
+        "previewTaskId": "01a06a54-9977-768c-92b5-2b4f3ab08aff",
+        "refineTaskId": "01a06a55-f44e-772b-a57d-9017235b2e0b",
+        "slot": "LEGS",
+        "bytes": 6602908
+      }
+    },
+    {
+      "assetId": "boots_explorer",
+      "meshyTaskId": "01a06a58-21d8-7713-99b8-7e6d0492bf77",
+      "type": "refine",
+      "status": "SUCCEEDED",
+      "localPath": "Assets/StreamingAssets/GENORYX/Characters/Generated/Boots/boots_01.glb",
+      "bytes": 8914612,
+      "fileKind": "glb",
+      "consumedCredits": 30,
+      "extra": {
+        "previewTaskId": "01a06a56-e912-71d6-97be-8e3efb2894b9",
+        "refineTaskId": "01a06a58-21d8-7713-99b8-7e6d0492bf77",
+        "slot": "BOOTS",
+        "bytes": 8914612
+      }
+    },
+    {
+      "assetId": "boots_leather",
+      "meshyTaskId": "01a06a5a-7242-723a-bc32-eeeb8f6be270",
+      "type": "refine",
+      "status": "SUCCEEDED",
+      "localPath": "Assets/StreamingAssets/GENORYX/Characters/Generated/Boots/boots_02.glb",
+      "bytes": 6149540,
+      "fileKind": "glb",
+      "consumedCredits": 30,
+      "extra": {
+        "previewTaskId": "01a06a59-353a-7562-9f19-bf786f96df4f",
+        "refineTaskId": "01a06a5a-7242-723a-bc32-eeeb8f6be270",
+        "slot": "BOOTS",
+        "bytes": 6149540
+      }
+    }
+  ]
+}

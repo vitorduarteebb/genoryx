@@ -1,0 +1,9 @@
+{
+  "id": "hair_test_01",
+  "slot": "HAIR",
+  "source": "image-to-3d",
+  "meshyTaskId": "01a06b17-613c-7343-abf4-78b9aeb7da2a",
+  "bytes": 6307708,
+  "credits": 30,
+  "note": "Não continuar para Chest até validação visual passar."
+}

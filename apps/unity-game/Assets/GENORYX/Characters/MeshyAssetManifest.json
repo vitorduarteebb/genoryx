@@ -1,0 +1,203 @@
+{
+  "version": 1,
+  "assets": [
+    {
+      "assetId": "phase1_tamer",
+      "meshyTaskId": "01a069c8-5b92-72cd-bd06-dbee856ac406",
+      "prompt": "Stylized premium 3D fantasy creature-tamer character for an isometric modern MMORPG. Clean strong silhouette, readable from elevated 3/4 camera, modern fantasy explorer clothing, subtle genetic crystal technology, detailed but optimized game-ready geometry, appealing proportions, expressive stylized face, high quality cloth/leather/metal materials, GENORYX original universe, A-pose. Complete humanoid 1.8m, 6.5-7 heads, visible hands, defined boots. Novice tamer: sand shirt, graphite vest, leather belt/bracer, one cyan Genesis crystal badge. Messy short hair, stylized face. No plate armor, no knight, no robe, no chibi, no photoreal scan. Full body game-ready.",
+      "type": "character",
+      "status": "SUCCEEDED",
+      "localPath": "Assets/StreamingAssets/GENORYX/Characters/phase1/tamer.rigged.glb",
+      "generatedAt": "2026-09-04T00:20:10.398Z",
+      "version": 1,
+      "consumedCredits": 38,
+      "extra": {
+        "previewTaskId": "01a069c5-c6f0-75c4-9a9d-253df0b79352",
+        "refineTaskId": "01a069c7-2215-7512-afbe-235907310297",
+        "rigTaskId": "01a069c8-5b92-72cd-bd06-dbee856ac406",
+        "walkUrl": "anim.walk.glb",
+        "runUrl": "anim.run.glb"
+      }
+    },
+    {
+      "assetId": "hair_01_short",
+      "meshyTaskId": "01a06a4a-4e55-7743-976c-6597391dfe08",
+      "prompt": "Stylized premium 3D fantasy creature-tamer character for an isometric modern MMORPG. Clean strong silhouette, readable from elevated 3/4 camera, modern fantasy explorer clothing, subtle genetic crystal technology, detailed but optimized game-ready geometry, appealing proportions, expressive stylized face, high quality cloth/leather/metal materials, GENORYX original universe, A-pose. Isolated game-ready clothing or hair asset only. No full character, no mannequin, no stand, no floor. Sized for a 1.8m stylized humanoid. GENORYX original. Isolated short neat stylized hair wig only. Volume on top, clean silhouette from elevated camera. No head, no face, no body, no scalp sphere.",
+      "type": "refine",
+      "status": "SUCCEEDED",
+      "localPath": "Assets/StreamingAssets/GENORYX/Characters/Generated/Hair/hair_01.glb",
+      "generatedAt": "2026-09-04T02:41:50.967Z",
+      "version": 1,
+      "consumedCredits": 30,
+      "extra": {
+        "previewTaskId": "01a06a48-a613-73ac-9fac-1d7643b5a3bf",
+        "refineTaskId": "01a06a4a-4e55-7743-976c-6597391dfe08",
+        "slot": "HAIR",
+        "bytes": 5084048
+      }
+    },
+    {
+      "assetId": "hair_02_messy",
+      "meshyTaskId": "01a06a4c-9d3e-701f-8b04-c2f233f3af53",
+      "prompt": "Stylized premium 3D fantasy creature-tamer character for an isometric modern MMORPG. Clean strong silhouette, readable from elevated 3/4 camera, modern fantasy explorer clothing, subtle genetic crystal technology, detailed but optimized game-ready geometry, appealing proportions, expressive stylized face, high quality cloth/leather/metal materials, GENORYX original universe, A-pose. Isolated game-ready clothing or hair asset only. No full character, no mannequin, no stand, no floor. Sized for a 1.8m stylized humanoid. GENORYX original. Isolated messy medium-long stylized hair wig only. Asymmetric volume, loose strands, clearly longer than a short cut. No head, no face, no body.",
+      "type": "refine",
+      "status": "SUCCEEDED",
+      "localPath": "Assets/StreamingAssets/GENORYX/Characters/Generated/Hair/hair_02.glb",
+      "generatedAt": "2026-09-04T02:44:22.266Z",
+      "version": 1,
+      "consumedCredits": 30,
+      "extra": {
+        "previewTaskId": "01a06a4b-4005-712d-9a95-b02f31a5ca30",
+        "refineTaskId": "01a06a4c-9d3e-701f-8b04-c2f233f3af53",
+        "slot": "HAIR",
+        "bytes": 5935104
+      }
+    },
+    {
+      "assetId": "chest_novice_tamer",
+      "meshyTaskId": "01a06a4f-2c5d-71a8-ab80-c7f17c827ab8",
+      "prompt": "Stylized premium 3D fantasy creature-tamer character for an isometric modern MMORPG. Clean strong silhouette, readable from elevated 3/4 camera, modern fantasy explorer clothing, subtle genetic crystal technology, detailed but optimized game-ready geometry, appealing proportions, expressive stylized face, high quality cloth/leather/metal materials, GENORYX original universe, A-pose. Isolated game-ready clothing or hair asset only. No full character, no mannequin, no stand, no floor. Sized for a 1.8m stylized humanoid. GENORYX original. Isolated short graphite vest and sand shirt for a creature-tamer. Hollow interior. One cyan crystal badge. No legs, no head, no mannequin.",
+      "type": "refine",
+      "status": "SUCCEEDED",
+      "localPath": "Assets/StreamingAssets/GENORYX/Characters/Generated/Chest/chest_01.glb",
+      "generatedAt": "2026-09-04T02:47:10.980Z",
+      "version": 1,
+      "consumedCredits": 30,
+      "extra": {
+        "previewTaskId": "01a06a4d-8f05-7064-b1dc-e452624bb691",
+        "refineTaskId": "01a06a4f-2c5d-71a8-ab80-c7f17c827ab8",
+        "slot": "CHEST",
+        "bytes": 7671032
+      }
+    },
+    {
+      "assetId": "chest_field_explorer",
+      "meshyTaskId": "01a06a51-7c0e-7048-9b0a-f2dce5d91227",
+      "prompt": "Stylized premium 3D fantasy creature-tamer character for an isometric modern MMORPG. Clean strong silhouette, readable from elevated 3/4 camera, modern fantasy explorer clothing, subtle genetic crystal technology, detailed but optimized game-ready geometry, appealing proportions, expressive stylized face, high quality cloth/leather/metal materials, GENORYX original universe, A-pose. Isolated game-ready clothing or hair asset only. No full character, no mannequin, no stand, no floor. Sized for a 1.8m stylized humanoid. GENORYX original. Isolated longer field explorer jacket, sand and moss-green cloth, leather straps, open collar. Hollow interior. Clearly bulkier than a short vest. No legs, no head, no mannequin.",
+      "type": "refine",
+      "status": "SUCCEEDED",
+      "localPath": "Assets/StreamingAssets/GENORYX/Characters/Generated/Chest/chest_02.glb",
+      "generatedAt": "2026-09-04T02:49:41.450Z",
+      "version": 1,
+      "consumedCredits": 30,
+      "extra": {
+        "previewTaskId": "01a06a50-2210-73de-8965-e85ad2c068d8",
+        "refineTaskId": "01a06a51-7c0e-7048-9b0a-f2dce5d91227",
+        "slot": "CHEST",
+        "bytes": 7922172
+      }
+    },
+    {
+      "assetId": "legs_explorer",
+      "meshyTaskId": "01a06a53-85a5-7759-a62d-d8a7c05738af",
+      "prompt": "Stylized premium 3D fantasy creature-tamer character for an isometric modern MMORPG. Clean strong silhouette, readable from elevated 3/4 camera, modern fantasy explorer clothing, subtle genetic crystal technology, detailed but optimized game-ready geometry, appealing proportions, expressive stylized face, high quality cloth/leather/metal materials, GENORYX original universe, A-pose. Isolated game-ready clothing or hair asset only. No full character, no mannequin, no stand, no floor. Sized for a 1.8m stylized humanoid. GENORYX original. Isolated fitted explorer pants, graphite, hollow, two separate legs. No torso, no boots, no mannequin.",
+      "type": "refine",
+      "status": "SUCCEEDED",
+      "localPath": "Assets/StreamingAssets/GENORYX/Characters/Generated/Legs/legs_01.glb",
+      "generatedAt": "2026-09-04T02:52:03.686Z",
+      "version": 1,
+      "consumedCredits": 30,
+      "extra": {
+        "previewTaskId": "01a06a52-6dd7-751a-9729-cda4fe5fc3c3",
+        "refineTaskId": "01a06a53-85a5-7759-a62d-d8a7c05738af",
+        "slot": "LEGS",
+        "bytes": 6750908
+      }
+    },
+    {
+      "assetId": "legs_reinforced",
+      "meshyTaskId": "01a06a55-f44e-772b-a57d-9017235b2e0b",
+      "prompt": "Stylized premium 3D fantasy creature-tamer character for an isometric modern MMORPG. Clean strong silhouette, readable from elevated 3/4 camera, modern fantasy explorer clothing, subtle genetic crystal technology, detailed but optimized game-ready geometry, appealing proportions, expressive stylized face, high quality cloth/leather/metal materials, GENORYX original universe, A-pose. Isolated game-ready clothing or hair asset only. No full character, no mannequin, no stand, no floor. Sized for a 1.8m stylized humanoid. GENORYX original. Isolated reinforced explorer pants with leather knee pads and slightly looser cut. Hollow, two legs. Clearly different from slim pants. No torso, no boots, no mannequin.",
+      "type": "refine",
+      "status": "SUCCEEDED",
+      "localPath": "Assets/StreamingAssets/GENORYX/Characters/Generated/Legs/legs_02.glb",
+      "generatedAt": "2026-09-04T02:54:35.138Z",
+      "version": 1,
+      "consumedCredits": 30,
+      "extra": {
+        "previewTaskId": "01a06a54-9977-768c-92b5-2b4f3ab08aff",
+        "refineTaskId": "01a06a55-f44e-772b-a57d-9017235b2e0b",
+        "slot": "LEGS",
+        "bytes": 6602908
+      }
+    },
+    {
+      "assetId": "boots_explorer",
+      "meshyTaskId": "01a06a58-21d8-7713-99b8-7e6d0492bf77",
+      "prompt": "Stylized premium 3D fantasy creature-tamer character for an isometric modern MMORPG. Clean strong silhouette, readable from elevated 3/4 camera, modern fantasy explorer clothing, subtle genetic crystal technology, detailed but optimized game-ready geometry, appealing proportions, expressive stylized face, high quality cloth/leather/metal materials, GENORYX original universe, A-pose. Isolated game-ready clothing or hair asset only. No full character, no mannequin, no stand, no floor. Sized for a 1.8m stylized humanoid. GENORYX original. Isolated pair of tall brown explorer boots, left and right, mid-calf, laces. No legs, no mannequin, no stand.",
+      "type": "refine",
+      "status": "SUCCEEDED",
+      "localPath": "Assets/StreamingAssets/GENORYX/Characters/Generated/Boots/boots_01.glb",
+      "generatedAt": "2026-09-04T02:57:05.706Z",
+      "version": 1,
+      "consumedCredits": 30,
+      "extra": {
+        "previewTaskId": "01a06a56-e912-71d6-97be-8e3efb2894b9",
+        "refineTaskId": "01a06a58-21d8-7713-99b8-7e6d0492bf77",
+        "slot": "BOOTS",
+        "bytes": 8914612
+      }
+    },
+    {
+      "assetId": "boots_leather",
+      "meshyTaskId": "01a06a5a-7242-723a-bc32-eeeb8f6be270",
+      "prompt": "Stylized premium 3D fantasy creature-tamer character for an isometric modern MMORPG. Clean strong silhouette, readable from elevated 3/4 camera, modern fantasy explorer clothing, subtle genetic crystal technology, detailed but optimized game-ready geometry, appealing proportions, expressive stylized face, high quality cloth/leather/metal materials, GENORYX original universe, A-pose. Isolated game-ready clothing or hair asset only. No full character, no mannequin, no stand, no floor. Sized for a 1.8m stylized humanoid. GENORYX original. Isolated pair of short darker leather boots, low ankle, clearly shorter than mid-calf explorer boots. Left and right. No legs, no mannequin.",
+      "type": "refine",
+      "status": "SUCCEEDED",
+      "localPath": "Assets/StreamingAssets/GENORYX/Characters/Generated/Boots/boots_02.glb",
+      "generatedAt": "2026-09-04T02:59:28.984Z",
+      "version": 1,
+      "consumedCredits": 30,
+      "extra": {
+        "previewTaskId": "01a06a59-353a-7562-9f19-bf786f96df4f",
+        "refineTaskId": "01a06a5a-7242-723a-bc32-eeeb8f6be270",
+        "slot": "BOOTS",
+        "bytes": 6149540
+      }
+    },
+    {
+      "assetId": "hair_02",
+      "meshyTaskId": "01a06b25-a0ea-7196-aa33-172234a45f4b",
+      "prompt": "hair_02",
+      "type": "modular",
+      "status": "SUCCEEDED",
+      "localPath": "hair_02",
+      "generatedAt": "2026-09-04T06:44:25.581Z",
+      "version": 1,
+      "consumedCredits": 30
+    },
+    {
+      "assetId": "pants_01",
+      "meshyTaskId": "01a06b25-a0f0-747d-8b2b-81e173dea034",
+      "prompt": "pants_01",
+      "type": "modular",
+      "status": "SUCCEEDED",
+      "localPath": "pants_01",
+      "generatedAt": "2026-09-04T06:44:25.583Z",
+      "version": 1,
+      "consumedCredits": 30
+    },
+    {
+      "assetId": "pants_02",
+      "meshyTaskId": "01a06b25-a0ee-74c4-aebd-315ce1482626",
+      "prompt": "pants_02",
+      "type": "modular",
+      "status": "SUCCEEDED",
+      "localPath": "pants_02",
+      "generatedAt": "2026-09-04T06:44:25.583Z",
+      "version": 1,
+      "consumedCredits": 30
+    },
+    {
+      "assetId": "canonical_body",
+      "meshyTaskId": "01a06b28-6c0c-77d2-9fd5-a48a1c1ffd99",
+      "prompt": "canonical_body",
+      "type": "modular",
+      "status": "SUCCEEDED",
+      "localPath": "canonical_body",
+      "generatedAt": "2026-09-04T06:44:25.583Z",
+      "version": 1,
+      "consumedCredits": 38
+    }
+  ]
+}

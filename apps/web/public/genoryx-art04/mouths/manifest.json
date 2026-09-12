@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "space": "Socket_Head local; runtime projects lip line onto actual deformed head surface",
+  "rows": [
+    {
+      "head": "HEAD_01_SMOOTH",
+      "type": "SHORT_FANGS",
+      "label": "Presas curtas",
+      "file": "GXR_MOUTH_SHORT_FANGS.glb",
+      "teeth": 8,
+      "bytes": 152952,
+      "animation": "Mouth_Roar"
+    },
+    {
+      "head": "HEAD_02_PREDATOR",
+      "type": "SABER_FANGS",
+      "label": "Caninos de sabre",
+      "file": "GXR_MOUTH_SABER_FANGS.glb",
+      "teeth": 12,
+      "bytes": 183188,
+      "animation": "Mouth_Roar"
+    },
+    {
+      "head": "HEAD_03_DRACONIC",
+      "type": "SERRATED",
+      "label": "Dentição serrilhada",
+      "file": "GXR_MOUTH_SERRATED.glb",
+      "teeth": 16,
+      "bytes": 213048,
+      "animation": "Mouth_Roar"
+    },
+    {
+      "head": "HEAD_04_ARCANE",
+      "type": "BEAK_FANGS",
+      "label": "Bico dracônico com presas",
+      "file": "GXR_MOUTH_BEAK_FANGS.glb",
+      "teeth": 8,
+      "bytes": 160036,
+      "animation": "Mouth_Roar"
+    }
+  ]
+}

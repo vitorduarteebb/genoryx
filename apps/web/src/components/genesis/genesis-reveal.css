@@ -1,0 +1,124 @@
+.genesis-stage {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.5rem;
+  min-height: 28rem;
+  background: radial-gradient(circle at 50% 42%, rgba(126, 224, 214, 0.08), transparent 42%), #07060c;
+}
+
+.genesis-forming-chassis {
+  filter: saturate(0.85) brightness(0.92);
+  animation: genesis-pulse 2.4s ease-in-out infinite;
+}
+
+.genesis-egg {
+  width: 7.5rem;
+  height: 10rem;
+  border-radius: 50% 50% 50% 50% / 58% 58% 42% 42%;
+  background: radial-gradient(circle at 35% 28%, rgba(244, 239, 228, 0.35), transparent 36%),
+    linear-gradient(180deg, #3a2a28, #120c14);
+  box-shadow: 0 0 40px rgba(228, 195, 106, 0.16);
+}
+
+.genesis-pulse .genesis-egg {
+  animation: genesis-pulse 0.33s ease-in-out 3;
+}
+
+.genesis-crack .genesis-egg {
+  background-image: linear-gradient(120deg, transparent 46%, rgba(244, 239, 228, 0.55) 48%, transparent 50%),
+    linear-gradient(180deg, #3a2a28, #120c14);
+}
+
+.genesis-burst {
+  animation: genesis-burst 0.45s ease-out;
+}
+
+.genesis-silhouette img,
+.genesis-silhouette .genesis-shadow {
+  filter: brightness(0);
+  opacity: 0.88;
+}
+
+.genesis-reveal-art {
+  animation: genesis-unveil 1s ease forwards;
+}
+
+.genesis-temperament-FRIENDLY .genesis-egg {
+  box-shadow: 0 0 36px rgba(126, 224, 214, 0.22);
+}
+.genesis-temperament-NOBLE .genesis-egg {
+  box-shadow: 0 0 28px rgba(228, 195, 106, 0.28);
+}
+.genesis-temperament-WILD .genesis-stage {
+  background-position: 52% 40%;
+}
+.genesis-temperament-FERAL .genesis-egg {
+  transform: translateY(-2px);
+}
+.genesis-temperament-MENACING .genesis-stage {
+  background-color: #05040a;
+}
+.genesis-temperament-ABYSSAL .genesis-reveal-art {
+  filter: contrast(1.08) saturate(0.9);
+}
+
+.genesis-spark {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 999px;
+  background: #e4c36a;
+  animation: genesis-float 2.4s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .genesis-pulse .genesis-egg,
+  .genesis-burst,
+  .genesis-reveal-art,
+  .genesis-spark {
+    animation: none;
+  }
+}
+
+@keyframes genesis-pulse {
+  50% {
+    transform: scale(1.04);
+    box-shadow: 0 0 52px rgba(126, 224, 214, 0.28);
+  }
+}
+
+@keyframes genesis-burst {
+  0% {
+    filter: brightness(1);
+  }
+  40% {
+    filter: brightness(1.35);
+  }
+  100% {
+    filter: brightness(1);
+  }
+}
+
+@keyframes genesis-unveil {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1);
+  }
+}
+
+@keyframes genesis-float {
+  from {
+    transform: translateY(8px);
+    opacity: 0.2;
+  }
+  to {
+    transform: translateY(-28px);
+    opacity: 0;
+  }
+}

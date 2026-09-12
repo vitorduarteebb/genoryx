@@ -1,0 +1,57 @@
+{
+  "file": "c:\\Users\\oem\\Desktop\\GENORYX-Genesis\\apps\\unity-game\\Assets\\StreamingAssets\\GENORYX\\Characters\\Generated\\Chest\\chest_02.glb",
+  "slot": "CHEST",
+  "bytes": 7922172,
+  "meshCount": 1,
+  "materialCount": 1,
+  "materials": [
+    {
+      "name": "material",
+      "kind": "unknown",
+      "baseColor": "textured"
+    }
+  ],
+  "connectedComponents": 3677,
+  "vertexCount": 20888,
+  "faceCount": 14439,
+  "skeleton": {
+    "present": false,
+    "armatures": []
+  },
+  "meshes": [
+    {
+      "name": "mesh_node",
+      "vertices": 20888,
+      "faces": 14439,
+      "islands": 3677,
+      "materials": [
+        "material"
+      ],
+      "bounds": {
+        "min": [
+          -0.3928,
+          -0.1914,
+          0.0
+        ],
+        "max": [
+          0.3919,
+          0.1864,
+          0.7
+        ],
+        "size": [
+          0.7848,
+          0.3778,
+          0.7
+        ],
+        "height": 0.7848
+      },
+      "hasShapeKeys": false
+    }
+  ],
+  "skinAndClothOnSeparateMeshes": false,
+  "skinAndClothOnDifferentMaterials": false,
+  "humanoidScale": false,
+  "heightMetersApprox": 0.7848,
+  "verdict": "SALVAGE_CANDIDATE",
+  "reason": "H\u00e1 submesh, material ou componente solto para tentar extra\u00e7\u00e3o."
+}

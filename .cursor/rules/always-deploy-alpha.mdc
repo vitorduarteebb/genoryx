@@ -1,0 +1,19 @@
+---
+description: Sempre publicar no Alpha ao terminar trabalho visível
+alwaysApply: true
+---
+
+# Deploy Alpha obrigatório
+
+Quando o trabalho alterar o que o jogador vê ou usa em https://alpha.genoryx.com.br, **publique no fim da tarefa**. Não pergunte se pode fazer deploy. Não deixe a correção só na máquina local.
+
+```powershell
+powershell -File deploy/scripts/vps-pack.ps1
+ssh -i $env:USERPROFILE\.ssh\id_ed25519_vps_paesleme root@85.31.60.84 "cd /opt/nexora && sh deploy/scripts/vps-deploy-remote.sh"
+```
+
+- Empacote o working tree (não precisa commit).
+- Depois do remoto: confira API healthy e web HTTP 200 em `https://alpha.genoryx.com.br`.
+- Não altere `.env.production` da VPS; o script remoto já preserva.
+- OpenAI/card-art no Alpha continuam mock, a menos que o usuário peça o contrário.
+- Exceção: tarefa só de docs/ADR/regra interna, sem impacto no Alpha.

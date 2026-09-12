@@ -1,0 +1,30 @@
+{
+  "regions": [
+    "Body_HEAD",
+    "Body_SCALP",
+    "Body_TORSO",
+    "Body_UPPER_ARM_L",
+    "Body_UPPER_ARM_R",
+    "Body_LOWER_ARM_L",
+    "Body_LOWER_ARM_R",
+    "Body_HAND_L",
+    "Body_HAND_R",
+    "Body_PELVIS",
+    "Body_UPPER_LEG_L",
+    "Body_UPPER_LEG_R",
+    "Body_LOWER_LEG_L",
+    "Body_LOWER_LEG_R",
+    "Body_FOOT_L",
+    "Body_FOOT_R"
+  ],
+  "parts": {
+    "hair_test_01.glb": "hair-fit",
+    "hair_02.glb": "hair-fit",
+    "chest_01.glb": "bound",
+    "chest_02.glb": "bound",
+    "pants_01.glb": "bound",
+    "pants_02.glb": "bound",
+    "boots_01.glb": "bound",
+    "boots_02.glb": "bound"
+  }
+}

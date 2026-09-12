@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a07398d2a6c8e314aa83cdbc3ab30677, type: 3}
+  m_Name: TAIL_04_SERPENT
+  m_EditorClassIdentifier: 
+  id: TAIL_04_SERPENT
+  displayName: Serpent
+  slot: 5
+  mesh: {fileID: 4300000, guid: 4ad769cb4107afb41a0e004df6dce132, type: 2}
+  prefab: {fileID: 0}
+  compatibleChassis: GENORYX_CORE_CHASSIS_V1
+  rarity: 1
+  boundsSize: {x: 0.11231999, y: 0.13438085, z: 0.36360866}
+  socket: TAIL
+  fitProfile:
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scaleMultiplier: 1
+  materialProfile: 0
+  mutationCompatibility:
+  - VOID_TAIL
+  mirrored: 0
+  centered: 0

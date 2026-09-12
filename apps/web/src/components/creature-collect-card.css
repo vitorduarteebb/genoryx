@@ -1,0 +1,173 @@
+.gx-collect {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgba(228, 195, 106, 0.16);
+  background:
+    linear-gradient(180deg, rgba(20, 18, 28, 0.96), rgba(10, 8, 16, 0.96));
+  text-align: left;
+  color: inherit;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(228, 195, 106, 0.04);
+}
+
+.gx-collect[data-selected="true"] {
+  border-color: rgba(228, 195, 106, 0.62);
+  box-shadow: 0 0 0 1px rgba(228, 195, 106, 0.28), 0 0 28px rgba(228, 195, 106, 0.12), 0 16px 36px rgba(0, 0, 0, 0.4);
+}
+
+.gx-collect[data-locked="true"] {
+  opacity: 0.42;
+}
+
+.gx-collect__stage {
+  --gx-glow: rgba(126, 224, 214, 0.28);
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 210px;
+  padding: 28px 12px 18px;
+  background:
+    radial-gradient(ellipse 70% 52% at 50% 58%, var(--gx-glow) 0%, transparent 68%),
+    linear-gradient(180deg, #171b24 0%, #0d1016 100%);
+}
+
+.gx-collect__stage[data-element="FIRE"] {
+  --gx-glow: rgba(255, 98, 46, 0.38);
+}
+.gx-collect__stage[data-element="WATER"] {
+  --gx-glow: rgba(64, 196, 230, 0.36);
+}
+.gx-collect__stage[data-element="NATURE"] {
+  --gx-glow: rgba(88, 210, 96, 0.34);
+}
+.gx-collect__stage[data-element="EARTH"] {
+  --gx-glow: rgba(214, 168, 82, 0.32);
+}
+.gx-collect__stage[data-element="ELECTRIC"] {
+  --gx-glow: rgba(246, 210, 64, 0.4);
+}
+.gx-collect__stage[data-element="ICE"] {
+  --gx-glow: rgba(140, 220, 255, 0.36);
+}
+.gx-collect__stage[data-element="LIGHT"] {
+  --gx-glow: rgba(255, 236, 170, 0.34);
+}
+.gx-collect__stage[data-element="DARK"] {
+  --gx-glow: rgba(168, 96, 255, 0.34);
+}
+.gx-collect__stage[data-element="ARCANE"] {
+  --gx-glow: rgba(168, 140, 255, 0.36);
+}
+
+.gx-collect__level,
+.gx-collect__meta {
+  position: absolute;
+  top: 10px;
+  z-index: 2;
+}
+
+.gx-collect__level {
+  left: 10px;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: #141018;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.gx-collect__meta {
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  font-size: 11px;
+  color: #c8c2d4;
+}
+
+.gx-collect__egg {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.gx-collect__foot {
+  padding: 0 12px 12px;
+}
+
+.gx-collect__id {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 999px;
+  padding: 2px 8px 2px 4px;
+  background: rgba(8, 8, 12, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 11px;
+  color: #d7d0e2;
+}
+
+.gx-collect__name {
+  margin-top: 6px;
+  font-family: var(--font-display, inherit);
+  font-size: 16px;
+  line-height: 1.2;
+  color: #f4efe4;
+}
+
+.gx-collect__price {
+  margin-top: 4px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.gx-collect__hint {
+  margin-left: 6px;
+  font-size: 11px;
+  font-weight: 400;
+  color: #8b8498;
+}
+
+.gx-collect__time {
+  margin-top: 2px;
+  font-size: 11px;
+  color: #6f687c;
+}
+
+.gx-collect__lock {
+  margin-top: 6px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #e4c36a;
+}
+
+.gx-gxr {
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+.gx-gxr__shadow {
+  position: absolute;
+  left: 22%;
+  right: 22%;
+  bottom: 10%;
+  height: 12%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(0, 0, 0, 0.45), transparent 72%);
+  pointer-events: none;
+}
+
+.gx-gxr__canvas {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+}

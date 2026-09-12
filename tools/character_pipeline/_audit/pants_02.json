@@ -1,0 +1,34 @@
+{
+  "file": "c:\\Users\\oem\\Desktop\\GENORYX-Genesis\\apps\\unity-game\\Assets\\StreamingAssets\\GENORYX\\Characters\\Processed\\Legs\\pants_02.glb",
+  "bytes": 7437376,
+  "meshes": [
+    {
+      "name": "mesh_node",
+      "verts": 15865,
+      "faces": 12416,
+      "materials": [
+        "material"
+      ],
+      "vertexGroups": [],
+      "bounds": {
+        "min": [
+          -0.6059,
+          -0.2948,
+          -0.951
+        ],
+        "max": [
+          0.604,
+          0.2934,
+          0.9509
+        ],
+        "size": [
+          1.2099,
+          0.5881,
+          1.9019
+        ],
+        "height": 1.9019
+      }
+    }
+  ],
+  "armatures": []
+}

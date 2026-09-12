@@ -1,0 +1,1861 @@
+{
+  "version": "Art04-web-v1",
+  "sourceZip": "GENORYX_Art04_Genetics.zip",
+  "coordinateSystem": {
+    "up": "+Y",
+    "forward": "+Z",
+    "units": "meters",
+    "socketWorldRotations": "identity in rest within1e-6; use the actual socket transforms from base GLB"
+  },
+  "base": "GXR_BODY_BASE_01",
+  "assets": {
+    "GXR_BACK_01_DORSAL": {
+      "id": "GXR_BACK_01_DORSAL",
+      "category": "Back",
+      "url": "/genoryx-art04/parts/GXR_BACK_01_DORSAL.glb",
+      "bytes": 158988,
+      "sourceBytes": 158760,
+      "triangles": 2310,
+      "meshes": 46,
+      "drawCalls": 46,
+      "meshNodes": [
+        "Mesh_Dorsal_imbricated_scute.001_Export",
+        "Mesh_Dorsal_imbricated_scute.002_Export",
+        "Mesh_Dorsal_imbricated_scute.003_Export",
+        "Mesh_Dorsal_imbricated_scute.004_Export",
+        "Mesh_Dorsal_imbricated_scute.005_Export",
+        "Mesh_Dorsal_imbricated_scute.006_Export",
+        "Mesh_Dorsal_imbricated_scute.007_Export",
+        "Mesh_Dorsal_imbricated_scute.008_Export",
+        "Mesh_Dorsal_imbricated_scute.009_Export",
+        "Mesh_Dorsal_imbricated_scute.010_Export",
+        "Mesh_Dorsal_imbricated_scute.011_Export",
+        "Mesh_Dorsal_imbricated_scute.012_Export",
+        "Mesh_Dorsal_imbricated_scute.013_Export",
+        "Mesh_Dorsal_imbricated_scute.014_Export",
+        "Mesh_Dorsal_imbricated_scute.015_Export",
+        "Mesh_Dorsal_imbricated_scute.016_Export",
+        "Mesh_Dorsal_imbricated_scute.017_Export",
+        "Mesh_Dorsal_imbricated_scute.018_Export",
+        "Mesh_Dorsal_imbricated_scute.019_Export",
+        "Mesh_Dorsal_imbricated_scute.020_Export",
+        "Mesh_Dorsal_imbricated_scute.021_Export",
+        "Mesh_Dorsal_imbricated_scute.022_Export",
+        "Mesh_Dorsal_imbricated_scute.023_Export",
+        "Mesh_Dorsal_imbricated_scute_Export",
+        "Mesh_Ember_between_scutes.001_Export",
+        "Mesh_Ember_between_scutes.002_Export",
+        "Mesh_Ember_between_scutes.003_Export",
+        "Mesh_Ember_between_scutes.004_Export",
+        "Mesh_Ember_between_scutes.005_Export",
+        "Mesh_Ember_between_scutes.006_Export",
+        "Mesh_Ember_between_scutes.007_Export",
+        "Mesh_Ember_between_scutes_Export",
+        "Mesh_Haunch_scute.001_Export",
+        "Mesh_Haunch_scute.002_Export",
+        "Mesh_Haunch_scute.003_Export",
+        "Mesh_Haunch_scute_Export",
+        "Mesh_Shoulder_muscle_armor.001_Export",
+        "Mesh_Shoulder_muscle_armor.002_Export",
+        "Mesh_Shoulder_muscle_armor.003_Export",
+        "Mesh_Shoulder_muscle_armor.004_Export",
+        "Mesh_Shoulder_muscle_armor.005_Export",
+        "Mesh_Shoulder_muscle_armor_Export",
+        "Mesh_Swept_dorsal_spine.001_Export",
+        "Mesh_Swept_dorsal_spine.002_Export",
+        "Mesh_Swept_dorsal_spine.003_Export",
+        "Mesh_Swept_dorsal_spine_Export"
+      ],
+      "morphs": {},
+      "skinCount": 0,
+      "genomeMask": "COLOR_1",
+      "previewColor": "COLOR_0"
+    },
+    "GXR_BACK_02_SPINES": {
+      "id": "GXR_BACK_02_SPINES",
+      "category": "Back",
+      "url": "/genoryx-art04/parts/GXR_BACK_02_SPINES.glb",
+      "bytes": 46744,
+      "sourceBytes": 46720,
+      "triangles": 860,
+      "meshes": 5,
+      "drawCalls": 5,
+      "meshNodes": [
+        "Mesh_Spine",
+        "Mesh_Spine.001",
+        "Mesh_Spine.002",
+        "Mesh_Spine.003",
+        "Mesh_Spine.004"
+      ],
+      "morphs": {},
+      "skinCount": 0,
+      "genomeMask": "COLOR_1",
+      "previewColor": "COLOR_0"
+    },
+    "GXR_BACK_03_WINGS": {
+      "id": "GXR_BACK_03_WINGS",
+      "category": "Back",
+      "url": "/genoryx-art04/parts/GXR_BACK_03_WINGS.glb",
+      "bytes": 504004,
+      "sourceBytes": 552404,
+      "triangles": 1808,
+      "meshes": 9,
+      "drawCalls": 9,
+      "meshNodes": [
+        "Mesh_wing_root",
+        "Mesh_wing_L",
+        "Mesh_Wing_rib_L",
+        "Mesh_Wing_rib_L.001",
+        "Mesh_Wing_rib_L.002",
+        "Mesh_wing_R",
+        "Mesh_Wing_rib_R",
+        "Mesh_Wing_rib_R.001",
+        "Mesh_Wing_rib_R.002"
+      ],
+      "morphs": {},
+      "skinCount": 0,
+      "genomeMask": "COLOR_1",
+      "previewColor": "COLOR_0"
+    },
+    "GXR_BACK_04_CARAPACE": {
+      "id": "GXR_BACK_04_CARAPACE",
+      "category": "Back",
+      "url": "/genoryx-art04/parts/GXR_BACK_04_CARAPACE.glb",
+      "bytes": 36276,
+      "sourceBytes": 36256,
+      "triangles": 320,
+      "meshes": 4,
+      "drawCalls": 4,
+      "meshNodes": [
+        "Mesh_Carapace_plate",
+        "Mesh_Carapace_plate.001",
+        "Mesh_Carapace_plate.002",
+        "Mesh_Carapace_plate.003"
+      ],
+      "morphs": {},
+      "skinCount": 0,
+      "genomeMask": "COLOR_1",
+      "previewColor": "COLOR_0"
+    },
+    "GXR_BACK_05_CRYSTAL": {
+      "id": "GXR_BACK_05_CRYSTAL",
+      "category": "Back",
+      "url": "/genoryx-art04/parts/GXR_BACK_05_CRYSTAL.glb",
+      "bytes": 43580,
+      "sourceBytes": 43524,
+      "triangles": 264,
+      "meshes": 11,
+      "drawCalls": 11,
+      "meshNodes": [
+        "Mesh_Crystal_shard",
+        "Mesh_Crystal_shard.001",
+        "Mesh_Crystal_shard.002",
+        "Mesh_Crystal_shard.003",
+        "Mesh_Crystal_shard.004",
+        "Mesh_Crystal_shard.005",
+        "Mesh_Spinal_crystal",
+        "Mesh_Spinal_crystal.001",
+        "Mesh_Spinal_crystal.002",
+        "Mesh_Spinal_crystal.003",
+        "Mesh_Spinal_crystal.004"
+      ],
+      "morphs": {},
+      "skinCount": 0,
+      "genomeMask": "COLOR_1",
+      "previewColor": "COLOR_0"
+    },
+    "GXR_BODY_BASE_01": {
+      "id": "GXR_BODY_BASE_01",
+      "category": "Base",
+      "url": "/genoryx-art04/parts/GXR_BODY_BASE_01.glb",
+      "bytes": 261268,
+      "sourceBytes": 323856,
+      "triangles": 3850,
+      "meshes": 5,
+      "drawCalls": 5,
+      "meshNodes": [
+        "Mesh_Front_L",
+        "Mesh_Front_R",
+        "Mesh_GXR_BODY_BASE_01",
+        "Mesh_Rear_L",
+        "Mesh_Rear_R"
+      ],
+      "morphs": {
+        "Mesh_GXR_BODY_BASE_01": [
+          "Breath"
+        ]
+      },
+      "skinCount": 1,
+      "genomeMask": "COLOR_1",
+      "previewColor": "COLOR_0"
+    },
+    "GXR_CORE_01": {
+      "id": "GXR_CORE_01",
+      "category": "Core",
+      "url": "/genoryx-art04/parts/GXR_CORE_01.glb",
+      "bytes": 52676,
+      "sourceBytes": 52672,
+      "triangles": 504,
+      "meshes": 1,
+      "drawCalls": 2,
+      "meshNodes": [
+        "Mesh_Core_Gem_and_Bezel"
+      ],
+      "morphs": {},
+      "skinCount": 0,
+      "genomeMask": "COLOR_1",
+      "previewColor": "COLOR_0"
+    },
+    "GXR_EYES_01_PREDATOR": {
+      "id": "GXR_EYES_01_PREDATOR",
+      "category": "Eyes",
+      "url": "/genoryx-art04/parts/GXR_EYES_01_PREDATOR.glb",
+      "bytes": 94496,
+      "sourceBytes": 157064,
+      "triangles": 1520,
+      "meshes": 12,
+      "drawCalls": 16,
+      "meshNodes": [
+        "Mesh_Corneal_Highlight_L.010",
+        "Mesh_Corneal_Highlight_L.011",
+        "Mesh_Corneal_Highlight_R.010",
+        "Mesh_Corneal_Highlight_R.011",
+        "Mesh_EyeSurface_L.009",
+        "Mesh_EyeSurface_R.009",
+        "Mesh_Iris_Detailed_L.005",
+        "Mesh_Iris_Detailed_R.005",
+        "Mesh_Living_Eyelid_L.005",
+        "Mesh_Living_Eyelid_R.005",
+        "Mesh_Pupil_Detailed_L.005",
+        "Mesh_Pupil_Detailed_R.005"
+      ],
+      "morphs": {
+        "Mesh_Living_Eyelid_L.005": [
+          "Blink"
+        ],
+        "Mesh_Living_Eyelid_R.005": [
+          "Blink"
+        ]
+      },
+      "skinCount": 0,
+      "genomeMask": "COLOR_1",
+      "previewColor": "COLOR_0"
+    },
+    "GXR_EYES_02_ARCANE": {
+      "id": "GXR_EYES_02_ARCANE",
+      "category": "Eyes",
+      "url": "/genoryx-art04/parts/GXR_EYES_02_ARCANE.glb",
+      "bytes": 94492,
+      "sourceBytes": 157056,
+      "triangles": 1520,
+      "meshes": 12,
+      "drawCalls": 16,
+      "meshNodes": [
+        "Mesh_Corneal_Highlight_L.010",
+        "Mesh_Corneal_Highlight_L.011",
+        "Mesh_Corneal_Highlight_R.010",
+        "Mesh_Corneal_Highlight_R.011",
+        "Mesh_EyeSurface_L.009",
+        "Mesh_EyeSurface_R.009",
+        "Mesh_Iris_Detailed_L.005",
+        "Mesh_Iris_Detailed_R.005",
+        "Mesh_Living_Eyelid_L.005",
+        "Mesh_Living_Eyelid_R.005",
+        "Mesh_Pupil_Detailed_L.005",
+        "Mesh_Pupil_Detailed_R.005"
+      ],
+      "morphs": {
+        "Mesh_Living_Eyelid_L.005": [
+          "Blink"
+        ],
+        "Mesh_Living_Eyelid_R.005": [
+          "Blink"
+        ]
+      },
+      "skinCount": 0,
+      "genomeMask": "COLOR_1",
+      "previewColor": "COLOR_0"
+    },
+    "GXR_EYES_03_VOID": {
+      "id": "GXR_EYES_03_VOID",
+      "category": "Eyes",
+      "url": "/genoryx-art04/parts/GXR_EYES_03_VOID.glb",
+      "bytes": 94476,
+      "sourceBytes": 157044,
+      "triangles": 1520,
+      "meshes": 12,
+      "drawCalls": 16,
+      "meshNodes": [
+        "Mesh_Corneal_Highlight_L.010",
+        "Mesh_Corneal_Highlight_L.011",
+        "Mesh_Corneal_Highlight_R.010",
+        "Mesh_Corneal_Highlight_R.011",
+        "Mesh_EyeSurface_L.009",
+        "Mesh_EyeSurface_R.009",
+        "Mesh_Iris_Detailed_L.005",
+        "Mesh_Iris_Detailed_R.005",
+        "Mesh_Living_Eyelid_L.005",
+        "Mesh_Living_Eyelid_R.005",
+        "Mesh_Pupil_Detailed_L.005",
+        "Mesh_Pupil_Detailed_R.005"
+      ],
+      "morphs": {
+        "Mesh_Living_Eyelid_L.005": [
+          "Blink"
+        ],
+        "Mesh_Living_Eyelid_R.005": [
+          "Blink"
+        ]
+      },
+      "skinCount": 0,
+      "genomeMask": "COLOR_1",
+      "previewColor": "COLOR_0"
+    },
+    "GXR_EYES_04_CRYSTAL": {
+      "id": "GXR_EYES_04_CRYSTAL",
+      "category": "Eyes",
+      "url": "/genoryx-art04/parts/GXR_EYES_04_CRYSTAL.glb",
+      "bytes": 130120,
+      "sourceBytes": 192672,
+      "triangles": 1520,
+      "meshes": 12,
+      "drawCalls": 16,
+      "meshNodes": [
+        "Mesh_Corneal_Highlight_L.010",
+        "Mesh_Corneal_Highlight_L.011",
+        "Mesh_Corneal_Highlight_R.010",
+        "Mesh_Corneal_Highlight_R.011",
+        "Mesh_EyeSurface_L.009",
+        "Mesh_EyeSurface_R.009",
+        "Mesh_Iris_Detailed_L.005",
+        "Mesh_Iris_Detailed_R.005",
+        "Mesh_Living_Eyelid_L.005",
+        "Mesh_Living_Eyelid_R.005",
+        "Mesh_Pupil_Detailed_L.005",
+        "Mesh_Pupil_Detailed_R.005"
+      ],
+      "morphs": {
+        "Mesh_Living_Eyelid_L.005": [
+          "Blink"
+        ],
+        "Mesh_Living_Eyelid_R.005": [
+          "Blink"
+        ]
+      },
+      "skinCount": 0,
+      "genomeMask": "COLOR_1",
+      "previewColor": "COLOR_0"
+    },
+    "GXR_EYES_05_GENESIS": {
+      "id": "GXR_EYES_05_GENESIS",
+      "category": "Eyes",
+      "url": "/genoryx-art04/parts/GXR_EYES_05_GENESIS.glb",
+      "bytes": 94500,
+      "sourceBytes": 157064,
+      "triangles": 1520,
+      "meshes": 12,
+      "drawCalls": 16,
+      "meshNodes": [
+        "Mesh_Corneal_Highlight_L.010",
+        "Mesh_Corneal_Highlight_L.011",
+        "Mesh_Corneal_Highlight_R.010",
+        "Mesh_Corneal_Highlight_R.011",
+        "Mesh_EyeSurface_L.009",
+        "Mesh_EyeSurface_R.009",
+        "Mesh_Iris_Detailed_L.005",
+        "Mesh_Iris_Detailed_R.005",
+        "Mesh_Living_Eyelid_L.005",
+        "Mesh_Living_Eyelid_R.005",
+        "Mesh_Pupil_Detailed_L.005",
+        "Mesh_Pupil_Detailed_R.005"
+      ],
+      "morphs": {
+        "Mesh_Living_Eyelid_L.005": [
+          "Blink"
+        ],
+        "Mesh_Living_Eyelid_R.005": [
+          "Blink"
+        ]
+      },
+      "skinCount": 0,
+      "genomeMask": "COLOR_1",
+      "previewColor": "COLOR_0"
+    },
+    "GXR_HEAD_01_DRACONIC": {
+      "id": "GXR_HEAD_01_DRACONIC",
+      "category": "Heads",
+      "url": "/genoryx-art04/parts/GXR_HEAD_01_DRACONIC.glb",
+      "bytes": 187776,
+      "sourceBytes": 236176,
+      "triangles": 3916,
+      "meshes": 9,
+      "drawCalls": 10,
+      "meshNodes": [
+        "Mesh_HeadSurface_DRACONIC_Export",
+        "Mesh_Organic_cranial_scute.001_Export",
+        "Mesh_Organic_cranial_scute.002_Export",
+        "Mesh_Organic_cranial_scute.003_Export",
+        "Mesh_Organic_cranial_scute.004_Export",
+        "Mesh_Organic_cranial_scute.005_Export",
+        "Mesh_Organic_cranial_scute_Export",
+        "Mesh_Supraorbital_ridge.001_Export",
+        "Mesh_Supraorbital_ridge_Export"
+      ],
+      "morphs": {},
+      "skinCount": 0,
+      "genomeMask": "COLOR_1",
+      "previewColor": "COLOR_0"
+    },
+    "GXR_HEAD_02_BEAST": {
+      "id": "GXR_HEAD_02_BEAST",
+      "category": "Heads",
+      "url": "/genoryx-art04/parts/GXR_HEAD_02_BEAST.glb",
+      "bytes": 187776,
+      "sourceBytes": 236176,
+      "triangles": 3916,
+      "meshes": 9,
+      "drawCalls": 10,
+      "meshNodes": [
+        "Mesh_HeadSurface_BEAST_Export",
+        "Mesh_Organic_cranial_scute.006_Export",
+        "Mesh_Organic_cranial_scute.007_Export",
+        "Mesh_Organic_cranial_scute.008_Export",
+        "Mesh_Organic_cranial_scute.009_Export",
+        "Mesh_Organic_cranial_scute.010_Export",
+        "Mesh_Organic_cranial_scute.011_Export",
+        "Mesh_Supraorbital_ridge.002_Export",
+        "Mesh_Supraorbital_ridge.003_Export"
+      ],
+      "morphs": {},
+      "skinCount": 0,
+      "genomeMask": "COLOR_1",
+      "previewColor": "COLOR_0"
+    },
+    "GXR_HEAD_03_SERPENT": {
+      "id": "GXR_HEAD_03_SERPENT",
+      "category": "Heads",
+      "url": "/genoryx-art04/parts/GXR_HEAD_03_SERPENT.glb",
+      "bytes": 187788,
+      "sourceBytes": 236184,
+      "triangles": 3916,
+      "meshes": 9,
+      "drawCalls": 10,
+      "meshNodes": [
+        "Mesh_HeadSurface_SERPENT_Export",
+        "Mesh_Organic_cranial_scute.012_Export",
+        "Mesh_Organic_cranial_scute.013_Export",
+        "Mesh_Organic_cranial_scute.014_Export",
+        "Mesh_Organic_cranial_scute.015_Export",
+        "Mesh_Organic_cranial_scute.016_Export",
+        "Mesh_Organic_cranial_scute.017_Export",
+        "Mesh_Supraorbital_ridge.004_Export",
+        "Mesh_Supraorbital_ridge.005_Export"
+      ],
+      "morphs": {},
+      "skinCount": 0,
+      "genomeMask": "COLOR_1",
+      "previewColor": "COLOR_0"
+    },
+    "GXR_HEAD_04_ABYSSAL": {
+      "id": "GXR_HEAD_04_ABYSSAL",
+      "category": "Heads",
+      "url": "/genoryx-art04/parts/GXR_HEAD_04_ABYSSAL.glb",
+      "bytes": 187780,
+      "sourceBytes": 236176,
+      "triangles": 3916,
+      "meshes": 9,
+      "drawCalls": 10,
+      "meshNodes": [
+        "Mesh_HeadSurface_ABYSSAL_Export",
+        "Mesh_Organic_cranial_scute.018_Export",
+        "Mesh_Organic_cranial_scute.019_Export",
+        "Mesh_Organic_cranial_scute.020_Export",
+        "Mesh_Organic_cranial_scute.021_Export",
+        "Mesh_Organic_cranial_scute.022_Export",
+        "Mesh_Organic_cranial_scute.023_Export",
+        "Mesh_Supraorbital_ridge.006_Export",
+        "Mesh_Supraorbital_ridge.007_Export"
+      ],
+      "morphs": {},
+      "skinCount": 0,
+      "genomeMask": "COLOR_1",
+      "previewColor": "COLOR_0"
+    },
+    "GXR_HORNS_01_DRACONIC": {
+      "id": "GXR_HORNS_01_DRACONIC",
+      "category": "Horns",
+      "url": "/genoryx-art04/parts/GXR_HORNS_01_DRACONIC.glb",
+      "bytes": 464868,
+      "sourceBytes": 513292,
+      "triangles": 1208,
+      "meshes": 4,
+      "drawCalls": 4,
+      "meshNodes": [
+        "Mesh_Horn_L",
+        "Mesh_Keratin_Seat_L",
+        "Mesh_Horn_R",
+        "Mesh_Keratin_Seat_R"
+      ],
+      "morphs": {},
+      "skinCount": 0,
+      "genomeMask": "COLOR_1",
+      "previewColor": "COLOR_0"
+    },
+    "GXR_HORNS_01_DRACONIC_L": {
+      "id": "GXR_HORNS_01_DRACONIC_L",
+      "category": "Horns",
+      "url": "/genoryx-art04/parts/GXR_HORNS_01_DRACONIC_L.glb",
+      "bytes": 437540,
+      "sourceBytes": 485972,
+      "triangles": 604,
+      "meshes": 2,
+      "drawCalls": 2,
+      "meshNodes": [
+        "Mesh_Horn_L",
+        "Mesh_Keratin_Seat_L"
+      ],
+      "morphs": {},
+      "skinCount": 0,
+      "genomeMask": "COLOR_1",
+      "previewColor": "COLOR_0"
+    },
+    "GXR_HORNS_01_DRACONIC_R": {
+      "id": "GXR_HORNS_01_DRACONIC_R",
+      "category": "Horns",
+      "url": "/genoryx-art04/parts/GXR_HORNS_01_DRACONIC_R.glb",
+      "bytes": 437540,
+      "sourceBytes": 485972,
+      "triangles": 604,
+      "meshes": 2,
+      "drawCalls": 2,
+      "meshNodes": [
+        "Mesh_Horn_R",
+        "Mesh_Keratin_Seat_R"
+      ],
+      "morphs": {},
+      "skinCount": 0,
+      "genomeMask": "COLOR_1",
+      "previewColor": "COLOR_0"
+    },
+    "GXR_HORNS_02_PREDATOR": {
+      "id": "GXR_HORNS_02_PREDATOR",
+      "category": "Horns",
+      "url": "/genoryx-art04/parts/GXR_HORNS_02_PREDATOR.glb",
+      "bytes": 455096,
+      "sourceBytes": 503516,
+      "triangles": 968,
+      "meshes": 4,
+      "drawCalls": 4,
+      "meshNodes": [
+        "Mesh_Horn_L.001",
+        "Mesh_Keratin_Seat_L.001",
+        "Mesh_Horn_R.001",
+        "Mesh_Keratin_Seat_R.001"
+      ],
+      "morphs": {},
+      "skinCount": 0,
+      "genomeMask": "COLOR_1",
+      "previewColor": "COLOR_0"
+    },
+    "GXR_HORNS_02_PREDATOR_L": {
+      "id": "GXR_HORNS_02_PREDATOR_L",
+      "category": "Horns",
+      "url": "/genoryx-art04/parts/GXR_HORNS_02_PREDATOR_L.glb",
+      "bytes": 432652,
+      "sourceBytes": 481084,
+      "triangles": 484,
+      "meshes": 2,
+      "drawCalls": 2,
+      "meshNodes": [
+        "Mesh_Horn_L.001",
+        "Mesh_Keratin_Seat_L.001"
+      ],
+      "morphs": {},
+      "skinCount": 0,
+      "genomeMask": "COLOR_1",
+      "previewColor": "COLOR_0"
+    },
+    "GXR_HORNS_02_PREDATOR_R": {
+      "id": "GXR_HORNS_02_PREDATOR_R",
+      "category": "Horns",
+      "url": "/genoryx-art04/parts/GXR_HORNS_02_PREDATOR_R.glb",
+      "bytes": 432652,
+      "sourceBytes": 481084,
+      "triangles": 484,
+      "meshes": 2,
+      "drawCalls": 2,
+      "meshNodes": [
+        "Mesh_Horn_R.001",
+        "Mesh_Keratin_Seat_R.001"
+      ],
+      "morphs": {},
+      "skinCount": 0,
+      "genomeMask": "COLOR_1",
+      "previewColor": "COLOR_0"
+    },
+    "GXR_HORNS_03_RAM": {
+      "id": "GXR_HORNS_03_RAM",
+      "category": "Horns",
+      "url": "/genoryx-art04/parts/GXR_HORNS_03_RAM.glb",
+      "bytes": 497028,
+      "sourceBytes": 545448,
+      "triangles": 1928,
+      "meshes": 4,
+      "drawCalls": 4,
+      "meshNodes": [
+        "Mesh_Horn_L.002",
+        "Mesh_Keratin_Seat_L.002",
+        "Mesh_Horn_R.002",
+        "Mesh_Keratin_Seat_R.002"
+      ],
+      "morphs": {},
+      "skinCount": 0,
+      "genomeMask": "COLOR_1",
+      "previewColor": "COLOR_0"
+    },
+    "GXR_HORNS_03_RAM_L": {
+      "id": "GXR_HORNS_03_RAM_L",
+      "category": "Horns",
+      "url": "/genoryx-art04/parts/GXR_HORNS_03_RAM_L.glb",
+      "bytes": 453624,
+      "sourceBytes": 502056,
+      "triangles": 964,
+      "meshes": 2,
+      "drawCalls": 2,
+      "meshNodes": [
+        "Mesh_Horn_L.002",
+        "Mesh_Keratin_Seat_L.002"
+      ],
+      "morphs": {},
+      "skinCount": 0,
+      "genomeMask": "COLOR_1",
+      "previewColor": "COLOR_0"
+    },
+    "GXR_HORNS_03_RAM_R": {
+      "id": "GXR_HORNS_03_RAM_R",
+      "category": "Horns",
+      "url": "/genoryx-art04/parts/GXR_HORNS_03_RAM_R.glb",
+      "bytes": 453624,
+      "sourceBytes": 502056,
+      "triangles": 964,
+      "meshes": 2,
+      "drawCalls": 2,
+      "meshNodes": [
+        "Mesh_Horn_R.002",
+        "Mesh_Keratin_Seat_R.002"
+      ],
+      "morphs": {},
+      "skinCount": 0,
+      "genomeMask": "COLOR_1",
+      "previewColor": "COLOR_0"
+    },
+    "GXR_HORNS_04_CROWN": {
+      "id": "GXR_HORNS_04_CROWN",
+      "category": "Horns",
+      "url": "/genoryx-art04/parts/GXR_HORNS_04_CROWN.glb",
+      "bytes": 500988,
+      "sourceBytes": 549392,
+      "triangles": 2008,
+      "meshes": 8,
+      "drawCalls": 8,
+      "meshNodes": [
+        "Mesh_Crown_branch_L",
+        "Mesh_Crown_branch_L.001",
+        "Mesh_Horn_L.003",
+        "Mesh_Keratin_Seat_L.003",
+        "Mesh_Crown_branch_R",
+        "Mesh_Crown_branch_R.001",
+        "Mesh_Horn_R.003",
+        "Mesh_Keratin_Seat_R.003"
+      ],
+      "morphs": {},
+      "skinCount": 0,
+      "genomeMask": "COLOR_1",
+      "previewColor": "COLOR_0"
+    },
+    "GXR_HORNS_04_CROWN_L": {
+      "id": "GXR_HORNS_04_CROWN_L",
+      "category": "Horns",
+      "url": "/genoryx-art04/parts/GXR_HORNS_04_CROWN_L.glb",
+      "bytes": 455600,
+      "sourceBytes": 504024,
+      "triangles": 1004,
+      "meshes": 4,
+      "drawCalls": 4,
+      "meshNodes": [
+        "Mesh_Crown_branch_L",
+        "Mesh_Crown_branch_L.001",
+        "Mesh_Horn_L.003",
+        "Mesh_Keratin_Seat_L.003"
+      ],
+      "morphs": {},
+      "skinCount": 0,
+      "genomeMask": "COLOR_1",
+      "previewColor": "COLOR_0"
+    },
+    "GXR_HORNS_04_CROWN_R": {
+      "id": "GXR_HORNS_04_CROWN_R",
+      "category": "Horns",
+      "url": "/genoryx-art04/parts/GXR_HORNS_04_CROWN_R.glb",
+      "bytes": 455600,
+      "sourceBytes": 504024,
+      "triangles": 1004,
+      "meshes": 4,
+      "drawCalls": 4,
+      "meshNodes": [
+        "Mesh_Crown_branch_R",
+        "Mesh_Crown_branch_R.001",
+        "Mesh_Horn_R.003",
+        "Mesh_Keratin_Seat_R.003"
+      ],
+      "morphs": {},
+      "skinCount": 0,
+      "genomeMask": "COLOR_1",
+      "previewColor": "COLOR_0"
+    },
+    "GXR_HORNS_05_CRYSTAL": {
+      "id": "GXR_HORNS_05_CRYSTAL",
+      "category": "Horns",
+      "url": "/genoryx-art04/parts/GXR_HORNS_05_CRYSTAL.glb",
+      "bytes": 466784,
+      "sourceBytes": 515196,
+      "triangles": 752,
+      "meshes": 6,
+      "drawCalls": 6,
+      "meshNodes": [
+        "Mesh_Crystal_L",
+        "Mesh_Crystal_seed_L",
+        "Mesh_Keratin_Seat_L.004",
+        "Mesh_Crystal_R",
+        "Mesh_Crystal_seed_R",
+        "Mesh_Keratin_Seat_R.004"
+      ],
+      "morphs": {},
+      "skinCount": 0,
+      "genomeMask": "COLOR_1",
+      "previewColor": "COLOR_0"
+    },
+    "GXR_HORNS_05_CRYSTAL_L": {
+      "id": "GXR_HORNS_05_CRYSTAL_L",
+      "category": "Horns",
+      "url": "/genoryx-art04/parts/GXR_HORNS_05_CRYSTAL_L.glb",
+      "bytes": 438736,
+      "sourceBytes": 487164,
+      "triangles": 376,
+      "meshes": 3,
+      "drawCalls": 3,
+      "meshNodes": [
+        "Mesh_Crystal_L",
+        "Mesh_Crystal_seed_L",
+        "Mesh_Keratin_Seat_L.004"
+      ],
+      "morphs": {},
+      "skinCount": 0,
+      "genomeMask": "COLOR_1",
+      "previewColor": "COLOR_0"
+    },
+    "GXR_HORNS_05_CRYSTAL_R": {
+      "id": "GXR_HORNS_05_CRYSTAL_R",
+      "category": "Horns",
+      "url": "/genoryx-art04/parts/GXR_HORNS_05_CRYSTAL_R.glb",
+      "bytes": 438740,
+      "sourceBytes": 487168,
+      "triangles": 376,
+      "meshes": 3,
+      "drawCalls": 3,
+      "meshNodes": [
+        "Mesh_Crystal_R",
+        "Mesh_Crystal_seed_R",
+        "Mesh_Keratin_Seat_R.004"
+      ],
+      "morphs": {},
+      "skinCount": 0,
+      "genomeMask": "COLOR_1",
+      "previewColor": "COLOR_0"
+    },
+    "GXR_FRONT_01_PREDATOR": {
+      "id": "GXR_FRONT_01_PREDATOR",
+      "category": "Paws",
+      "url": "/genoryx-art04/parts/GXR_FRONT_01_PREDATOR.glb",
+      "bytes": 159984,
+      "sourceBytes": 159972,
+      "triangles": 2061,
+      "meshes": 2,
+      "drawCalls": 6,
+      "meshNodes": [
+        "Mesh_PREDATOR_Front_L_Skin",
+        "Mesh_PREDATOR_Front_R_Skin"
+      ],
+      "morphs": {},
+      "skinCount": 1,
+      "genomeMask": "COLOR_1",
+      "previewColor": "COLOR_0"
+    },
+    "GXR_FRONT_02_ARMORED": {
+      "id": "GXR_FRONT_02_ARMORED",
+      "category": "Paws",
+      "url": "/genoryx-art04/parts/GXR_FRONT_02_ARMORED.glb",
+      "bytes": 188704,
+      "sourceBytes": 188696,
+      "triangles": 2241,
+      "meshes": 2,
+      "drawCalls": 6,
+      "meshNodes": [
+        "Mesh_ARMORED_Front_L_Skin",
+        "Mesh_ARMORED_Front_R_Skin"
+      ],
+      "morphs": {},
+      "skinCount": 1,
+      "genomeMask": "COLOR_1",
+      "previewColor": "COLOR_0"
+    },
+    "GXR_FRONT_03_WEBBED": {
+      "id": "GXR_FRONT_03_WEBBED",
+      "category": "Paws",
+      "url": "/genoryx-art04/parts/GXR_FRONT_03_WEBBED.glb",
+      "bytes": 154664,
+      "sourceBytes": 154652,
+      "triangles": 2089,
+      "meshes": 2,
+      "drawCalls": 6,
+      "meshNodes": [
+        "Mesh_WEBBED_Front_L_Skin",
+        "Mesh_WEBBED_Front_R_Skin"
+      ],
+      "morphs": {},
+      "skinCount": 1,
+      "genomeMask": "COLOR_1",
+      "previewColor": "COLOR_0"
+    },
+    "GXR_REAR_01_PREDATOR": {
+      "id": "GXR_REAR_01_PREDATOR",
+      "category": "Paws",
+      "url": "/genoryx-art04/parts/GXR_REAR_01_PREDATOR.glb",
+      "bytes": 164212,
+      "sourceBytes": 164200,
+      "triangles": 2141,
+      "meshes": 2,
+      "drawCalls": 6,
+      "meshNodes": [
+        "Mesh_PREDATOR_Rear_L_Skin",
+        "Mesh_PREDATOR_Rear_R_Skin"
+      ],
+      "morphs": {},
+      "skinCount": 1,
+      "genomeMask": "COLOR_1",
+      "previewColor": "COLOR_0"
+    },
+    "GXR_REAR_02_ARMORED": {
+      "id": "GXR_REAR_02_ARMORED",
+      "category": "Paws",
+      "url": "/genoryx-art04/parts/GXR_REAR_02_ARMORED.glb",
+      "bytes": 192936,
+      "sourceBytes": 192924,
+      "triangles": 2321,
+      "meshes": 2,
+      "drawCalls": 6,
+      "meshNodes": [
+        "Mesh_ARMORED_Rear_L_Skin",
+        "Mesh_ARMORED_Rear_R_Skin"
+      ],
+      "morphs": {},
+      "skinCount": 1,
+      "genomeMask": "COLOR_1",
+      "previewColor": "COLOR_0"
+    },
+    "GXR_REAR_03_WEBBED": {
+      "id": "GXR_REAR_03_WEBBED",
+      "category": "Paws",
+      "url": "/genoryx-art04/parts/GXR_REAR_03_WEBBED.glb",
+      "bytes": 158888,
+      "sourceBytes": 158880,
+      "triangles": 2169,
+      "meshes": 2,
+      "drawCalls": 6,
+      "meshNodes": [
+        "Mesh_WEBBED_Rear_L_Skin",
+        "Mesh_WEBBED_Rear_R_Skin"
+      ],
+      "morphs": {},
+      "skinCount": 1,
+      "genomeMask": "COLOR_1",
+      "previewColor": "COLOR_0"
+    },
+    "GXR_TAIL_01_STANDARD": {
+      "id": "GXR_TAIL_01_STANDARD",
+      "category": "Tails",
+      "url": "/genoryx-art04/parts/GXR_TAIL_01_STANDARD.glb",
+      "bytes": 429620,
+      "sourceBytes": 478052,
+      "triangles": 450,
+      "meshes": 1,
+      "drawCalls": 1,
+      "meshNodes": [
+        "Mesh_Tail_standard"
+      ],
+      "morphs": {},
+      "skinCount": 0,
+      "genomeMask": "COLOR_1",
+      "previewColor": "COLOR_0"
+    },
+    "GXR_TAIL_02_PREDATOR": {
+      "id": "GXR_TAIL_02_PREDATOR",
+      "category": "Tails",
+      "url": "/genoryx-art04/parts/GXR_TAIL_02_PREDATOR.glb",
+      "bytes": 464552,
+      "sourceBytes": 512968,
+      "triangles": 820,
+      "meshes": 5,
+      "drawCalls": 5,
+      "meshNodes": [
+        "Mesh_Blade",
+        "Mesh_Tail_Overlapping_Scale",
+        "Mesh_Tail_Overlapping_Scale.001",
+        "Mesh_Tail_Overlapping_Scale.002",
+        "Mesh_Tail_surface"
+      ],
+      "morphs": {},
+      "skinCount": 0,
+      "genomeMask": "COLOR_1",
+      "previewColor": "COLOR_0"
+    },
+    "GXR_TAIL_03_HEAVY": {
+      "id": "GXR_TAIL_03_HEAVY",
+      "category": "Tails",
+      "url": "/genoryx-art04/parts/GXR_TAIL_03_HEAVY.glb",
+      "bytes": 456548,
+      "sourceBytes": 504964,
+      "triangles": 628,
+      "meshes": 5,
+      "drawCalls": 5,
+      "meshNodes": [
+        "Mesh_Club",
+        "Mesh_Tail_Overlapping_Scale.003",
+        "Mesh_Tail_Overlapping_Scale.004",
+        "Mesh_Tail_Overlapping_Scale.005",
+        "Mesh_Tail_surface.001"
+      ],
+      "morphs": {},
+      "skinCount": 0,
+      "genomeMask": "COLOR_1",
+      "previewColor": "COLOR_0"
+    },
+    "GXR_TAIL_04_SERPENT": {
+      "id": "GXR_TAIL_04_SERPENT",
+      "category": "Tails",
+      "url": "/genoryx-art04/parts/GXR_TAIL_04_SERPENT.glb",
+      "bytes": 444144,
+      "sourceBytes": 492576,
+      "triangles": 796,
+      "meshes": 1,
+      "drawCalls": 1,
+      "meshNodes": [
+        "Mesh_Tail_surface.002"
+      ],
+      "morphs": {},
+      "skinCount": 0,
+      "genomeMask": "COLOR_1",
+      "previewColor": "COLOR_0"
+    },
+    "GXR_TAIL_05_GENESIS": {
+      "id": "GXR_TAIL_05_GENESIS",
+      "category": "Tails",
+      "url": "/genoryx-art04/parts/GXR_TAIL_05_GENESIS.glb",
+      "bytes": 472616,
+      "sourceBytes": 521020,
+      "triangles": 868,
+      "meshes": 7,
+      "drawCalls": 7,
+      "meshNodes": [
+        "Mesh_Genesis_shard",
+        "Mesh_Genesis_shard.001",
+        "Mesh_Genesis_tip",
+        "Mesh_Tail_Overlapping_Scale.006",
+        "Mesh_Tail_Overlapping_Scale.007",
+        "Mesh_Tail_Overlapping_Scale.008",
+        "Mesh_Tail_surface.003"
+      ],
+      "morphs": {},
+      "skinCount": 0,
+      "genomeMask": "COLOR_1",
+      "previewColor": "COLOR_0"
+    }
+  },
+  "bones": [
+    "Root",
+    "Body",
+    "Head",
+    "Tail",
+    "Front_L",
+    "Front_L_Foot",
+    "Front_R",
+    "Front_R_Foot",
+    "Rear_L",
+    "Rear_L_Foot",
+    "Rear_R",
+    "Rear_R_Foot"
+  ],
+  "sockets": {
+    "Socket_Head": {
+      "parent": "Head",
+      "local": {
+        "translation": [
+          0,
+          1.1175870895385742e-08,
+          -6.51925802230835e-09
+        ],
+        "rotation": [
+          -0.7388900518417358,
+          0,
+          0,
+          0.6738260388374329
+        ],
+        "scale": [
+          1,
+          0.9999997019767761,
+          0.9999997019767761
+        ]
+      },
+      "worldMatrixColumnMajor": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.9999997611016238,
+        -7.406455438686183e-08,
+        0.0,
+        0.0,
+        7.406455436821863e-08,
+        0.9999997611016238,
+        0.0,
+        0.0,
+        0.46000001056790163,
+        0.10500002109400777,
+        1.0
+      ],
+      "worldPosition": [
+        0.0,
+        0.46000001056790163,
+        0.10500002109400777
+      ]
+    },
+    "Socket_Horn_L": {
+      "parent": "Head",
+      "local": {
+        "translation": [
+          0.12800000607967377,
+          0.16509804129600525,
+          -0.22412407398223877
+        ],
+        "rotation": [
+          -0.7388900518417358,
+          0,
+          0,
+          0.6738260388374329
+        ],
+        "scale": [
+          1,
+          0.9999997019767761,
+          0.9999997019767761
+        ]
+      },
+      "worldMatrixColumnMajor": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.9999997611016238,
+        -7.406455438686183e-08,
+        0.0,
+        0.0,
+        7.406455436821863e-08,
+        0.9999997611016238,
+        0.0,
+        0.12800000607967377,
+        0.6679999862760116,
+        0.2899999394164344,
+        1.0
+      ],
+      "worldPosition": [
+        0.12800000607967377,
+        0.6679999862760116,
+        0.2899999394164344
+      ]
+    },
+    "Socket_Horn_R": {
+      "parent": "Head",
+      "local": {
+        "translation": [
+          -0.12800000607967377,
+          0.16509804129600525,
+          -0.22412407398223877
+        ],
+        "rotation": [
+          -0.7388900518417358,
+          0,
+          0,
+          0.6738260388374329
+        ],
+        "scale": [
+          1,
+          0.9999997019767761,
+          0.9999997019767761
+        ]
+      },
+      "worldMatrixColumnMajor": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.9999997611016238,
+        -7.406455438686183e-08,
+        0.0,
+        0.0,
+        7.406455436821863e-08,
+        0.9999997611016238,
+        0.0,
+        -0.12800000607967377,
+        0.6679999862760116,
+        0.2899999394164344,
+        1.0
+      ],
+      "worldPosition": [
+        -0.12800000607967377,
+        0.6679999862760116,
+        0.2899999394164344
+      ]
+    },
+    "Socket_Tail": {
+      "parent": "Tail",
+      "local": {
+        "translation": [
+          0,
+          0.05684968829154968,
+          0.004256203770637512
+        ],
+        "rotation": [
+          0.8168259263038635,
+          0,
+          0,
+          0.5768842101097107
+        ],
+        "scale": [
+          1,
+          0.9999875426292419,
+          0.9999986886978149
+        ]
+      },
+      "worldMatrixColumnMajor": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.9999993100223953,
+        -4.240753119577608e-06,
+        0.0,
+        0.0,
+        -4.174776766155239e-06,
+        1.0000000909665698,
+        0.0,
+        0.0,
+        0.40500016884271667,
+        -0.48000008353452556,
+        1.0
+      ],
+      "worldPosition": [
+        0.0,
+        0.40500016884271667,
+        -0.48000008353452556
+      ]
+    },
+    "Socket_Front_L": {
+      "parent": "Front_L",
+      "local": {
+        "translation": [
+          1.1175870895385742e-08,
+          -7.078051567077637e-08,
+          -2.9802322387695312e-08
+        ],
+        "rotation": [
+          -0.9838855266571045,
+          -0.10034582763910294,
+          -0.10034579783678055,
+          0.10876926779747009
+        ]
+      },
+      "worldMatrixColumnMajor": [
+        0.9999999966178492,
+        2.807320312890802e-08,
+        2.9542110198381406e-08,
+        0.0,
+        -3.3006464447147935e-09,
+        1.0000000286955633,
+        8.552470337954083e-09,
+        0.0,
+        -4.553234506540949e-08,
+        2.050468605372232e-08,
+        1.0000000776875844,
+        0.0,
+        0.17999999891196755,
+        0.45000006121749014,
+        0.11499997467580514,
+        1.0
+      ],
+      "worldPosition": [
+        0.17999999891196755,
+        0.45000006121749014,
+        0.11499997467580514
+      ]
+    },
+    "Socket_Front_R": {
+      "parent": "Front_R",
+      "local": {
+        "translation": [
+          -1.1175870895385742e-08,
+          -7.078051567077637e-08,
+          -2.9802322387695312e-08
+        ],
+        "rotation": [
+          -0.9838855266571045,
+          0.10034582763910294,
+          0.10034579783678055,
+          0.10876926779747009
+        ]
+      },
+      "worldMatrixColumnMajor": [
+        0.9999999966178492,
+        -2.807320312890802e-08,
+        -2.9542110198381406e-08,
+        0.0,
+        3.3006464447147935e-09,
+        1.0000000286955633,
+        8.552470337954083e-09,
+        0.0,
+        4.553234506540949e-08,
+        2.050468605372232e-08,
+        1.0000000776875844,
+        0.0,
+        -0.17999999891196755,
+        0.45000006121749014,
+        0.11499997467580514,
+        1.0
+      ],
+      "worldPosition": [
+        -0.17999999891196755,
+        0.45000006121749014,
+        0.11499997467580514
+      ]
+    },
+    "Socket_Rear_L": {
+      "parent": "Rear_L",
+      "local": {
+        "translation": [
+          -1.4901161193847656e-08,
+          3.725290298461914e-08,
+          -1.862645149230957e-09
+        ],
+        "rotation": [
+          0.9877263307571411,
+          0.08095133304595947,
+          0.08095130324363708,
+          0.10625652968883514
+        ],
+        "scale": [
+          1,
+          0.9999999403953552,
+          1
+        ]
+      },
+      "worldMatrixColumnMajor": [
+        0.9999999998341021,
+        -2.0049492912284062e-08,
+        -3.483712969237829e-08,
+        0.0,
+        2.4042877696612392e-08,
+        0.9999999386940228,
+        -6.101616936298652e-08,
+        0.0,
+        3.6390354425467896e-08,
+        6.132472330625747e-08,
+        0.9999999981140243,
+        0.0,
+        0.1799999989743561,
+        0.4499999604981425,
+        -0.31499996018569104,
+        1.0
+      ],
+      "worldPosition": [
+        0.1799999989743561,
+        0.4499999604981425,
+        -0.31499996018569104
+      ]
+    },
+    "Socket_Rear_R": {
+      "parent": "Rear_R",
+      "local": {
+        "translation": [
+          1.4901161193847656e-08,
+          3.725290298461914e-08,
+          -1.862645149230957e-09
+        ],
+        "rotation": [
+          0.9877263307571411,
+          -0.08095133304595947,
+          -0.08095130324363708,
+          0.10625652968883514
+        ],
+        "scale": [
+          1,
+          0.9999999403953552,
+          1
+        ]
+      },
+      "worldMatrixColumnMajor": [
+        0.9999999998341021,
+        2.0049492912284062e-08,
+        3.483712969237829e-08,
+        0.0,
+        -2.4042877696612392e-08,
+        0.9999999386940228,
+        -6.101616936298652e-08,
+        0.0,
+        -3.6390354425467896e-08,
+        6.132472330625747e-08,
+        0.9999999981140243,
+        0.0,
+        -0.1799999989743561,
+        0.4499999604981425,
+        -0.31499996018569104,
+        1.0
+      ],
+      "worldPosition": [
+        -0.1799999989743561,
+        0.4499999604981425,
+        -0.31499996018569104
+      ]
+    },
+    "Socket_Back": {
+      "parent": "Body",
+      "local": {
+        "translation": [
+          0,
+          0.07976529002189636,
+          -0.3057670593261719
+        ],
+        "rotation": [
+          -0.6113828420639038,
+          0,
+          0,
+          0.7913349270820618
+        ],
+        "scale": [
+          1,
+          0.9999997615814209,
+          0.9999997615814209
+        ]
+      },
+      "worldMatrixColumnMajor": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.9999997359116318,
+        1.648568159362102e-07,
+        0.0,
+        0.0,
+        -1.648568159539295e-07,
+        0.9999997359116318,
+        0.0,
+        0.0,
+        0.7160000042811295,
+        -0.15000003293976924,
+        1.0
+      ],
+      "worldPosition": [
+        0.0,
+        0.7160000042811295,
+        -0.15000003293976924
+      ]
+    },
+    "Socket_Core_L": {
+      "parent": "Body",
+      "local": {
+        "translation": [
+          0.24300000071525574,
+          0.15292559564113617,
+          -0.01177967432886362
+        ],
+        "rotation": [
+          -0.6113828420639038,
+          0,
+          0,
+          0.7913349270820618
+        ],
+        "scale": [
+          1,
+          0.9999997615814209,
+          0.9999997615814209
+        ]
+      },
+      "worldMatrixColumnMajor": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.9999997359116318,
+        1.648568159362102e-07,
+        0.0,
+        0.0,
+        -1.648568159539295e-07,
+        0.9999997359116318,
+        0.0,
+        0.24300000071525574,
+        0.4499999911462084,
+        -0.005000003585283824,
+        1.0
+      ],
+      "worldPosition": [
+        0.24300000071525574,
+        0.4499999911462084,
+        -0.005000003585283824
+      ]
+    },
+    "Socket_Core_R": {
+      "parent": "Body",
+      "local": {
+        "translation": [
+          -0.24300000071525574,
+          0.15292559564113617,
+          -0.01177967432886362
+        ],
+        "rotation": [
+          -0.6113828420639038,
+          0,
+          0,
+          0.7913349270820618
+        ],
+        "scale": [
+          1,
+          0.9999997615814209,
+          0.9999997615814209
+        ]
+      },
+      "worldMatrixColumnMajor": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.9999997359116318,
+        1.648568159362102e-07,
+        0.0,
+        0.0,
+        -1.648568159539295e-07,
+        0.9999997359116318,
+        0.0,
+        -0.24300000071525574,
+        0.4499999911462084,
+        -0.005000003585283824,
+        1.0
+      ],
+      "worldPosition": [
+        -0.24300000071525574,
+        0.4499999911462084,
+        -0.005000003585283824
+      ]
+    }
+  },
+  "animationUrl": "/genoryx-art04/animations/motions.glb",
+  "animations": [
+    {
+      "name": "GXR_Attack",
+      "duration": 1.100000023841858,
+      "channels": 36,
+      "loop": false,
+      "loopEndpointMaxError": 0,
+      "sourceMorphChannels": 3,
+      "rootTranslationRange": {
+        "x": [
+          0.0,
+          0.0
+        ],
+        "y": [
+          0.0,
+          0.03812134265899658
+        ],
+        "z": [
+          0.0,
+          0.0
+        ]
+      },
+      "sourceBytes": 872052
+    },
+    {
+      "name": "GXR_ClawSwipe",
+      "duration": 1.2333333492279053,
+      "channels": 36,
+      "loop": false,
+      "loopEndpointMaxError": 0,
+      "sourceMorphChannels": 3,
+      "rootTranslationRange": {
+        "x": [
+          0.0,
+          0.0
+        ],
+        "y": [
+          0.0,
+          0.040608614683151245
+        ],
+        "z": [
+          0.0,
+          0.0
+        ]
+      },
+      "sourceBytes": 872224
+    },
+    {
+      "name": "GXR_Hit",
+      "duration": 0.6666666865348816,
+      "channels": 36,
+      "loop": false,
+      "loopEndpointMaxError": 0,
+      "sourceMorphChannels": 3,
+      "rootTranslationRange": {
+        "x": [
+          0.0,
+          0.0
+        ],
+        "y": [
+          0.0,
+          0.03824937343597412
+        ],
+        "z": [
+          0.0,
+          0.0
+        ]
+      },
+      "sourceBytes": 868036
+    },
+    {
+      "name": "GXR_Idle",
+      "duration": 3.433333396911621,
+      "channels": 36,
+      "loop": true,
+      "loopEndpointMaxError": 0,
+      "sourceMorphChannels": 3,
+      "rootTranslationRange": {
+        "x": [
+          0.0,
+          0.0
+        ],
+        "y": [
+          0.0,
+          0.0019410625100135803
+        ],
+        "z": [
+          0.0,
+          0.0
+        ]
+      },
+      "sourceBytes": 875020
+    },
+    {
+      "name": "GXR_Rest",
+      "duration": 1.4333332777023315,
+      "channels": 36,
+      "loop": false,
+      "loopEndpointMaxError": 0.13808077573776245,
+      "sourceMorphChannels": 3,
+      "rootTranslationRange": {
+        "x": [
+          0.0,
+          0.0
+        ],
+        "y": [
+          0.0,
+          0.043414704501628876
+        ],
+        "z": [
+          0.0,
+          0.0
+        ]
+      },
+      "sourceBytes": 875160
+    },
+    {
+      "name": "GXR_Roar",
+      "duration": 1.9333332777023315,
+      "channels": 36,
+      "loop": false,
+      "loopEndpointMaxError": 0,
+      "sourceMorphChannels": 3,
+      "rootTranslationRange": {
+        "x": [
+          0.0,
+          0.0
+        ],
+        "y": [
+          0.0,
+          0.0
+        ],
+        "z": [
+          0.0,
+          0.0
+        ]
+      },
+      "sourceBytes": 874228
+    },
+    {
+      "name": "GXR_Run",
+      "duration": 0.6666666865348816,
+      "channels": 36,
+      "loop": true,
+      "loopEndpointMaxError": 0,
+      "sourceMorphChannels": 3,
+      "rootTranslationRange": {
+        "x": [
+          0.0,
+          0.0
+        ],
+        "y": [
+          0.0,
+          0.029668129980564117
+        ],
+        "z": [
+          0.0,
+          0.0
+        ]
+      },
+      "sourceBytes": 870884
+    },
+    {
+      "name": "GXR_TailWhip",
+      "duration": 1.3333333730697632,
+      "channels": 36,
+      "loop": false,
+      "loopEndpointMaxError": 0,
+      "sourceMorphChannels": 3,
+      "rootTranslationRange": {
+        "x": [
+          0.0,
+          0.0
+        ],
+        "y": [
+          0.0,
+          0.0364813469350338
+        ],
+        "z": [
+          0.0,
+          0.0
+        ]
+      },
+      "sourceBytes": 871632
+    },
+    {
+      "name": "GXR_Turn",
+      "duration": 1.2333333492279053,
+      "channels": 36,
+      "loop": false,
+      "loopEndpointMaxError": 0,
+      "sourceMorphChannels": 3,
+      "rootTranslationRange": {
+        "x": [
+          0.0,
+          0.0
+        ],
+        "y": [
+          0.0,
+          0.03313625976443291
+        ],
+        "z": [
+          0.0,
+          0.0
+        ]
+      },
+      "sourceBytes": 871232
+    },
+    {
+      "name": "GXR_Walk",
+      "duration": 1.2000000476837158,
+      "channels": 36,
+      "loop": true,
+      "loopEndpointMaxError": 0,
+      "sourceMorphChannels": 3,
+      "rootTranslationRange": {
+        "x": [
+          0.0,
+          0.0
+        ],
+        "y": [
+          0.0,
+          0.018533192574977875
+        ],
+        "z": [
+          0.0,
+          0.0
+        ]
+      },
+      "sourceBytes": 873912
+    }
+  ],
+  "morphTracksUrl": "/genoryx-art04/animations/morph-tracks.json",
+  "morphs": {
+    "body": "Breath",
+    "eyelid": "Blink",
+    "notes": "Apply Breath/Blink by morphTargetDictionary semantic. Runtime variable blink should override baked source Blink for idle."
+  },
+  "textures": {
+    "GXR_Skin_MicroNormal": "/genoryx-art04/textures/GXR_Skin_MicroNormal.png",
+    "GXR_Skin_NeutralDetail": "/genoryx-art04/textures/GXR_Skin_NeutralDetail.png",
+    "GXR_Skin_Roughness": "/genoryx-art04/textures/GXR_Skin_Roughness.png",
+    "GXR_Skin_00_Normal": "/genoryx-art04/textures/GXR_Skin_00_Normal.png",
+    "GXR_Skin_00_Roughness": "/genoryx-art04/textures/GXR_Skin_00_Roughness.png",
+    "GXR_Skin_01_Normal": "/genoryx-art04/textures/GXR_Skin_01_Normal.png",
+    "GXR_Skin_01_Roughness": "/genoryx-art04/textures/GXR_Skin_01_Roughness.png",
+    "GXR_Skin_02_Normal": "/genoryx-art04/textures/GXR_Skin_02_Normal.png",
+    "GXR_Skin_02_Roughness": "/genoryx-art04/textures/GXR_Skin_02_Roughness.png",
+    "GXR_Skin_03_Normal": "/genoryx-art04/textures/GXR_Skin_03_Normal.png",
+    "GXR_Skin_03_Roughness": "/genoryx-art04/textures/GXR_Skin_03_Roughness.png"
+  },
+  "serverGeneMapping": {
+    "head": {
+      "HEAD_01_SMOOTH": "GXR_HEAD_03_SERPENT",
+      "HEAD_02_PREDATOR": "GXR_HEAD_02_BEAST",
+      "HEAD_03_DRACONIC": "GXR_HEAD_01_DRACONIC",
+      "HEAD_04_ARCANE": "GXR_HEAD_04_ABYSSAL"
+    },
+    "eyes": {
+      "EYES_01_PREDATOR": "GXR_EYES_01_PREDATOR",
+      "EYES_02_AZURE": "GXR_EYES_02_ARCANE",
+      "EYES_03_AMBER": "GXR_EYES_05_GENESIS",
+      "EYES_04_NATURE": "GXR_EYES_04_CRYSTAL",
+      "EYES_05_VOID": "GXR_EYES_03_VOID"
+    },
+    "horns": {
+      "HORNS_01_BONE": "GXR_HORNS_03_RAM",
+      "HORNS_02_DARK": "GXR_HORNS_02_PREDATOR",
+      "HORNS_03_CRYSTAL": "GXR_HORNS_05_CRYSTAL",
+      "HORNS_04_INFERNAL": "GXR_HORNS_01_DRACONIC",
+      "HORNS_05_VOID_CRYSTAL": "GXR_HORNS_04_CROWN",
+      "HORNS_NONE": null
+    },
+    "back": {
+      "BACK_01_PLATES": "GXR_BACK_01_DORSAL",
+      "BACK_02_LOW_SPIKES": "GXR_BACK_02_SPINES",
+      "BACK_03_FIN": "GXR_BACK_03_WINGS",
+      "BACK_04_CRYSTAL_SPINES": "GXR_BACK_05_CRYSTAL",
+      "BACK_05_ARMORED_SPINES": "GXR_BACK_04_CARAPACE",
+      "BACK_NONE": null
+    },
+    "tail": {
+      "TAIL_01_SHORT": "GXR_TAIL_01_STANDARD",
+      "TAIL_02_CURVED": "GXR_TAIL_02_PREDATOR",
+      "TAIL_03_SPIKED": "GXR_TAIL_03_HEAVY",
+      "TAIL_04_SERPENT": "GXR_TAIL_04_SERPENT",
+      "TAIL_05_ELEMENTAL": "GXR_TAIL_05_GENESIS"
+    },
+    "limbs": {
+      "LIMBS_01_SOFT": {
+        "front": null,
+        "rear": null
+      },
+      "LIMBS_02_ARMORED": {
+        "front": "GXR_FRONT_02_ARMORED",
+        "rear": "GXR_REAR_02_ARMORED"
+      },
+      "LIMBS_03_DRACONIC": {
+        "front": "GXR_FRONT_01_PREDATOR",
+        "rear": "GXR_REAR_01_PREDATOR"
+      },
+      "LIMBS_04_AGILE": {
+        "front": "GXR_FRONT_01_PREDATOR",
+        "rear": "GXR_REAR_03_WEBBED"
+      },
+      "LIMBS_05_HEAVY": {
+        "front": "GXR_FRONT_02_ARMORED",
+        "rear": "GXR_REAR_01_PREDATOR"
+      }
+    },
+    "core": {
+      "CORE_01_EMBER": "GXR_CORE_01",
+      "CORE_02_FROST": "GXR_CORE_01",
+      "CORE_03_NATURE": "GXR_CORE_01",
+      "CORE_04_ARCANE": "GXR_CORE_01",
+      "CORE_05_VOID": "GXR_CORE_01"
+    }
+  },
+  "mappingNotes": [
+    "Adapter consumes expressed allele d||r1; preserves existing server IDs and breeding code.",
+    "Five server limb IDs map to five distinct pairs of four available paw styles.",
+    "Skin/pattern/movement genes in ZIP Unity demo are NOT the game server schema; never run ZIP breeding/random generation in browser.",
+    "Core, eye, pattern and skin colors must consume server color IDs; embedded preview hues are placeholders only.",
+    "No Death/Victory/Cast/Defend clips in ZIP; presentation controller must provide bounded procedural states with explicit labeling."
+  ],
+  "attachments": {
+    "head": "Socket_Head",
+    "eyes": "Socket_Head",
+    "hornLeft": "Socket_Horn_L",
+    "hornRight": "Socket_Horn_R",
+    "back": "Socket_Back",
+    "tail": "Socket_Tail",
+    "core": "Socket_Core_L",
+    "paws": "World origin; rebind skins to base bones by name, preserve inverses/bind matrices, hide matching Mesh_Front_L/R or Mesh_Rear_L/R."
+  },
+  "optimizedBytes": 13370437,
+  "bindingValidation": [
+    {
+      "bone": "Head",
+      "maxRestTRSError": 0
+    },
+    {
+      "bone": "Tail",
+      "maxRestTRSError": 0
+    },
+    {
+      "bone": "Front_L_Foot",
+      "maxRestTRSError": 0.0
+    },
+    {
+      "bone": "Front_L",
+      "maxRestTRSError": 0.0
+    },
+    {
+      "bone": "Front_R_Foot",
+      "maxRestTRSError": 0.0
+    },
+    {
+      "bone": "Front_R",
+      "maxRestTRSError": 0.0
+    },
+    {
+      "bone": "Rear_L_Foot",
+      "maxRestTRSError": 0.0
+    },
+    {
+      "bone": "Rear_L",
+      "maxRestTRSError": 0.0
+    },
+    {
+      "bone": "Rear_R_Foot",
+      "maxRestTRSError": 0.0
+    },
+    {
+      "bone": "Rear_R",
+      "maxRestTRSError": 0.0
+    },
+    {
+      "bone": "Body",
+      "maxRestTRSError": 0
+    },
+    {
+      "bone": "Root",
+      "maxRestTRSError": 0
+    }
+  ]
+}

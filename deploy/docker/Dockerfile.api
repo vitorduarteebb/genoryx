@@ -1,0 +1,47 @@
+FROM node:22-alpine AS builder
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+COPY apps/api/package.json apps/api/
+COPY packages/types/package.json packages/types/
+COPY packages/config/package.json packages/config/
+COPY packages/database/package.json packages/database/
+COPY packages/game-engine/package.json packages/game-engine/
+RUN npm ci
+
+COPY tsconfig.base.json ./
+COPY apps/api apps/api
+COPY packages/types packages/types
+COPY packages/config packages/config
+COPY packages/database packages/database
+COPY packages/game-engine packages/game-engine
+RUN npm run build -w @nexora/types -w @nexora/config -w @nexora/database -w @nexora/game-engine -w @nexora/api
+RUN npm prune --omit=dev
+
+FROM node:22-alpine AS runner
+WORKDIR /app
+ENV NODE_ENV=production
+RUN addgroup -S nexora && adduser -S nexora -G nexora
+
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json /app/package-lock.json ./
+COPY --from=builder /app/apps/api/package.json ./apps/api/
+COPY --from=builder /app/apps/api/dist ./apps/api/dist
+COPY --from=builder /app/packages/types/package.json ./packages/types/
+COPY --from=builder /app/packages/types/dist ./packages/types/dist
+COPY --from=builder /app/packages/config/package.json ./packages/config/
+COPY --from=builder /app/packages/config/dist ./packages/config/dist
+COPY --from=builder /app/packages/database/package.json ./packages/database/
+COPY --from=builder /app/packages/database/dist ./packages/database/dist
+COPY --from=builder /app/packages/database/prisma ./packages/database/prisma
+COPY --from=builder /app/packages/database/generated ./packages/database/generated
+COPY --from=builder /app/packages/game-engine/package.json ./packages/game-engine/
+COPY --from=builder /app/packages/game-engine/dist ./packages/game-engine/dist
+
+RUN mkdir -p /app/var/creature-visuals /app/var/creature-models /app/var/card-art && chown nexora:nexora /app/var/creature-visuals /app/var/creature-models /app/var/card-art
+ENV CREATURE_IMAGE_STORAGE_DIR=/app/var/creature-visuals
+ENV CREATURE_MODEL_STORAGE_DIR=/app/var/creature-models
+ENV CARD_ART_STORAGE_DIR=/app/var/card-art
+USER nexora
+EXPOSE 3001
+CMD ["node", "apps/api/dist/main.js"]
