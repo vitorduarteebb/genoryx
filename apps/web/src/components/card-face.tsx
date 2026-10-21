@@ -16,6 +16,7 @@ export function CardFace({
   disabled,
   state,
   onPlay,
+  openDetail,
   presentation,
 }: {
   cardKey: string;
@@ -29,16 +30,27 @@ export function CardFace({
   disabled?: boolean;
   state?: GeneticCardState;
   onPlay?: () => void;
+  openDetail?: boolean;
   presentation?: Partial<CardPresentation> & {
     effects?: Array<{
       op: string;
       value?: number;
+      status?: string;
+      duration?: number;
       resource?: string;
-      condition?: { resourceAtLeast?: number; targetHas?: string; selfPosition?: string };
+      condition?: { resourceAtLeast?: number; targetHas?: string; selfPosition?: string; targetHpBelow?: number };
     }>;
     resourceCurrent?: number;
     resourceName?: string;
     sourceCreature?: string;
+    domain?: string | null;
+    speed?: string | null;
+    domainLabel?: string | null;
+    speedLabel?: string | null;
+    estimatedDamage?: number | null;
+    estimatedShield?: number | null;
+    estimatedHeal?: number | null;
+    genomeDetails?: string | null;
   };
 }) {
   return (
@@ -55,6 +67,7 @@ export function CardFace({
       state={state}
       disabled={disabled}
       onPlay={onPlay}
+      openDetail={openDetail}
       presentation={presentation}
     />
   );

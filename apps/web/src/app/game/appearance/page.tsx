@@ -1,61 +1,68 @@
 "use client";
 
-import { defaultCharacterAppearance, parseCharacterAppearance } from "@nexora/config";
+import { parseCharacterAppearance } from "@nexora/config";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { TamerEditor } from "../../../components/tamer-editor";
 import { api } from "../../../lib/api";
-import { useAuthStore } from "../../../lib/auth-store";
+import { useCharacterStore, type CharacterMe } from "../../../lib/character-store";
 import { useGameSession } from "../../../lib/use-game-session";
 
 export default function CharacterAppearancePage() {
   const router = useRouter();
-  const { accessToken } = useAuthStore();
-  const { character } = useGameSession();
+  const { accessToken, character } = useGameSession();
+  const [draft, setDraft] = useState(() => parseCharacterAppearance(null));
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const appearance = parseCharacterAppearance(character?.appearance ?? defaultCharacterAppearance);
 
-  async function confirm() {
-    if (!accessToken) {
-      return;
-    }
+  useEffect(() => {
+    if (character) setDraft(parseCharacterAppearance(character.appearance));
+  }, [character]);
+
+  async function save() {
+    if (!accessToken || !character) return;
     setPending(true);
     setError(null);
     try {
-      await api("/characters/me/appearance", {
+      const saved = await api<Omit<CharacterMe, "wallets">>("/characters/me/appearance", {
         method: "PATCH",
         accessToken,
-        body: { appearance },
+        body: { appearance: draft },
       });
-      router.push("/game/starter");
+      useCharacterStore.getState().setCharacter({
+        ...character,
+        ...saved,
+        wallets: character.wallets,
+      });
+      router.push(character.starterChosen ? "/game/adventure" : "/game/starter");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Não foi possível confirmar o Tamer.");
+      setError(err instanceof Error ? err.message : "Não foi possível salvar a aparência.");
     } finally {
       setPending(false);
     }
   }
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-xl flex-col justify-center px-6">
-      <p className="text-[11px] uppercase tracking-[0.28em] text-crystal">GENORYX · Genesis</p>
-      <h1 className="font-display mt-2 text-3xl text-gold">Tamer</h1>
-      <p className="mt-3 text-sm leading-6 text-muted">
-        A criação e a customização 3D acontecem no cliente Unity, cena{" "}
-        <span className="text-crystal">CharacterCreation</span>. O mesmo{" "}
-        <span className="text-crystal">CharacterAssembler</span> monta o avatar no Creator e em Haven. Esta
-        página só confirma os IDs salvos na conta — não é preview 3D e não usa imagem Meshy.
+    <main className="mx-auto min-h-screen max-w-5xl px-6 py-10">
+      <p className="text-xs tracking-[0.28em] text-crystal">GENORYX · SEU TREINADOR</p>
+      <h1 className="mb-2 font-display text-3xl text-gold">A sua jornada, o seu estilo</h1>
+      <p className="mb-6 max-w-2xl text-muted">
+        Escolha os detalhes do seu personagem. A aparência salva acompanha você no mundo e no retorno
+        da batalha.
       </p>
-      <p className="mt-4 text-xs text-muted">
-        {character?.name ?? "Tamer"} · {appearance.hairId} · {appearance.chestId} · {appearance.skinTone}
-      </p>
-      {error ? <p className="mt-3 text-sm text-ember">{error}</p> : null}
+      <TamerEditor value={draft} onChange={setDraft} />
+      {error ? (
+        <p role="alert" className="mt-4 text-ember">
+          {error}
+        </p>
+      ) : null}
       <button
         type="button"
-        disabled={pending}
-        onClick={() => void confirm()}
-        className="mt-6 rounded-full bg-gold px-6 py-2 text-sm font-semibold text-[#1a1408] disabled:opacity-60"
+        disabled={!character || pending}
+        onClick={() => void save()}
+        className="mt-6 rounded-xl bg-gold px-6 py-3 font-semibold text-black disabled:opacity-50"
       >
-        {pending ? "Salvando…" : "Confirmar e continuar"}
+        {pending ? "Salvando…" : "Salvar aparência e continuar"}
       </button>
     </main>
   );

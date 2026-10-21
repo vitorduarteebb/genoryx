@@ -34,13 +34,23 @@ function playTypology(state: BattleState, typology: string) {
   return reduceBattle(next, { type: "PLAY_CARD", cardInstanceId: card.instanceId });
 }
 
+function drainMagicWar(state: BattleState) {
+  let next = state;
+  let guard = 0;
+  while (next.status === "ACTIVE" && next.magicWar?.open && guard < 8) {
+    guard += 1;
+    next = reduceBattle(next, { type: "PASS_PRIORITY" });
+  }
+  return next;
+}
+
 function playTypologyThenPass(state: BattleState, typology: string) {
-  let next = playTypology(state, typology);
+  let next = drainMagicWar(playTypology(state, typology));
   if (next.activeSide === 0) {
-    next = reduceBattle(next, { type: "END_TURN" });
+    next = drainMagicWar(reduceBattle(next, { type: "END_TURN" }));
   }
   if (next.status === "ACTIVE" && next.activeSide === 1) {
-    next = reduceBattle(next, { type: "END_TURN" });
+    next = drainMagicWar(reduceBattle(next, { type: "END_TURN" }));
   }
   return next;
 }
@@ -356,6 +366,77 @@ describe("battle engine", () => {
     expect(state.sides[0].fusion?.byTypology?.HEAL).toBeUndefined();
     expect((state.sides[0].fusion?.byTypology?.TANK ?? 0) + (state.sides[0].fusion?.byTypology?.BURN ?? 0)).toBeGreaterThan(0);
     expect(state.fusion?.pool.find((row) => row.familyKey === "LIVING_FURNACE")).toBeTruthy();
+  });
+
+  it("Casual PvP liga fusão e desperta Cinzas Vitais", () => {
+    const pyron = generateCreatureBlueprint({ seed: 11, speciesKey: "pyron", origin: "STARTER" });
+    const florune = generateCreatureBlueprint({ seed: 33, speciesKey: "florune", origin: "STARTER" });
+    const foe = generateCreatureBlueprint({ seed: 22, speciesKey: "terranox", origin: "STARTER" });
+    let state = createBattleState({
+      id: "fusion-casual",
+      seed: 8,
+      type: "PVP",
+      matchMode: "CASUAL",
+      rulesVersion: "V2",
+      sideA: {
+        id: "a",
+        characterId: "char-a",
+        displayName: "A",
+        creatures: [
+          { blueprint: pyron, bases, creatureId: "c1", slot: "FRONT", typology: "BURN" },
+          { blueprint: florune, bases, creatureId: "c2", slot: "MIDDLE", typology: "HEAL" },
+        ],
+      },
+      sideB: {
+        id: "b",
+        characterId: "char-b",
+        displayName: "B",
+        creatures: [{ blueprint: foe, bases: { ...bases, baseHp: 800 }, slot: "FRONT" }],
+      },
+    });
+    expect(battleFusionEnabled(state)).toBe(true);
+    expect(battleFusionEnabled({ ...state, rulesVersion: "V1", type: "PVP" })).toBe(true);
+    state = playTypologyThenPass(state, "BURN");
+    state = playTypologyThenPass(state, "HEAL");
+    state = playTypologyThenPass(state, "BURN");
+    state = playTypologyThenPass(state, "HEAL");
+    expect(state.round).toBeGreaterThanOrEqual(5);
+    expect(state.fusion?.pool.find((row) => row.familyKey === "VITAL_ASHES")?.ready).toBe(true);
+  });
+
+  it("mantém o par se a tipologia já jogada cair antes do round 5", () => {
+    const pyron = generateCreatureBlueprint({ seed: 11, speciesKey: "pyron", origin: "STARTER" });
+    const florune = generateCreatureBlueprint({ seed: 33, speciesKey: "florune", origin: "STARTER" });
+    const wild = generateCreatureBlueprint({ seed: 22, speciesKey: "terranox", origin: "WILD" });
+    let state = createBattleState({
+      id: "fusion-ko-keep",
+      seed: 8,
+      type: "PVE",
+      rulesVersion: "V2",
+      sideA: {
+        id: "a",
+        characterId: "char-a",
+        displayName: "A",
+        creatures: [
+          { blueprint: pyron, bases, creatureId: "c1", slot: "FRONT", typology: "BURN" },
+          { blueprint: florune, bases, creatureId: "c2", slot: "MIDDLE", typology: "HEAL" },
+        ],
+      },
+      sideB: {
+        id: "b",
+        displayName: "Wild",
+        creatures: [{ blueprint: wild, bases: { ...bases, baseHp: 800 }, slot: "FRONT" }],
+      },
+    });
+    state = playTypologyThenPass(state, "BURN");
+    state = playTypologyThenPass(state, "HEAL");
+    const healer = state.sides[0].creatures.find((row) => row.typology === "HEAL");
+    expect(healer).toBeTruthy();
+    healer!.hp = 0;
+    state = playTypologyThenPass(state, "BURN");
+    state = playTypologyThenPass(state, "BURN");
+    expect(state.round).toBeGreaterThanOrEqual(5);
+    expect(state.fusion?.pool.find((row) => row.familyKey === "VITAL_ASHES")?.ready).toBe(true);
   });
 
   it("mesmo seed + mesmas ações = mesmo estado", () => {

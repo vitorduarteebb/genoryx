@@ -20,16 +20,16 @@ Código interno pode usar `TRIPLE_FUSION`. UI: **CONVERGENCE**.
 Não basta ter as typologies na party.
 
 1. Round ≥ 5 (fusion) ou ≥ 7 (convergence)
-2. Typologies **vivas**
+2. Typologies **vivas agora** ou **já jogadas nesta luta**
 3. Usage history das typologies (cartas realmente jogadas)
 4. Resonance / momentum
 5. Condição da família
 
-Round 5 só destrava avaliação. Sem usage, a família existe no cálculo mas `ready = false` (`reason: usage`).
+Round 5 só destrava o botão. A UI mostra o par selado desde o round 1. Sem usage, a família existe no cálculo mas `ready = false` (`reason: usage`).
 
 Recycle do deck **não** apaga o histórico.
 
-Criatura KO: some das **novas** oportunidades. Carta já despertada permanece.
+Criatura KO: some das oportunidades **nunca jogadas**. Se a tipologia já entrou no usage, o par permanece. Carta já despertada também permanece.
 
 Anti-loop: `maxTriggerDepth`, `oncePerRound`, cap de resonance por typology/round.
 

@@ -1,0 +1,274 @@
+/* GENORYX world HUD skin — import AFTER adventure.css. */
+
+.gx-adv {
+  background: #0c100e;
+}
+
+.gx-adv__compact {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: max(0.35rem, env(safe-area-inset-top)) max(0.7rem, env(safe-area-inset-right)) 0.35rem max(0.7rem, env(safe-area-inset-left));
+  pointer-events: none;
+  color: #f4efe4;
+  font-size: 0.72rem;
+  text-shadow: 0 1px 8px rgba(8, 10, 12, 0.9);
+}
+
+.gx-adv__compact p:first-child {
+  font-family: Cinzel, serif;
+  letter-spacing: 0.18em;
+  color: #3de0d0;
+}
+
+.gx-adv__compact-name {
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.gx-adv__compact button,
+.gx-adv__map,
+.gx-adv__mapdock,
+.gx-adv__region,
+.gx-adv__menu {
+  pointer-events: auto;
+}
+
+.gx-adv__compact button {
+  border: 0;
+  background: transparent;
+  color: #efe6c8;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-size: 0.62rem;
+}
+
+.gx-adv__region {
+  top: max(2.4rem, calc(env(safe-area-inset-top) + 1.8rem));
+  min-width: auto;
+  padding: 0.35rem 0.7rem 0.5rem;
+  border: 0;
+  background: transparent;
+  color: #f4efe4;
+  font-weight: 500;
+  text-shadow: 0 1px 8px rgba(8, 10, 12, 0.85);
+}
+
+.gx-adv__region::before {
+  content: attr(data-region);
+  display: block;
+  margin-bottom: 0.12rem;
+  color: #9ef0dc;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.gx-adv__region {
+  appearance: none;
+  border: 0;
+  color: #eef6f2;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.gx-adv__mapdock {
+  position: absolute;
+  top: max(2.4rem, calc(env(safe-area-inset-top) + 1.8rem));
+  right: max(0.7rem, env(safe-area-inset-right));
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.35rem;
+}
+
+.gx-adv__map {
+  position: relative;
+  top: auto;
+  right: auto;
+  width: 6.6rem;
+  height: 6.6rem;
+  padding: 0.28rem;
+  border: 1px solid rgba(201, 162, 74, 0.35);
+  border-radius: 0.85rem;
+  background: rgba(8, 10, 12, 0.55);
+  color: inherit;
+  cursor: pointer;
+}
+
+.gx-adv__map.is-open {
+  width: 9.4rem;
+  height: 9.4rem;
+}
+
+.gx-adv__map span {
+  color: #c9a24a;
+  font-size: 0.58rem;
+}
+
+.gx-adv__places {
+  display: flex;
+  flex-direction: column;
+  gap: 0.28rem;
+  width: 11.5rem;
+  padding: 0.4rem;
+  border-radius: 0.75rem;
+  background: rgba(8, 10, 12, 0.92);
+  border: 1px solid rgba(201, 162, 74, 0.35);
+}
+
+.gx-adv__places button {
+  border: 0;
+  border-radius: 0.45rem;
+  background: rgba(244, 239, 228, 0.06);
+  color: #efe6c8;
+  text-align: left;
+  padding: 0.42rem 0.55rem;
+  font-size: 0.72rem;
+  cursor: pointer;
+}
+
+.gx-adv__places button:hover {
+  background: rgba(61, 224, 208, 0.16);
+}
+
+.gx-adv__fps {
+  top: max(9.6rem, calc(env(safe-area-inset-top) + 8.8rem));
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.gx-adv__boot {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: grid;
+  place-items: center;
+  color: #9ef0dc;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  background: rgba(8, 12, 10, 0.35);
+  pointer-events: none;
+}
+
+.gx-adv__menu {
+  position: absolute;
+  top: max(2.6rem, calc(env(safe-area-inset-top) + 2rem));
+  right: max(0.7rem, env(safe-area-inset-right));
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.55rem 0.7rem;
+  border-radius: 0.8rem;
+  background: rgba(8, 10, 12, 0.88);
+  border: 1px solid rgba(201, 162, 74, 0.28);
+}
+
+.gx-adv__menu a {
+  color: #efe6c8;
+  font-size: 0.78rem;
+}
+
+.gx-adv__prompt,
+.gx-adv__toast {
+  width: min(20rem, calc(100% - 1.4rem));
+  border-radius: 0.8rem;
+  background: rgba(8, 10, 12, 0.62);
+  border: 1px solid rgba(61, 224, 208, 0.18);
+}
+
+.gx-adv__toast {
+  animation: gx-discover 0.55s ease-out;
+}
+
+@keyframes gx-discover {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -8px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.gx-adv__sheet {
+  border-radius: 1rem;
+  background: rgba(10, 12, 14, 0.88);
+  border: 1px solid rgba(201, 162, 74, 0.28);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+}
+
+.gx-adv__sheet h2 {
+  overflow-wrap: anywhere;
+}
+
+.gx-adv__dock {
+  gap: 0.55rem;
+  padding: 0.35rem;
+  border-radius: 1.4rem;
+  background: rgba(8, 10, 12, 0.48);
+  border: 1px solid rgba(244, 239, 228, 0.08);
+}
+
+.gx-adv__dock a {
+  min-height: 2.7rem;
+  min-width: 4.6rem;
+  border: 0;
+  border-radius: 1.1rem;
+  background: transparent;
+}
+
+.gx-adv__actions button {
+  border-radius: 0.8rem;
+}
+
+@media (max-width: 720px) {
+  .gx-adv__fps {
+    display: none;
+  }
+
+  .gx-adv__map {
+    width: 3.2rem;
+    height: 3.2rem;
+    overflow: hidden;
+  }
+
+  .gx-adv__map.is-open {
+    width: 9rem;
+    height: 9rem;
+  }
+
+  .gx-adv__map span {
+    display: none;
+  }
+
+  .gx-adv__dock a {
+    min-height: 3.1rem;
+    font-size: 0.62rem;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+  .gx-adv__map {
+    width: 5.4rem;
+    height: 5.4rem;
+  }
+
+  .gx-adv__compact-name {
+    max-width: 8rem;
+  }
+}

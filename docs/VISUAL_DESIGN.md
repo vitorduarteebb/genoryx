@@ -138,7 +138,8 @@ Alpha atual: portal Haven ↔ Verdantis no Phaser. Alvo: travessia contínua (Un
 
 Não é terreno vazio. Camadas de interesse a cada poucos minutos: mob, recurso, ruína, passagem, NPC, caverna, estrutura, baú, evento, jogador, criatura rara.
 
-Cada região deve ser reconhecível numa screenshot.
+Cada região deve ser reconhecível numa screenshot. No Alpha web (ADR 0042) isso vem de **plates pintados**, não de tiles gerados em código.
+
 
 O mapa **não é plano**: montanhas, pontes, penhascos, cavernas, túneis, templos, torres, minas. O jogador vê lugares que ainda não sabe acessar.
 

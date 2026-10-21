@@ -1,14 +1,13 @@
 "use client";
 
 import type { CardPresentation, ChassisView } from "@nexora/config";
-import { presentCard, resourceChipFromEffect, resourcePlayGate } from "@nexora/config";
+import { buildCardReadout, presentCard, resourceGateCopy, resourcePlayGate } from "@nexora/config";
 import { useState } from "react";
 import { cardArtSrc } from "../lib/card-art";
 import {
   cardTreatment,
   elementIconSrc,
   frameSrc,
-  typeIconSrc,
   type GeneticCardSize,
   type GeneticCardState,
 } from "../lib/card-chrome";
@@ -16,33 +15,30 @@ import { CreatureGxrFigure } from "./creature-gxr-figure";
 import "./genetic-card.css";
 import "./personal-resource.css";
 
-const TAG_PT: Record<string, string> = {
-  ATTACK: "Ataque",
-  DEFENSE: "Defesa",
-  FOUNDATION: "Fundação",
-  SPECIALIZATION: "Especialização",
-  SYNERGY: "Sinergia",
-  ADVANCED: "Avançada",
-  SIGNATURE: "Assinatura",
-  SUPREME: "Suprema",
-  HEAL: "Cura",
-  SHIELD: "Escudo",
-  CONTROL: "Controle",
-  MOBILITY: "Mobilidade",
-  DOT: "Dano contínuo",
-  AOE: "Área",
-  EXECUTE: "Execute",
-  COUNTER: "Réplica",
-  BUFF: "Apoio",
-  DEBUFF: "Pressão",
-  UTILITY: "Utilidade",
-  SUSTAIN: "Sustento",
-  SUPPORT: "Suporte",
+type PresentationExtra = Partial<CardPresentation> & {
+  sourceGenes?: string[];
+  luckVariant?: string | null;
+  effects?: Array<{
+    op: string;
+    value?: number;
+    status?: string;
+    duration?: number;
+    resource?: string;
+    condition?: { resourceAtLeast?: number; targetHas?: string; selfPosition?: string; targetHpBelow?: number };
+  }>;
+  resourceCurrent?: number;
+  resourceName?: string;
+  resourceReady?: boolean;
+  sourceCreature?: string;
+  domain?: string | null;
+  speed?: string | null;
+  domainLabel?: string | null;
+  speedLabel?: string | null;
+  estimatedDamage?: number | null;
+  estimatedShield?: number | null;
+  estimatedHeal?: number | null;
+  genomeDetails?: string | null;
 };
-
-function tagLabel(tag: string) {
-  return TAG_PT[tag] ?? tag.replaceAll("_", " ");
-}
 
 export function GeneticCard({
   cardKey,
@@ -60,6 +56,7 @@ export function GeneticCard({
   openDetail,
   onPlay,
   presentation,
+  nested = false,
 }: {
   cardKey: string;
   locus?: string | null;
@@ -75,20 +72,8 @@ export function GeneticCard({
   disabled?: boolean;
   openDetail?: boolean;
   onPlay?: () => void;
-  presentation?: Partial<CardPresentation> & {
-    sourceGenes?: string[];
-    luckVariant?: string | null;
-    effects?: Array<{
-      op: string;
-      value?: number;
-      resource?: string;
-      condition?: { resourceAtLeast?: number; targetHas?: string; selfPosition?: string };
-    }>;
-    resourceCurrent?: number;
-    resourceName?: string;
-    resourceReady?: boolean;
-    sourceCreature?: string;
-  };
+  presentation?: PresentationExtra;
+  nested?: boolean;
 }) {
   const card = {
     ...presentCard(cardKey),
@@ -99,18 +84,36 @@ export function GeneticCard({
   const shownLocus = locus ?? null;
   const treatment = cardTreatment({ type: card.type, locus: shownLocus });
   const resolvedState = disabled ? "DISABLED" : state;
-  const creatureArt = Boolean(chassis) || Boolean(element ?? card.element);
+  const frameElement = element ?? card.element;
+  const creatureArt = Boolean(chassis) || Boolean(frameElement);
   const src = missingArt || creatureArt ? null : cardArtSrc(cardKey, variant, artUrl, imageHash);
-  const figureSize = size === "battle" || size === "hand" ? 150 : 210;
+  const figureSize = size === "battle" || size === "hand" ? 132 : 200;
+  const effects = presentation?.effects ?? [];
+  const readout = buildCardReadout({
+    name: card.name,
+    cost: card.cost,
+    type: card.type,
+    element: frameElement,
+    locus: shownLocus,
+    tags: card.tags,
+    effects,
+    domain: presentation?.domain ?? presentation?.domainLabel,
+    speed: presentation?.speed ?? presentation?.speedLabel,
+    estimatedDamage: presentation?.estimatedDamage,
+    estimatedShield: presentation?.estimatedShield,
+    estimatedHeal: presentation?.estimatedHeal,
+  });
+  const gate = resourcePlayGate(effects, presentation?.resourceCurrent ?? 0);
+  const consume = effects.find((row) => row.op === "CONSUME_RESOURCE");
 
-  const inner = (
+  const face = (
     <>
       <div className="gx-card__art">
         {creatureArt ? (
           <div className="gx-card__creature">
             <CreatureGxrFigure
               chassis={chassis}
-              element={element ?? card.element}
+              element={frameElement}
               lifeStage={lifeStage}
               creatureId={creatureId}
               context="CARD"
@@ -127,64 +130,63 @@ export function GeneticCard({
       </div>
       <div className="gx-card__frame">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={frameSrc(card.element, treatment)} alt="" />
+        <img src={frameSrc(frameElement, treatment)} alt="" />
       </div>
       <div className="gx-card__chrome">
-        <span className="gx-card__cost" title={`Custo ${card.cost}`}>
+        <span className="gx-card__cost" title={`${card.cost} Energia`}>
+          <small>⚡</small>
           {card.cost}
         </span>
-        {shownLocus ? <span className="gx-card__locus">{shownLocus}</span> : <span />}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img className="gx-card__element" src={elementIconSrc(frameElement)} alt={card.elementLabel} title={card.elementLabel} />
       </div>
       {treatment === "ULTIMATE" ? <span className="gx-card__mark">SUPREMA</span> : null}
       {treatment === "SIGNATURE" ? <span className="gx-card__mark">ASSINATURA</span> : null}
+      {treatment === "REACTION" ? <span className="gx-card__mark gx-card__mark--reaction">REAÇÃO</span> : null}
       <div className="gx-card__body">
-        {presentation?.sourceCreature ? <p className="gx-card__owner">{presentation.sourceCreature}</p> : null}
         <p className="gx-card__name">{card.name}</p>
-        <p className="gx-card__meta">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={typeIconSrc(treatment)} alt="" />
-          {card.typeLabel}
-          <span className="gx-card__dot">·</span>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={elementIconSrc(card.element)} alt="" />
-          {card.elementLabel}
-        </p>
-        <p className="gx-card__text">{card.text}</p>
-        {(() => {
-          const effects = presentation?.effects ?? [];
-          const chips = effects.map((effect) => resourceChipFromEffect(effect)).filter((row): row is NonNullable<typeof row> => Boolean(row));
-          const gate = resourcePlayGate(effects, presentation?.resourceCurrent ?? 0);
-          const combo = effects.some(
-            (effect) =>
-              effect.op !== "CONSUME_RESOURCE" &&
-              effect.condition?.resourceAtLeast != null &&
-              (presentation?.resourceCurrent ?? 0) >= effect.condition.resourceAtLeast,
-          );
-          return (
-            <>
-              {chips.length > 0 ? (
-                <div className="gx-card__chips">
-                  {chips.map((chip) => (
-                    <span key={chip.text} className="gx-card__chip" data-kind={chip.kind} data-ready={combo && chip.kind !== "consume" ? "true" : undefined}>
-                      {chip.text}
-                    </span>
-                  ))}
-                  {combo ? <span className="gx-card__chip" data-ready="true">✦ disponível</span> : null}
-                </div>
-              ) : null}
-              {gate ? (
-                <p className="gx-card__lock" title={`Faltam ${gate.missing} ${gate.name}`}>
-                  Requer {gate.need} · atual {gate.have}
-                </p>
-              ) : null}
-            </>
-          );
-        })()}
-        {card.tags.length > 0 ? (
-          <div className="gx-card__tags">
-            {card.tags.slice(0, 3).map((tag) => (
-              <span key={tag} className="gx-card__tag">
-                {tagLabel(tag)}
+        {readout.triggerLine ? <p className="gx-card__trigger">{readout.triggerLine}</p> : null}
+        <ul className="gx-card__effects">
+          {readout.faceLines.map((line) => (
+            <li key={`${line.kind}-${line.label}`} className={`gx-card__line gx-card__line--${line.kind}`}>
+              <span aria-hidden>{line.icon}</span>
+              <strong>{line.label}</strong>
+            </li>
+          ))}
+          {readout.conditionLines.map((line) => (
+            <li key={`cond-${line.label}`} className="gx-card__line gx-card__line--condition">
+              <span aria-hidden>{line.icon}</span>
+              <strong>{line.label}</strong>
+            </li>
+          ))}
+        </ul>
+        {gate ? (
+          <p className="gx-card__lock">
+            {resourceGateCopy({
+              need: gate.need,
+              have: gate.have,
+              name: gate.name,
+              consumeAmount: consume?.value,
+            })}
+          </p>
+        ) : null}
+        <div className="gx-card__badges">
+          {readout.badges.map((badge) => (
+            <span key={badge.key} className="gx-card__badge" data-badge={badge.key}>
+              {badge.label}
+            </span>
+          ))}
+          {shownLocus ? (
+            <span className="gx-card__badge gx-card__badge--quiet" title="Origem genética">
+              {shownLocus}
+            </span>
+          ) : null}
+        </div>
+        {readout.keywords.length > 0 ? (
+          <div className="gx-card__keywords">
+            {readout.keywords.slice(0, 3).map((row) => (
+              <span key={row.key} className="gx-card__keyword" title={row.help}>
+                {row.label}
               </span>
             ))}
           </div>
@@ -194,30 +196,33 @@ export function GeneticCard({
   );
 
   const className = `gx-card gx-card--${size}`;
-  const data = {
-    "data-element": card.element,
+  const dataAttrs = {
+    "data-element": frameElement,
     "data-type": card.type,
     "data-treatment": treatment,
     "data-state": resolvedState,
   };
 
-  const node = onPlay ? (
-    <button type="button" disabled={disabled} onClick={onPlay} className={className} {...data}>
-      {inner}
-    </button>
-  ) : openDetail ? (
-    <button type="button" className={className} {...data} onClick={() => setDetail(true)}>
-      {inner}
-    </button>
-  ) : (
-    <article className={className} {...data}>
-      {inner}
-    </article>
-  );
-
   return (
     <>
-      {node}
+      <div className={`${className}${onPlay ? " gx-card--interactive" : ""}`} {...dataAttrs}>
+        {onPlay ? (
+          <button type="button" disabled={disabled} className="gx-card__play" onClick={onPlay} aria-label={`Jogar ${card.name}`}>
+            {face}
+          </button>
+        ) : openDetail && !nested ? (
+          <button type="button" className="gx-card__play" onClick={() => setDetail(true)} aria-label={`Detalhes de ${card.name}`}>
+            {face}
+          </button>
+        ) : (
+          face
+        )}
+        {!nested ? (
+          <button type="button" className="gx-card__more" onClick={() => setDetail(true)}>
+            Detalhes
+          </button>
+        ) : null}
+      </div>
       {detail ? (
         <div className="gx-card-detail" role="dialog" onClick={() => setDetail(false)}>
           <div className="gx-card-detail__panel" onClick={(event) => event.stopPropagation()}>
@@ -232,20 +237,67 @@ export function GeneticCard({
               lifeStage={lifeStage}
               creatureId={creatureId}
               size="detail"
-              presentation={presentation}
+              nested
+              presentation={{ ...presentation, effects }}
             />
             <div className="gx-card-detail__facts">
-              <p>
-                {shownLocus ?? "—"} · custo {card.cost} · {card.typeLabel} · {card.elementLabel}
-              </p>
-              <p>{card.text}</p>
-              {card.tags.length > 0 ? <p>{card.tags.map(tagLabel).join(" · ")}</p> : null}
-              {presentation?.sourceGenes && presentation.sourceGenes.length > 0 ? (
-                <p>
-                  Origem da manifestação: {presentation.sourceGenes.join(" · ")}
-                  {presentation.luckVariant ? ` · sorte ${presentation.luckVariant}` : ""}
-                </p>
+              <h3>{card.name}</h3>
+              <dl>
+                {readout.details.scaling ? (
+                  <>
+                    <dt>Scaling</dt>
+                    <dd title="Escala do atributo ofensivo">{readout.details.scaling}</dd>
+                  </>
+                ) : null}
+                {readout.details.defense ? (
+                  <>
+                    <dt>Defesa utilizada</dt>
+                    <dd>{readout.details.defense}</dd>
+                  </>
+                ) : null}
+                {readout.details.domain ? (
+                  <>
+                    <dt>Domínio</dt>
+                    <dd>{readout.details.domain}</dd>
+                  </>
+                ) : null}
+                {readout.details.speed ? (
+                  <>
+                    <dt>Velocidade</dt>
+                    <dd>{readout.details.speed}</dd>
+                  </>
+                ) : null}
+                {readout.details.locus ? (
+                  <>
+                    <dt>Origem genética</dt>
+                    <dd>{readout.details.locus}</dd>
+                  </>
+                ) : null}
+                {readout.details.resourceNote ? (
+                  <>
+                    <dt>Recurso</dt>
+                    <dd>{readout.details.resourceNote}</dd>
+                  </>
+                ) : null}
+                {presentation?.genomeDetails ? (
+                  <>
+                    <dt>Genome</dt>
+                    <dd>{presentation.genomeDetails}</dd>
+                  </>
+                ) : null}
+              </dl>
+              {readout.keywords.length > 0 ? (
+                <ul className="gx-card-detail__keys">
+                  {readout.keywords.map((row) => (
+                    <li key={row.key}>
+                      <strong>{row.label}</strong>
+                      <span>{row.help}</span>
+                    </li>
+                  ))}
+                </ul>
               ) : null}
+              {readout.details.fantasyNote ? <p className="gx-card-detail__note">{readout.details.fantasyNote}</p> : null}
+              {presentation?.sourceCreature ? <p className="gx-card-detail__owner">Criatura: {presentation.sourceCreature}</p> : null}
               <button type="button" className="text-gold" onClick={() => setDetail(false)}>
                 Fechar
               </button>

@@ -40,4 +40,12 @@ describe("generateCreatureBlueprint", () => {
     const b = generateCreatureBlueprint({ seed: 2, speciesKey: "nympha", origin: "WILD" });
     expect(a.geneticHash).not.toBe(b.geneticHash);
   });
+
+  it("nível do encontro não muda o DNA — a captura deve persistir o mesmo indivíduo", () => {
+    const fought = generateCreatureBlueprint({ seed: 4242, speciesKey: "florune", origin: "WILD", level: 6, name: "Florune" });
+    const captured = generateCreatureBlueprint({ seed: 4242, speciesKey: "florune", origin: "WILD", level: 1 });
+    expect(captured.geneticHash).toBe(fought.geneticHash);
+    expect(captured.chassis).toEqual(fought.chassis);
+    expect(captured.loci.map((row) => row.expressed.cardFamily)).toEqual(fought.loci.map((row) => row.expressed.cardFamily));
+  });
 });

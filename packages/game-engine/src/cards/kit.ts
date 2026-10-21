@@ -28,6 +28,7 @@ import type { CreatureBlueprint, LocusBlueprint } from "../genes/generate";
 import { createSeededRandom, type RandomService } from "../random/random-service";
 import { clampEffectsToBudget } from "../powers/budget";
 import { ELEMENT_STATUS, MUTATION_STATUS, kitNameParts } from "./kit-lexicon";
+import { refineSealedCard, refineSealedKit } from "./content-pass";
 
 export type CardKitDerived = {
   element: Element;
@@ -424,7 +425,31 @@ export function kitCardType(card: CardKitManifest): "ATTACK" | "SKILL" | "REACTI
   return "SKILL";
 }
 
-export function kitToDefinition(card: CardKitManifest) {
+export function kitToDefinition(
+  card: CardKitManifest,
+  context?: {
+    genes?: Partial<Record<string, string>>;
+    quirks?: readonly string[];
+    verbs?: readonly string[];
+  },
+) {
+  const refined = refineSealedCard({
+    key: card.cardFamily,
+    name: card.namePt,
+    locus: card.locus,
+    cost: card.cost,
+    element: card.element,
+    function: card.function,
+    tier: card.tier,
+    type: kitCardType(card),
+    targetType: card.targetType,
+    effects: card.effects,
+    resourceId: card.ability?.consumes?.[0] ?? null,
+    genes: context?.genes,
+    anatomy: card.modifierGenes,
+    quirks: context?.quirks,
+    verbs: context?.verbs,
+  });
   return {
     key: card.cardFamily,
     name: card.namePt,
@@ -432,12 +457,66 @@ export function kitToDefinition(card: CardKitManifest) {
     cost: card.cost,
     rank: card.cost,
     element: card.element as Element,
-    targetType: card.targetType,
+    targetType: (refined.targetType as CardTargetType | undefined) ?? card.targetType,
     locusRole: card.locusRole,
-    tags: [card.function, card.tier] as readonly string[],
+    tags: [...new Set([card.function, card.tier, ...refined.tags])] as readonly string[],
     visualTags: [...card.modifierGenes] as readonly string[],
     species: [] as string[],
-    effects: card.effects,
+    effects: refined.effects,
     ability: card.ability,
   };
+}
+
+/** Refina o kit inteiro (anti-duplicata, ciclos de status, anatomia/genes). Snapshot selado intacto. */
+export function kitCardsToDefinitions(
+  cards: readonly CardKitManifest[],
+  context?: {
+    genes?: Partial<Record<string, string>>;
+    quirks?: readonly string[];
+    verbs?: readonly string[];
+  },
+) {
+  const refined = refineSealedKit(
+    cards.map((card) => ({
+      key: card.cardFamily,
+      name: card.namePt,
+      locus: card.locus,
+      cost: card.cost,
+      element: card.element,
+      function: card.function,
+      tier: card.tier,
+      type: kitCardType(card),
+      targetType: card.targetType,
+      effects: card.effects,
+      resourceId: card.ability?.consumes?.[0] ?? null,
+      genes: context?.genes,
+      anatomy: card.modifierGenes,
+      quirks: context?.quirks,
+      verbs: context?.verbs,
+    })),
+  );
+  return cards.map((card, index) => {
+    const row = refined[index]!;
+    return {
+      key: card.cardFamily,
+      name: card.namePt,
+      type: kitCardType(card),
+      cost: card.cost,
+      rank: card.cost,
+      element: card.element as Element,
+      targetType: (row.targetType as CardTargetType | undefined) ?? card.targetType,
+      locusRole: card.locusRole,
+      tags: [...new Set([card.function, card.tier, ...row.tags])] as readonly string[],
+      visualTags: [...card.modifierGenes] as readonly string[],
+      species: [] as string[],
+      effects: row.effects,
+      ability: card.ability,
+      contentPass: {
+        domain: row.domain,
+        speed: row.speed,
+        roles: row.roles,
+        changes: row.changes,
+      },
+    };
+  });
 }

@@ -36,6 +36,11 @@ export type BattleCreatureView = {
   hp: number;
   maxHp: number;
   shield: number;
+  atk?: number;
+  def?: number;
+  mag?: number;
+  res?: number;
+  spd?: number;
   slot?: string;
   statuses?: Array<{ key: string; stacks: number }>;
   resources?: Record<string, number>;

@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
-import { activeEconomy, alphaConfig, economyConfig, nextLifeStage, presentCard, presentPlayableCard } from "@nexora/config";
-import { canEvolve, collectCardContributions, collectCardPool, generateCreatureBlueprint, partySynergyLinks, seedFromParts } from "@nexora/game-engine";
+import { activeEconomy, alphaConfig, economyConfig, genomeV2, nextLifeStage, presentCard, presentPlayableCard } from "@nexora/config";
+import { canEvolve, collectCardContributions, collectCardPool, evaluateEvolutionStatus, generateCreatureBlueprint, hydrateGenomeProfile, partySynergyLinks, seedFromParts } from "@nexora/game-engine";
 import {
   alignCreatureLoci,
   ensureCreatureCardKit,
@@ -225,13 +225,20 @@ export class CreaturesService {
 
   async evolutionQueue(userId: string) {
     const character = await this.requireCharacter(userId);
-    const rows = await this.prisma.client.creature.findMany({
-      where: { ownerCharacterId: character.id, evolutionStatus: "READY_TO_EVOLVE" },
+    const owned = await this.prisma.client.creature.findMany({
+      where: { ownerCharacterId: character.id, lifeStage: { not: "ADULT" } },
       include: creatureInclude,
       orderBy: { birthDate: "asc" },
     });
-    const items = rows.map((row) => {
-      const presented = presentCreature(row as CreatureRecord);
+    const ready: CreatureRecord[] = [];
+    for (const row of owned) {
+      const synced = await this.syncEvolutionStatus(row as CreatureRecord);
+      if (canEvolve(synced)) {
+        ready.push(synced);
+      }
+    }
+    const items = ready.map((row) => {
+      const presented = presentCreature(row);
       return {
         creatureId: presented.id,
         name: presented.name,
@@ -240,6 +247,11 @@ export class CreaturesService {
         nextLifeStage: presented.nextLifeStage,
         level: presented.level,
         maturation: presented.maturation,
+        chassis: presented.chassis,
+        bodyPlan: presented.bodyPlan,
+        elementPrimary: presented.elementPrimary,
+        temperament: presented.temperament,
+        visualSeed: presented.visualSeed,
       };
     });
     return { count: items.length, items };
@@ -288,7 +300,7 @@ export class CreaturesService {
   }
 
   async evolution(userId: string, creatureId: string) {
-    const row = await this.requireOwned(userId, creatureId);
+    const row = await this.syncEvolutionStatus(await this.requireOwned(userId, creatureId));
     return this.presentEvolution(row);
   }
 
@@ -327,15 +339,41 @@ export class CreaturesService {
       throw error;
     }
     const updated = await this.requireOwned(userId, creatureId);
-    await this.prisma.client.creature.update({
-      where: { id: updated.id },
-      data: { evolutionStatus: "NONE" },
+    const nextStatus = evaluateEvolutionStatus({
+      level: updated.level,
+      xp: updated.xp,
+      lifeStage: updated.lifeStage,
+      evolutionStatus: "NONE",
+      maturationXp: updated.maturationXp ?? 0,
     });
-    const ready = await this.requireOwned(userId, creatureId);
+    const ready = await this.prisma.client.creature.update({
+      where: { id: updated.id },
+      data: { evolutionStatus: nextStatus as "NONE" | "READY_TO_EVOLVE" | "EVOLVING" },
+      include: creatureInclude,
+    });
     return {
-      ...this.presentEvolution(ready, fromStage, fromVisual),
+      ...this.presentEvolution(ready as CreatureRecord, fromStage, fromVisual),
       evolved: true,
     };
+  }
+
+  private async syncEvolutionStatus(row: CreatureRecord): Promise<CreatureRecord> {
+    const nextStatus = evaluateEvolutionStatus({
+      level: row.level,
+      xp: row.xp,
+      lifeStage: row.lifeStage,
+      evolutionStatus: row.evolutionStatus,
+      maturationXp: row.maturationXp ?? 0,
+    });
+    if (nextStatus === row.evolutionStatus) {
+      return row;
+    }
+    const updated = await this.prisma.client.creature.update({
+      where: { id: row.id },
+      data: { evolutionStatus: nextStatus as "NONE" | "READY_TO_EVOLVE" | "EVOLVING" },
+      include: creatureInclude,
+    });
+    return updated as CreatureRecord;
   }
 
   private presentEvolution(
@@ -353,6 +391,8 @@ export class CreaturesService {
       creatureId: row.id,
       name: presented.name,
       speciesName: presented.speciesName,
+      chassis: presented.chassis,
+      bodyPlan: presented.bodyPlan,
       fromStage: origin,
       toStage: target,
       evolutionStatus: row.evolutionStatus,
@@ -442,6 +482,7 @@ export class CreaturesService {
         artUrl = null;
         imageHash = null;
       }
+      const genome = row.resolved ? hydrateGenomeProfile(row.resolved, row.locus) : null;
       cards.push({
         ...presented,
         catalogKey: row.definitionKey,
@@ -449,6 +490,11 @@ export class CreaturesService {
         artUrl,
         imageHash,
         sourceCreatureId: row.sourceCreatureId ?? null,
+        domain: genome?.domain ?? null,
+        speed: genome?.speed ?? null,
+        domainLabel: genome ? genomeV2.domainLabel[genome.domain] : null,
+        speedLabel: genome ? genomeV2.speedLabel[genome.speed] : null,
+        rulesText: genome?.rulesText ?? null,
       });
     }
     return {

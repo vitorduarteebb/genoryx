@@ -30,7 +30,7 @@ export function ParentDisplay({
       {creature ? (
         <div className="mt-3 space-y-3">
           <div className="flex justify-center">
-            <CreaturePortrait chassis={creature.chassis} element={String(creature.elementPrimary)}
+            <CreaturePortrait chassis={creature.chassis} bodyPlan={creature.bodyPlan} element={String(creature.elementPrimary)}
               modelUrl={creature.model?.status === "READY" ? creature.model.url : null}
               creatureId={creature.id} lifeStage={creature.lifeStage} visualSeed={creature.visualSeed}
               temperament={creature.temperament} visual={creature.visual} revealStatus={creature.revealStatus}

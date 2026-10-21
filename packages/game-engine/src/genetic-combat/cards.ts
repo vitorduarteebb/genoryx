@@ -184,6 +184,12 @@ export function generateIdentityCards(input: {
       namePt = `${rng.pick(nouns)} ${locus.key}`;
     }
     names.add(namePt);
+    const timingClass =
+      fn === "COUNTER" ? "COUNTER" : fn === "MOBILITY" ? "IMPETUS" : locus.key === "G10" ? "RITUAL" : locus.key === "G8" && fn === "SUPPORT" ? "CHANNEL" : locus.key === "G4" ? "PREPARATION" : "ACTION";
+    if (timingClass === "IMPETUS" && clauses.some((row) => row.op === "DAMAGE" && row.value)) {
+      const dmg = clauses.find((row) => row.op === "DAMAGE");
+      if (dmg?.value) dmg.value = Math.max(6, Math.round(dmg.value * 0.82));
+    }
     return {
       locus: locus.key,
       tier: slot.tier as CardKitTier,
@@ -197,6 +203,7 @@ export function generateIdentityCards(input: {
       text: describeEffects(clauses),
       sourceGenes: ability.sourceGenes,
       luckVariant: luck,
+      timingClass: timingClass as GeneticCardManifest["timingClass"],
     };
   });
 }

@@ -1,7 +1,7 @@
-import { combatConfig, combatMatrixConfig, energyForRound, fusionFamilies, geneticPowerConfig, getCardDefinition } from "@nexora/config";
-import { evaluateFusionAvailability } from "../powers/fusion";
+import { combatConfig, combatMatrixConfig, energyForRound, fusionFamilies, genomeV2, getCardDefinition } from "@nexora/config";
 import { resonanceForPlay, resonanceForPlayCapped } from "../powers/resonance";
 import { calculateElementMultiplier } from "../elements/element-multiplier";
+import { hydrateGenomeProfile, initiativeOf, resolveStrike, scaledStatus, statusScale } from "./genome";
 import { createSeededRandom, type RandomService } from "../random/random-service";
 import { livingCreatures } from "./create";
 import { fusionOf } from "./fusion-state";
@@ -47,6 +47,18 @@ import {
   supremeReady,
 } from "./v15";
 import { applyPositionEffect } from "./v15/formation";
+import {
+  announceForStack,
+  convertReserveOnConfirm,
+  eligibleResponses,
+  ensureV23,
+  hydrateResolutionProfile,
+  isMagicWarOpen,
+  openFusionWindow,
+  passPriority,
+  stackRespond,
+  tickV23Turn,
+} from "./v23";
 import type { BattleAction, BattleFusionState, BattleSide, BattleState, CardInstance, Combatant, PlayableCard } from "./types";
 
 function isV2(state: BattleState) {
@@ -60,12 +72,9 @@ function usesLinear(state: BattleState) {
   });
 }
 
-/** Lab V2, genetic flag, or PvE already presented as linear (wild com slots F/M/B). Casual PvP fica de fora. */
-export function battleFusionEnabled(state: BattleState) {
-  if (geneticPowerConfig.enabled || isV2(state)) {
-    return true;
-  }
-  return state.type === "PVE" && usesLinear(state);
+/** Fusion de combate em PvE, Casual e Ranked. Flags env só ligam extras; o pool não depende delas. */
+export function battleFusionEnabled(_state: BattleState) {
+  return true;
 }
 
 function playDefinition(instance: CardInstance): PlayableCard | ReturnType<typeof getCardDefinition> {
@@ -197,8 +206,22 @@ function applyDamage(target: Combatant, amount: number, attacker?: Combatant, al
   }
 }
 
-function applyStatus(target: Combatant, key: string, duration: number, reactions?: { applied: Set<string>; depth: { value: number } }) {
+function applyStatus(
+  target: Combatant,
+  key: string,
+  duration: number,
+  reactions?: { applied: Set<string>; depth: { value: number } },
+  potency?: number,
+  sourceName?: string,
+  evolved?: boolean,
+) {
   const result = applyStructuredStatus(target, key, duration);
+  const row = target.statuses.find((status) => status.key === key);
+  if (row) {
+    if (potency) row.potency = potency;
+    if (sourceName) row.sourceName = sourceName;
+    if (evolved) row.evolved = true;
+  }
   if (result.extra) {
     reactions?.applied.add(result.extra);
   }
@@ -215,14 +238,19 @@ function tickStatuses(side: BattleSide, state: BattleState) {
     }
     for (const status of creature.statuses) {
       if (status.key === "BURN") {
-        applyDamage(creature, combatConfig.burnDamagePerStack * status.stacks);
-        applyResourceEvent(state, { trigger: "RECEIVE_DAMAGE", target: creature, damage: combatConfig.burnDamagePerStack * status.stacks });
-        state.log.push({ type: "STATUS", targetId: creature.id, value: status.stacks, text: `${creature.name} queima.` });
+        const tick = (status.potency ?? combatConfig.burnDamagePerStack) * status.stacks;
+        applyDamage(creature, tick);
+        if (status.evolved && creature.shield > 0) {
+          creature.shield = Math.max(0, creature.shield - Math.round(tick * genomeV2.breakpoints.staEvolvedShieldTick));
+        }
+        applyResourceEvent(state, { trigger: "RECEIVE_DAMAGE", target: creature, damage: tick });
+        state.log.push({ type: "STATUS", targetId: creature.id, value: status.stacks, text: `${creature.name} queima (${tick}).` });
       }
       if (status.key === "POISON") {
-        applyDamage(creature, combatConfig.poisonDamagePerStack * status.stacks);
-        applyResourceEvent(state, { trigger: "RECEIVE_DAMAGE", target: creature, damage: combatConfig.poisonDamagePerStack * status.stacks });
-        state.log.push({ type: "STATUS", targetId: creature.id, text: `${creature.name} sofre veneno.` });
+        const tick = (status.potency ?? combatConfig.poisonDamagePerStack) * status.stacks;
+        applyDamage(creature, tick);
+        applyResourceEvent(state, { trigger: "RECEIVE_DAMAGE", target: creature, damage: tick });
+        state.log.push({ type: "STATUS", targetId: creature.id, text: `${creature.name} sofre veneno (${tick}).` });
       }
       status.remainingRounds -= 1;
     }
@@ -300,7 +328,7 @@ function collapseIfNeeded(state: BattleState, side: BattleSide) {
 function refreshSupreme(state: BattleState, side: BattleSide) {
   const cards = [...side.hand, ...side.deck, ...side.discard];
   for (const unit of side.creatures) {
-    const mine = cards.filter((card) => !card.sourceCreatureId || card.sourceCreatureId === unit.creatureId);
+    const mine = cards.filter((card) => card.sourceCreatureId === unit.creatureId);
     const ready = supremeReady(unit, mine);
     if (ready && !unit.supremeReady) {
       state.log.push({
@@ -314,7 +342,7 @@ function refreshSupreme(state: BattleState, side: BattleSide) {
 }
 
 export function reduceBattle(state: BattleState, action: BattleAction): BattleState {
-  const next = cloneState(state);
+  const next = ensureV23(cloneState(state));
   if (next.status !== "ACTIVE") {
     return next;
   }
@@ -322,6 +350,21 @@ export function reduceBattle(state: BattleState, action: BattleAction): BattleSt
   const rng = rngFrom(next);
   const side = next.sides[next.activeSide];
   const rules = resolveMatchRules(next);
+
+  if (isMagicWarOpen(next) && action.type !== "PASS_PRIORITY" && action.type !== "STACK_RESPOND" && action.type !== "TIMEOUT" && action.type !== "CONCEDE" && action.type !== "FLEE") {
+    if (action.type === "PLAY_CARD") {
+      return stackRespond(next, { type: "STACK_RESPOND", cardInstanceId: action.cardInstanceId, targetId: action.targetId });
+    }
+    next.log.push({ type: "REJECT", text: "RESOLUTION_LOCK · só intervenção ou passe durante a Guerra Mágica." });
+    return next;
+  }
+
+  if (action.type === "PASS_PRIORITY") {
+    return passPriority(next);
+  }
+  if (action.type === "STACK_RESPOND") {
+    return stackRespond(next, action);
+  }
   if (action.type !== "TIMEOUT") {
     appendReplay(next, action);
   }
@@ -483,8 +526,32 @@ export function reduceBattle(state: BattleState, action: BattleAction): BattleSt
   }
 
   if (action.type === "CONFIRM_TURN") {
+    convertReserveOnConfirm(next);
     const actor = next.sides[next.activeSide];
-    const queued = [...(actor.actionQueue ?? [])];
+    const ranked = [...(actor.actionQueue ?? [])].map((item) => {
+      const definition = playDefinition(item.card);
+      const unit = actor.creatures.find((row) => row.creatureId === item.card.sourceCreatureId);
+      const profile = hydrateGenomeProfile(definition ?? undefined, item.card.locus);
+      const init = initiativeOf({
+        actor: unit,
+        speed: profile.speed,
+        tags: profile.tags,
+        seed: next.seed,
+        instanceId: item.card.instanceId,
+        counterReady: unit?.counterReady,
+      });
+      if (unit?.counterReady) unit.counterReady = false;
+      for (const line of init.logs) next.log.push({ type: "TIMELINE", text: line });
+      return { item, initiative: init.initiative, speed: profile.speed, name: definition?.name ?? item.card.definitionKey, unitName: unit?.name ?? actor.displayName };
+    });
+    ranked.sort((a, b) => b.initiative - a.initiative);
+    if (ranked.length > 1) {
+      next.log.push({
+        type: "TIMELINE",
+        text: ranked.map((row) => `${row.unitName} · ${row.name} (${row.speed})`).join(" → "),
+      });
+    }
+    const queued = ranked.map((row) => row.item);
     actor.actionQueue = [];
     for (const item of queued) {
       const live = next.sides[next.activeSide];
@@ -514,6 +581,18 @@ export function reduceBattle(state: BattleState, action: BattleAction): BattleSt
       live.reservedEnergy = Math.max(0, (live.reservedEnergy ?? 0) - item.reservedEnergy);
       const played = reduceBattle(next, { type: "PLAY_CARD", cardInstanceId: item.card.instanceId, targetId });
       Object.assign(next, played);
+      if (isMagicWarOpen(next)) {
+        next.magicWar = {
+          ...next.magicWar!,
+          remainingQueue: queued.slice(queued.indexOf(item) + 1).map((row) => ({
+            cardInstanceId: row.card.instanceId,
+            targetId: row.targetId,
+          })),
+        };
+        next.sides[next.activeSide].reservedEnergy = 0;
+        next.sides[next.activeSide].actionQueue = [];
+        return next;
+      }
     }
     next.sides[next.activeSide].reservedEnergy = 0;
     next.sides[next.activeSide].actionQueue = [];
@@ -556,6 +635,7 @@ export function reduceBattle(state: BattleState, action: BattleAction): BattleSt
       }
     }
     incoming.energy = energyForRound(next.round);
+    tickV23Turn(next, incoming);
     drawCards(incoming, combatConfig.drawPerRound, rng, next);
     next.rngIndex += 8;
     next.log.push({ type: "END_TURN", actorSide: next.activeSide === 0 ? 1 : 0, text: "Turno encerrado." });
@@ -672,6 +752,33 @@ export function reduceBattle(state: BattleState, action: BattleAction): BattleSt
   const targets = preTargets;
   const reactions = { applied: new Set<string>(), depth: { value: 0 } };
   let struck = false;
+  const genome = hydrateGenomeProfile(definition, instance.locus);
+  const hostile = definition.targetType === "ENEMY" || definition.targetType === "ALL_ENEMIES";
+  const strikes = new Map<string, ReturnType<typeof resolveStrike>>();
+  if (hostile) {
+    for (const target of targets) {
+      const elementMul = actor ? calculateElementMultiplier(definition.element, target.element) : 1;
+      const strike = resolveStrike({
+        actor,
+        target,
+        profile: genome,
+        flat: clauses.find((row) => row.op === "DAMAGE")?.value ?? genome.flat,
+        elementMul,
+        hostile: true,
+        rng,
+      });
+      strikes.set(target.id, strike);
+      for (const line of strike.logs) {
+        next.log.push({
+          type: strike.missed ? "DODGE" : "HIT",
+          targetId: target.id,
+          sourceCreatureId: actor?.creatureId,
+          text: line,
+          damageBreakdown: strike.breakdown,
+        });
+      }
+    }
+  }
   if (actor) {
     applyResourceEvent(next, { trigger: "PLAY_CARD", actor, cardGrade: instance.locus });
   }
@@ -749,13 +856,16 @@ export function reduceBattle(state: BattleState, action: BattleAction): BattleSt
     }
     for (const target of targets) {
       if (effect.op === "HEAL") {
-        const healed = scaleSustain(next, effect.value ?? 0, "HEAL");
+        const magBonus = genome.domain === "MAGIC" && actor ? Math.round(actor.mag * genome.healScale) : 0;
+        const healed = Math.min(genomeV2.limits.maxShieldFromCard, scaleSustain(next, (effect.value ?? 0) + magBonus, "HEAL"));
         target.hp = Math.min(target.maxHp, target.hp + healed);
         next.log.push({ type: "HEAL", targetId: target.id, value: healed, text: `${target.name} recupera ${healed}.` });
         applyResourceEvent(next, { trigger: "HEAL", actor, target });
       }
       if (effect.op === "SHIELD") {
-        const shielded = scaleSustain(next, effect.value ?? 0, "SHIELD");
+        const magBonus = genome.domain === "MAGIC" && actor ? Math.round(actor.mag * genome.shieldScale) : 0;
+        const front = actor?.slot === "FRONT" && genome.conditions.includes("IF_SELF_FRONT") ? 1 + genomeV2.damage.frontShieldBonus : 1;
+        const shielded = Math.min(genomeV2.limits.maxShieldFromCard, Math.round(scaleSustain(next, (effect.value ?? 0) + magBonus, "SHIELD") * front));
         target.shield += shielded;
         next.log.push({ type: "SHIELD", targetId: target.id, value: shielded, text: `${target.name} ganha ${shielded} de escudo.` });
         applyResourceEvent(next, { trigger: "GAIN_SHIELD", actor, target, shieldAmount: shielded });
@@ -767,7 +877,13 @@ export function reduceBattle(state: BattleState, action: BattleAction): BattleSt
         target.statuses = [];
       }
       if (effect.op === "APPLY_STATUS" && effect.status) {
-        applyStatus(target, effect.status, effect.duration ?? 2, reactions);
+        const strike = strikes.get(target.id);
+        if (strike?.missed && hostile) continue;
+        const scale = statusScale(actor, target);
+        const scaled = scaledStatus(effect.value ?? 1, effect.duration ?? 2, scale);
+        const evolved = Boolean(actor && (actor.genes?.STATUS === "S" || actor.genes?.STATUS === "SS"));
+        if (evolved && effect.status === "POISON") scaled.potency += genomeV2.breakpoints.staEvolvedPoisonStack;
+        applyStatus(target, effect.status, scaled.duration, reactions, scaled.potency, actor?.name, evolved);
         if (effect.status === "BURN" && actor) {
           applyStatus(actor, "MOLTEN", 1);
         }
@@ -775,33 +891,34 @@ export function reduceBattle(state: BattleState, action: BattleAction): BattleSt
           type: "STATUS",
           targetId: target.id,
           sourceCreatureId: actor?.creatureId,
-          text: `${target.name} recebe ${effect.status}${actor ? ` por ${actor.name}` : ""}.`,
+          text: `${target.name} recebe ${effect.status} (${scaled.potency} por ${scaled.duration}, STA ${scale.sta} contra RES ${scale.res})${actor ? ` por ${actor.name}` : ""}.`,
         });
         applyResourceEvent(next, { trigger: "APPLY_STATUS", actor, target, status: effect.status });
       }
       if (effect.op === "DAMAGE") {
-        const stat = definition.element === "FIRE" || definition.element === "WATER" || definition.element === "NATURE" || definition.element === "ELECTRIC"
-          ? (actor?.mag ?? 10)
-          : (actor?.atk ?? 10);
-        const atkScaling = Math.floor(stat * 0.35);
-        const base = (effect.value ?? 8) + atkScaling;
-        const elementMul = actor ? calculateElementMultiplier(definition.element, target.element) : 1;
-        const defMitigation = Math.round(target.def / combatConfig.defenseDivisor);
-        const mitigated = Math.max(
-          combatConfig.minDamageOnHit,
-          Math.round(base * elementMul - defMitigation),
-        );
-        const crit = actor && rng.next() < actor.crit;
-        const finalDamage = crit ? Math.round(mitigated * combatConfig.critDamage) : mitigated;
-        const breakdown = {
-          base: effect.value ?? 8,
-          atkScaling,
-          element: Math.round(base * elementMul - base),
-          defMitigation: -defMitigation,
-          crit: crit ? finalDamage - mitigated : 0,
-          final: finalDamage,
-        };
+        let strike = strikes.get(target.id);
+        if (!strike) {
+          const elementMul = actor ? calculateElementMultiplier(definition.element, target.element) : 1;
+          strike = resolveStrike({
+            actor,
+            target,
+            profile: genome,
+            flat: effect.value ?? genome.flat,
+            elementMul,
+            hostile: target.id !== actor?.id,
+            rng,
+          });
+          strikes.set(target.id, strike);
+          for (const line of strike.logs) next.log.push({ type: strike.missed ? "DODGE" : "HIT", targetId: target.id, text: line, damageBreakdown: strike.breakdown });
+        }
+        if (strike.missed) continue;
+        const finalDamage = strike.damage;
+        const crit = strike.crit;
+        const breakdown = strike.breakdown;
         const hpBefore = target.maxHp <= 0 ? 0 : target.hp / target.maxHp;
+        let shieldIgnore = 0;
+        if (strike.guardBroken) shieldIgnore = Math.round(target.shield * genomeV2.breakpoints.atkSShieldIgnore);
+        if (shieldIgnore > 0) target.shield = Math.max(0, target.shield - shieldIgnore);
         applyDamage(target, finalDamage, actor, next.sides[next.activeSide === 0 ? 1 : 0].creatures, definition.tags);
         struck = true;
         applyResourceEvent(next, { trigger: "RECEIVE_DAMAGE", actor, target, damage: finalDamage });
@@ -936,6 +1053,38 @@ export function reduceBattle(state: BattleState, action: BattleAction): BattleSt
     }
   }
   refreshSupreme(next, side);
+  const profile = hydrateResolutionProfile(definition, instance.locus ?? definition.locusRole);
+  if (profile.timingClass === "PREPARATION") {
+    next.log.push({ type: "PREPARATION_ARMED", text: `${actor?.name ?? side.displayName} prepara ${definition.name}.` });
+  }
+  // Guerra Mágica: Ritual/Channel sempre tentam abrir; Ação interruptível abre PRE_IMPACT se houver resposta válida.
+  const mayOpenWar =
+    profile.opensStack ||
+    profile.timingClass === "RITUAL" ||
+    profile.timingClass === "CHANNEL" ||
+    (profile.interruptible && profile.timingClass === "ACTION");
+  if (mayOpenWar) {
+    announceForStack(next, instance, definition, action.targetId, (row) => playDefinition(row) ?? null);
+    // PvE: NÃO colapsar a pilha. O selvagem só auto-passa quando tiver prioridade (pickAiAction).
+  } else {
+    next.combatV23 = next.combatV23 ?? {
+      impetusUsage: 0,
+      reactionUsage: 0,
+      counterUsage: 0,
+      preparationActivation: 0,
+      channelInterruption: 0,
+      magicWarCount: 0,
+      magicWarDepth: 0,
+      actionsOpenedStack: 0,
+      actionsResolvedDirect: 0,
+      manaGained: 0,
+      manaSpent: 0,
+      manaStarvation: 0,
+      fusionInterrupt: 0,
+      stackCancel: 0,
+    };
+    next.combatV23.actionsResolvedDirect += 1;
+  }
   checkVictory(next);
   return next;
 }
@@ -962,27 +1111,15 @@ function refreshFusion(state: BattleState, sideIndex: 0 | 1 = state.activeSide) 
   const consumed = current.consumed ?? [];
   const already = current.pool.filter((row) => row.ready && !consumed.includes(row.familyKey)).map((row) => row.familyKey);
   const awakenedKeep = current.awakened && !consumed.includes(current.awakened) ? [current.awakened] : [];
-  const candidates = isV2(state)
-    ? evaluateMatrixFusion({
-        livingTypologies: living,
-        usage: state.usageHistory ?? [],
-        side: sideIndex,
-        round: state.round,
-        resonance: current.resonance,
-        momentum: side.momentum,
-        alreadyAwakened: [...already, ...awakenedKeep],
-      })
-    : evaluateFusionAvailability({
-        typologies: living,
-        round: state.round,
-        resonance: current.resonance,
-        momentum: side.momentum,
-      }).map((row) => ({
-        ...row,
-        kind: row.triple ? ("CONVERGENCE" as const) : ("FUSION" as const),
-        presentation: row.triple ? ("CONVERGENCE" as const) : ("FUSION" as const),
-        reason: row.reason,
-      }));
+  const candidates = evaluateMatrixFusion({
+    livingTypologies: living,
+    usage: state.usageHistory ?? [],
+    side: sideIndex,
+    round: state.round,
+    resonance: current.resonance,
+    momentum: side.momentum,
+    alreadyAwakened: [...already, ...awakenedKeep],
+  });
 
   const pool = candidates
     .filter((row) => !consumed.includes(row.familyKey))
@@ -1086,11 +1223,23 @@ function playSpecialCard(
   state.rngIndex += 4;
   void rng;
   refreshFusion(state, state.activeSide);
+  openFusionWindow(state, [...family.typologies, family.key]);
   checkVictory(state);
   return state;
 }
 
 export function pickAiAction(state: BattleState): BattleAction {
+  if (isMagicWarOpen(state)) {
+    const war = state.magicWar!;
+    const eligible = eligibleResponses(state, war.window ?? "DECLARE", war.frames.at(-1), (row) => playDefinition(row) ?? null).filter(
+      (row) => row.side === state.activeSide,
+    );
+    const pick = eligible[0];
+    if (pick && (state.sides[state.activeSide].mana ?? 0) >= 1) {
+      return { type: "STACK_RESPOND", cardInstanceId: pick.card.instanceId };
+    }
+    return { type: "PASS_PRIORITY" };
+  }
   const side = state.sides[state.activeSide];
   const playable = side.hand
     .map((card) => ({ card, def: playDefinition(card) }))

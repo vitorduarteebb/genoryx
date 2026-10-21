@@ -1,0 +1,196 @@
+.gx-adv {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  background: #101410;
+}
+
+.gx-adv__stage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  cursor: pointer;
+}
+
+.gx-adv__region,
+.gx-adv__map,
+.gx-adv__prompt,
+.gx-adv__toast,
+.gx-adv__sheet,
+.gx-adv__dock,
+.gx-adv__fps {
+  position: absolute;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.gx-adv__region {
+  top: max(0.7rem, env(safe-area-inset-top));
+  left: max(0.7rem, env(safe-area-inset-left));
+  min-width: 10.5rem;
+  padding: 0.55rem 0.8rem;
+  border-top: 2px solid #4ee0d0;
+  background: rgba(8, 10, 12, 0.78);
+  color: #eef6f2;
+  font-weight: 700;
+}
+
+.gx-adv__map {
+  top: max(0.7rem, env(safe-area-inset-top));
+  right: max(0.7rem, env(safe-area-inset-right));
+  width: 8.4rem;
+  height: 8.4rem;
+  padding: 0.4rem;
+  border-top: 2px solid #e4c36a;
+  background: rgba(8, 10, 12, 0.82);
+}
+
+.gx-adv__map span {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: #e4c36a;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.gx-adv__map canvas {
+  display: block;
+  width: 100%;
+  height: calc(100% - 1rem);
+}
+
+.gx-adv__fps {
+  top: max(9.4rem, calc(env(safe-area-inset-top) + 8.8rem));
+  right: max(0.7rem, env(safe-area-inset-right));
+  padding: 0.2rem 0.45rem;
+  color: #8c968c;
+  font-size: 0.68rem;
+}
+
+.gx-adv__prompt,
+.gx-adv__toast {
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(22rem, calc(100% - 1.4rem));
+  padding: 0.7rem 0.9rem;
+  background: rgba(8, 10, 12, 0.86);
+  color: #dce6dc;
+}
+
+.gx-adv__prompt {
+  bottom: calc(5.2rem + env(safe-area-inset-bottom));
+}
+
+.gx-adv__prompt strong {
+  display: block;
+  color: #e4c36a;
+}
+
+.gx-adv__toast {
+  top: max(4.6rem, calc(env(safe-area-inset-top) + 3.8rem));
+  color: #9ef0dc;
+}
+
+.gx-adv__sheet {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(24rem, calc(100% - 1.4rem));
+  padding: 1rem 1.05rem 1.1rem;
+  background: rgba(8, 10, 12, 0.94);
+  border-top: 2px solid #e4c36a;
+  pointer-events: auto;
+}
+
+.gx-adv__sheet[data-kind="wild"] {
+  border-top-color: #d4543a;
+}
+
+.gx-adv__sheet h2 {
+  margin: 0 0 0.35rem;
+  color: #e4c36a;
+  font-size: 1.15rem;
+}
+
+.gx-adv__sheet p,
+.gx-adv__meta {
+  margin: 0 0 0.7rem;
+  color: #d5ddd6;
+}
+
+.gx-adv__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.gx-adv__meta span {
+  padding: 0.2rem 0.45rem;
+  border: 1px solid rgba(228, 195, 106, 0.22);
+  color: #efe6c8;
+  font-size: 0.78rem;
+}
+
+.gx-adv__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.gx-adv__actions button,
+.gx-adv__dock a {
+  min-height: 3rem;
+  min-width: 5.8rem;
+  padding: 0.55rem 0.8rem;
+  border: 1px solid rgba(228, 195, 106, 0.28);
+  background: #16181a;
+  color: #efe6c8;
+  pointer-events: auto;
+}
+
+.gx-adv__dock {
+  left: 50%;
+  bottom: max(0.7rem, env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.45rem;
+  pointer-events: auto;
+}
+
+@media (max-width: 720px) {
+  .gx-adv__map {
+    width: 7.2rem;
+    height: 7.2rem;
+  }
+
+  .gx-adv__dock {
+    width: calc(100% - 1rem);
+    justify-content: space-between;
+  }
+
+  .gx-adv__dock a {
+    flex: 1;
+    min-width: 0;
+    text-align: center;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+  .gx-adv__dock {
+    right: max(0.6rem, env(safe-area-inset-right));
+    left: auto;
+    top: 50%;
+    bottom: auto;
+    transform: translateY(-50%);
+    flex-direction: column;
+    width: auto;
+  }
+
+  .gx-adv__prompt {
+    bottom: 1rem;
+    left: 1rem;
+    transform: none;
+  }
+}

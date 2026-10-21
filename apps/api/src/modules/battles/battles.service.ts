@@ -1,3 +1,4 @@
+import {getCaptureZone} from "@nexora/config";
 import { Injectable } from "@nestjs/common";
 import {
   activeEconomy,
@@ -5,12 +6,13 @@ import {
   battlePresentationConfig,
   breedingConfig,
   captureConfig,
-  combatMatrixConfig,
   combatV15Flags,
   matchRulesFor,
   economyConfig,
   genomeCatalystKey,
   resolveCanonicalCardArt,
+  resolveBattleCreatureVisual,
+  speciesBattleVisuals,
 } from "@nexora/config";
 import type { BattleState, DraftCreature } from "@nexora/game-engine";
 import {
@@ -35,6 +37,7 @@ import {
   rollPveGold,
   rollWildEncounter,
   seedFromParts,
+  wildVisualSeed,
 } from "@nexora/game-engine";
 import { persistCreature, presentCreature, toBlueprint, type CreatureRecord } from "../../common/creature-io";
 import { presentBattle } from "./present-battle";
@@ -62,7 +65,10 @@ export class BattlesService {
     private readonly maturation: MaturationService,
   ) {}
 
-  async startWild(userId: string, offerId?: string) {
+  async startWild(userId: string, offerId?: string,zoneId?:string) {
+    const zone=getCaptureZone(zoneId);
+    if(zoneId&&!zone)throw Errors.battleInvalid("Zona de captura inválida.");
+    if(zone&&offerId)throw Errors.battleInvalid("Escolha uma oferta ou uma zona de captura.");
     const character = await this.requireReady(userId);
     const pvp = await this.activePvp(character.id);
     if (pvp?.stateJson) {
@@ -71,14 +77,14 @@ export class BattlesService {
         throw Errors.battleInvalid("Termine o PvP da arena primeiro.");
       }
     }
-    if (character.mapKey !== "verdantis" && !offerId) {
+    if (character.mapKey !== "verdantis" && !offerId && !zone) {
       throw Errors.battleInvalid("Encontros selvagens só em Verdantis.");
     }
 
     const party = await this.loadParty(character.id);
     const encounter = offerId
       ? await this.consumeOffer(character.id, offerId)
-      : await this.rollAdHoc(character.id);
+      : await this.rollAdHoc(character.id,zoneId);
 
     const family = familyFromKey("family" in encounter ? String(encounter.family) : "COMMON");
     const spawnKey = "spawnKey" in encounter ? (encounter.spawnKey as string | null) : null;
@@ -87,6 +93,8 @@ export class BattlesService {
       speciesKey: encounter.speciesKey,
       origin: "WILD",
       level: encounter.level,
+      lifeStage: zone?.lifeStage,
+      name: speciesBattleVisuals[encounter.speciesKey]?.displayName ?? encounter.speciesKey,
     });
     const bases = await this.basesFor(encounter.speciesKey);
     const playerBases = await Promise.all(
@@ -100,7 +108,7 @@ export class BattlesService {
       type: "PVE",
       matchMode: "PVE",
       mapKey: "verdantis",
-      rulesVersion: combatMatrixConfig.fusionV2 || combatMatrixConfig.formationLinearV2 ? "V2" : "V1",
+      rulesVersion: "V2",
       wildSpeciesKey: encounter.speciesKey,
       sideA: {
         id: "player",
@@ -119,8 +127,10 @@ export class BattlesService {
         creatures: [{ blueprint: wildBlueprint, bases, creatureId: `wild:${battleId}` }],
       },
     });
+    state.wildBlueprint = wildBlueprint;
 
     const created = await this.prisma.client.$transaction(async (tx) => {
+      if(zone)await tx.character.update({where:{id:character.id},data:{mapKey:"verdantis"}});
       await tx.creature.updateMany({
         where: { id: { in: party.map((row) => row.id) } },
         data: { lock: "BATTLE" },
@@ -349,7 +359,8 @@ export class BattlesService {
     }
 
     const rng = createSeededRandom(state.seed + state.rngIndex + 17);
-    const roll = rollCapture({ hp: wild.hp, maxHp: wild.maxHp, orbKey }, rng);
+    const captureZone=getCaptureZone(battle.spawnKey?.startsWith("capture:")?battle.spawnKey.slice(8):undefined);
+    const roll = rollCapture({ hp: wild.hp, maxHp: wild.maxHp, orbKey, difficultyMultiplier:captureZone?.captureMultiplier }, rng);
     state = reduceBattle(state, { type: "CAPTURE", orbKey });
     state.rngIndex += 1;
     state.log.push({
@@ -368,13 +379,18 @@ export class BattlesService {
         if (!roll.success) {
           return null;
         }
-        const blueprint = generateCreatureBlueprint({
-          seed: state.seed,
-          speciesKey: state.wildSpeciesKey ?? wild.speciesKey,
-          origin: "WILD",
-          level: 1,
+        const blueprint =
+          state.wildBlueprint ??
+          generateCreatureBlueprint({
+            seed: state.seed,
+            speciesKey: state.wildSpeciesKey ?? wild.speciesKey,
+            origin: "WILD",
+            level: 1,
+            name: speciesBattleVisuals[state.wildSpeciesKey ?? wild.speciesKey]?.displayName ?? wild.speciesKey,
+          });
+        const creature = await persistCreature(tx, character.id, blueprint, {
+          visualSeed: wildVisualSeed(blueprint.geneticHash),
         });
-        const creature = await persistCreature(tx, character.id, blueprint);
         await this.completeCaptureQuest(tx, character.id, userId);
         return creature;
       });
@@ -600,7 +616,7 @@ export class BattlesService {
       type: "PVP",
       matchMode: "CASUAL",
       mapKey: "casual",
-      rulesVersion: "V1",
+      rulesVersion: "V2",
       sideA: {
         id: "a",
         characterId: a.id,
@@ -610,7 +626,7 @@ export class BattlesService {
             blueprint: toBlueprint(row as CreatureRecord),
             bases: await this.basesFor(row.species.key),
             creatureId: row.id,
-            slot: formationSlotFromIndex(row.partySlot, "V1"),
+            slot: formationSlotFromIndex(row.partySlot, "V2"),
           })),
         ),
       },
@@ -623,7 +639,7 @@ export class BattlesService {
             blueprint: toBlueprint(row as CreatureRecord),
             bases: await this.basesFor(row.species.key),
             creatureId: row.id,
-            slot: formationSlotFromIndex(row.partySlot, "V1"),
+            slot: formationSlotFromIndex(row.partySlot, "V2"),
           })),
         ),
       },
@@ -696,7 +712,9 @@ export class BattlesService {
     return offer;
   }
 
-  private async rollAdHoc(characterId: string) {
+  private async rollAdHoc(characterId: string,zoneId?:string) {
+    const zone=getCaptureZone(zoneId);
+    if(zone){const seed=seedFromParts([characterId,zone.id,Date.now()]),rng=createSeededRandom(seed);return {speciesKey:rng.pick([...zone.species]),level:rng.nextInt(zone.minLevel,zone.maxLevel),seed,family:"COMMON",spawnKey:`capture:${zone.id}`};}
     const verdantis = await this.prisma.client.gameMap.findUnique({
       where: { key: "verdantis" },
       include: { spawns: { include: { species: true } } },
@@ -972,7 +990,7 @@ export class BattlesService {
       type: "PVP",
       matchMode: "RANKED",
       mapKey: "ranked",
-      rulesVersion: "V1",
+      rulesVersion: "V2",
       sideA: await toFighter(teamA, aChar, "a"),
       sideB: await toFighter(teamB, bChar, "b"),
     });
@@ -1026,10 +1044,19 @@ export class BattlesService {
     const cache = new Map();
     const visuals = new Map();
     for (const unit of state.sides.flatMap((side) => side.creatures)) {
-      const resolved = await this.battleVisuals.resolveCombatant(
-        { creatureId: unit.creatureId, speciesKey: unit.speciesKey },
-        cache,
-      );
+      const wild = unit.creatureId?.startsWith("wild:") ? state.wildBlueprint : undefined;
+      const resolved = wild
+        ? resolveBattleCreatureVisual({
+            lifeStage: wild.lifeStage ?? "BABY",
+            bodyPlan: wild.bodyPlanExpressed,
+            mutation: wild.mutationKey,
+            chassis: wild.chassis,
+            visualSeed: wildVisualSeed(wild.geneticHash),
+          })
+        : await this.battleVisuals.resolveCombatant(
+            { creatureId: unit.creatureId, speciesKey: unit.speciesKey },
+            cache,
+          );
       if (unit.creatureId) {
         visuals.set(unit.creatureId, resolved);
       }

@@ -537,12 +537,27 @@
 .gx-history summary { cursor: pointer; color: #7ee0d6; font-size: 12px; }
 .gx-history ul { margin-top: 8px; color: #9a90a8; font-size: 12px; }
 
+.gx-fusion-bay {
+  display: grid;
+  gap: 0.4rem;
+  margin: 0 0 6px;
+}
+
+.gx-fusion-meter {
+  margin: 0;
+  text-align: center;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #7ee0d6;
+}
+
 .gx-fusion-pool {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   gap: 8px;
-  margin: 0 0 6px;
+  margin: 0;
 }
 .gx-fusion-card {
   display: flex;
@@ -699,19 +714,169 @@
 .gx-resonance-team, .gx-chain, .gx-pressure { letter-spacing: 0.12em; text-transform: uppercase; color: #e4c36a; }
 .gx-hints { margin: 0.4rem 0; padding-left: 1rem; }
 
+.gx-mana {
+  color: #7ec8ff !important;
+}
+
+.gx-overcommit {
+  color: #e4a36a;
+}
+
+.gx-magic-war {
+  margin: 0.4rem auto 0;
+  max-width: 28rem;
+  border: 1px solid rgba(126, 200, 255, 0.35);
+  border-radius: 12px;
+  padding: 0.65rem 0.8rem;
+  background: rgba(8, 12, 22, 0.82);
+  color: #d7e7ff;
+}
+
+.gx-magic-war__title,
+.gx-magic-war__resolve {
+  margin: 0 0 0.35rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #7ec8ff;
+}
+
+.gx-magic-war ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.gx-magic-war li {
+  display: grid;
+  grid-template-columns: 1.2rem 1fr;
+  gap: 0.35rem;
+  margin-bottom: 0.35rem;
+}
+
+.gx-magic-war small {
+  display: block;
+  grid-column: 2;
+  color: #9ab0c8;
+  font-size: 0.68rem;
+}
+
+.gx-magic-war__acts {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.4rem;
+}
+
 @media (max-width: 980px) {
-  .gx-stage { grid-template-rows: auto auto auto auto; }
-  .gx-arena__field { grid-template-columns: 1fr; min-height: auto; padding-top: 1rem; }
+  .gx-stage {
+    grid-template-rows: auto auto auto auto;
+    min-height: auto;
+    gap: 0.35rem;
+  }
+  .gx-stage__duel {
+    grid-template-columns: 1fr;
+    justify-items: stretch;
+    gap: 0.45rem;
+  }
+  .gx-plate,
+  .gx-plate--foe,
+  .gx-plate--you {
+    justify-self: stretch;
+    flex-direction: row;
+    text-align: left;
+  }
+  .gx-round { min-width: 0; width: 100%; }
+  .gx-arena {
+    min-height: 0;
+    border-radius: 14px;
+  }
+  .gx-arena__field {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    padding: 0.7rem 2% 1.1rem;
+    transform: none;
+  }
   .gx-arena__side[data-side="foe"],
   .gx-arena__side[data-side="you"] {
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-areas: "rear-a front rear-b";
-    min-height: 200px;
+    min-height: 168px;
+    justify-items: center;
   }
   .gx-arena__core { display: none; }
-  .gx-creature { max-width: min(150px, 28vw); }
+  .gx-creature { max-width: min(132px, 30vw); }
   .gx-creature__art,
-  .gx-creature[data-depth="FRONT"] .gx-creature__art { height: 150px; }
-  .gx-stage__dock { grid-template-columns: 1fr; }
+  .gx-creature[data-depth="FRONT"] .gx-creature__art { height: 128px; }
+  .gx-arena-over {
+    inset: 8px;
+    padding: 1rem 0.85rem;
+    border-radius: 14px;
+  }
+  .gx-stage__dock {
+    grid-template-columns: 1fr;
+    gap: 0.45rem;
+  }
+  .gx-energy-dial {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: center;
+    padding: 0.5rem 0.55rem;
+  }
+  .gx-arena__hand {
+    justify-content: flex-start;
+    overflow-x: auto;
+    min-height: 0;
+    padding: 0.4rem 0.2rem 0.8rem;
+    -webkit-overflow-scrolling: touch;
+  }
+  .gx-arena__hand .gx-card,
+  .gx-arena__hand .gx-card--hand,
+  .gx-arena__hand .gx-card--battle {
+    --gx-w: min(148px, 42vw);
+    flex: none;
+    margin: 0 -10px;
+  }
+  .gx-fusion-pool {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding: 0 0.2rem 0.25rem;
+    -webkit-overflow-scrolling: touch;
+  }
+  .gx-fusion-card {
+    min-width: min(11.5rem, 78vw);
+    flex: none;
+  }
+  .gx-resonance {
+    flex-wrap: wrap;
+    gap: 0.25rem 0.7rem;
+    font-size: 10px;
+  }
+  .gx-stage__actions { grid-template-columns: 1fr 1fr; }
+  .gx-endturn,
+  .gx-stage__actions button,
+  .gx-queue__item {
+    min-height: 2.75rem;
+  }
   .gx-lobby__modes { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 640px) {
+  .gx-mode { min-width: 0; flex: 1; padding: 0.4rem 0.5rem; }
+  .gx-stage__modes { gap: 0.3rem; }
+  .gx-creature { max-width: min(110px, 29vw); }
+  .gx-creature__art,
+  .gx-creature[data-depth="FRONT"] .gx-creature__art { height: 108px; }
+  .gx-arena__side[data-side="foe"],
+  .gx-arena__side[data-side="you"] { min-height: 140px; }
+  .gx-stage__actions { grid-template-columns: 1fr; }
+}
+
+@media (hover: none) {
+  .gx-arena__hand .gx-card:hover {
+    transform: none;
+  }
+  .gx-arena__hand .gx-card[data-state="SELECTED"] {
+    z-index: 6;
+    transform: translateY(-12px) scale(1.04);
+  }
 }

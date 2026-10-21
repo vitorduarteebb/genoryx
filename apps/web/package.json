@@ -8,7 +8,7 @@
     "start": "next start --port 3000",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "lint": "tsc -p tsconfig.json --noEmit",
-    "test": "tsx --test scripts/visual-v5.test.ts scripts/visual-mouth.test.ts",
+    "test": "tsx --test scripts/visual-v5.test.ts scripts/visual-mouth.test.ts scripts/adventure-return.test.ts scripts/iso-projection.test.ts scripts/world-assets.test.ts scripts/map-expansion.test.ts",
     "assets:eggs": "tsx scripts/export-eggs.ts public/genoryx-art04/eggs"
   },
   "dependencies": {

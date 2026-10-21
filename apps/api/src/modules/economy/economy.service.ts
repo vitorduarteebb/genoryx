@@ -55,7 +55,22 @@ export class EconomyService {
         referenceId,
       });
     });
-    return this.inventory(userId);
+    const inventory = await this.inventory(userId);
+    const ownedAfter = inventory.items.find((row) => row.key === itemKey)?.quantity ?? 0;
+    const goldAfter = inventory.wallets.find((row) => row.currency === "GOLD")?.balance ?? "0";
+    return {
+      ...inventory,
+      receipt: {
+        itemKey,
+        name: item.name,
+        quantity,
+        unitPriceGold: item.priceGold,
+        totalGold: amount.toString(),
+        goldAfter,
+        ownedAfter,
+        referenceId,
+      },
+    };
   }
 
   private async requireCharacter(userId: string) {

@@ -76,7 +76,7 @@ if grep -q '^NEXT_PUBLIC_BATTLE_RENDERER=' .env.production; then
 else
   printf 'NEXT_PUBLIC_BATTLE_RENDERER=web\n' >> .env.production
 fi
-# Competitive Lab (V2). Casual continua rulesVersion=V1 no create.
+# Matrix V2 no Alpha. PvE, Casual e Ranked nascem em rulesVersion V2.
 if grep -q '^COMBAT_DRAFT_V2=' .env.production; then
   sed -i 's/^COMBAT_DRAFT_V2=.*/COMBAT_DRAFT_V2=true/' .env.production
 else

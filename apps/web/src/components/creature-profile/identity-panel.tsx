@@ -1,6 +1,6 @@
 "use client";
 
-import { formatGeneticHash } from "@nexora/game-engine";
+import { detectCombatArchetype, formatGeneticHash } from "@nexora/game-engine";
 import Link from "next/link";
 import { elementIconSrc } from "../../lib/card-chrome";
 import {
@@ -152,6 +152,7 @@ export function IdentityPanel({
 }) {
   const profile = typologyProfile(typology);
   const readout = combatReadout(genes, typology);
+  const build = detectCombatArchetype(genes, typology, elementPrimary);
   return (
     <aside className="gx-sheet">
       <p className="gx-sheet__species">
@@ -188,9 +189,15 @@ export function IdentityPanel({
           <strong>{generation}</strong>
         </li>
         <li>
-          <span>Função</span>
-          <Tip help={profile.hint}>
+          <span>Identidade genética</span>
+          <Tip help="O que esta criatura nasceu para ser. Não é a build calculada pelos genes atuais.">
             <strong>{profile.role}</strong>
+          </Tip>
+        </li>
+        <li>
+          <span>Build atual</span>
+          <Tip help={build.limitation ?? "Calculada pelos genes reais, não pela identidade de nascimento."}>
+            <strong>{build.archetype}</strong>
           </Tip>
         </li>
         <li>
@@ -200,6 +207,10 @@ export function IdentityPanel({
           <strong>{temperamentLabel(temperament)}</strong>
         </li>
       </ul>
+      <p className="text-sm text-muted">
+        {build.line}. Potencial secundário: {build.secondary}.
+        {build.limitation ? ` ${build.limitation}` : ""}
+      </p>
 
       <dl className="gx-sheet__summary">
         <div>

@@ -1,0 +1,74 @@
+[
+  {
+    "gene": "HORNS_06_ANTLERS",
+    "key": "GXR_HORNS_06_ANTLERS_L",
+    "name": "Galhada ancestral",
+    "triangles": 1864
+  },
+  {
+    "gene": "HORNS_06_ANTLERS",
+    "key": "GXR_HORNS_06_ANTLERS_R",
+    "name": "Galhada ancestral",
+    "triangles": 1864
+  },
+  {
+    "gene": "HORNS_07_SABER",
+    "key": "GXR_HORNS_07_SABER_L",
+    "name": "Sabres recurvados",
+    "triangles": 1264
+  },
+  {
+    "gene": "HORNS_07_SABER",
+    "key": "GXR_HORNS_07_SABER_R",
+    "name": "Sabres recurvados",
+    "triangles": 1264
+  },
+  {
+    "gene": "HORNS_08_CORAL",
+    "key": "GXR_HORNS_08_CORAL_L",
+    "name": "Coroa coralina",
+    "triangles": 3560
+  },
+  {
+    "gene": "HORNS_08_CORAL",
+    "key": "GXR_HORNS_08_CORAL_R",
+    "name": "Coroa coralina",
+    "triangles": 3560
+  },
+  {
+    "gene": "BACK_06_SAIL",
+    "key": "GXR_BACK_06_SAIL",
+    "name": "Vela dorsal",
+    "triangles": 2990
+  },
+  {
+    "gene": "BACK_07_PETALS",
+    "key": "GXR_BACK_07_PETALS",
+    "name": "Pétalas laminadas",
+    "triangles": 960
+  },
+  {
+    "gene": "BACK_08_SHIELDS",
+    "key": "GXR_BACK_08_SHIELDS",
+    "name": "Escudos sobrepostos",
+    "triangles": 1710
+  },
+  {
+    "gene": "TAIL_06_CLUB",
+    "key": "GXR_TAIL_06_CLUB",
+    "name": "Cauda de clava",
+    "triangles": 3136
+  },
+  {
+    "gene": "TAIL_07_FAN",
+    "key": "GXR_TAIL_07_FAN",
+    "name": "Cauda de leque",
+    "triangles": 3434
+  },
+  {
+    "gene": "TAIL_08_FORKED",
+    "key": "GXR_TAIL_08_FORKED",
+    "name": "Cauda bifurcada",
+    "triangles": 1608
+  }
+]

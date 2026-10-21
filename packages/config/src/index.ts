@@ -1,5 +1,17 @@
 export { brandConfig } from "./brand";
 export { combatConfig, energyForRound } from "./combat";
+export {
+  GENOME_ENGINE,
+  genomeCardSpeeds,
+  genomeConditions,
+  genomeDomains,
+  genomeHooks,
+  genomeV2,
+  type GenomeCardSpeed,
+  type GenomeCondition,
+  type GenomeDomain,
+  type GenomeHook,
+} from "./combat-genome";
 export { combatEngineConfig, rangeToTargetRule } from "./combat-engine";
 export { combatMatrixConfig, defaultTargetRule, isCombatMatrixEnabled } from "./combat-matrix";
 export {
@@ -28,6 +40,26 @@ export {
   type TeamManifestRecipe,
   type VisibleRank,
 } from "./combat-v15";
+export {
+  COMBAT_V23_ENGINE,
+  TIMING_CLASSES,
+  TIMING_LABEL_PT,
+  combatV23Config,
+  convertEnergyToMana,
+  defaultResolutionProfile,
+  fusionCatalogV23,
+  fusionRecipesV23,
+  interventionSurchargeV23,
+  locusTimingHint,
+  type EffectDomain,
+  type InterventionOp,
+  type ResolutionMode,
+  type ResolutionProfile,
+  type ResponseWindow,
+  type StackSpeed,
+  type TimingClass,
+  type TimingStyle,
+} from "./combat-v23";
 
 export { breedingConfig } from "./breeding";
 export {
@@ -193,6 +225,16 @@ export {
   presentPlayableCard,
   type CardPresentation,
 } from "./card-text";
+export {
+  buildCardReadout,
+  CARD_KEYWORD_HELP,
+  inferDomainFromFantasy,
+  resourceGateCopy,
+  type CardEffectLike,
+  type CardFaceLine,
+  type CardKeywordKey,
+  type CardReadout,
+} from "./card-readout";
 export { resolveCardFrameSrc, resolveElementPresentation, type ElementPresentation } from "./element-presentation";
 export {
   creatureLocusArtDirection,
@@ -317,3 +359,33 @@ export {
   ELEMENT_MULTIPLIER_STRONG,
   ELEMENT_MULTIPLIER_WEAK,
 } from "./elements";
+export {
+  havenPalette,
+  verdantisPalette,
+  worldAssetStatus,
+  worldDisplayScale,
+  worldGroundAnchor,
+  worldLighting,
+  worldQualityPresets,
+  worldVfxProfiles,
+  type WorldArtHex,
+  type WorldAssetStatus,
+  type WorldQualityPresetId,
+} from "./world-art";
+export {
+  WORLD_ART_PUBLIC_ROOT,
+  WORLD_LAYERS,
+  npcArchetypeFromRole,
+  npcAssetId,
+  worldAssetById,
+  worldAssetCatalog,
+  worldAssetForProp,
+  worldAssetsForArea,
+  worldPlate,
+  type NpcArchetype,
+  type WorldAssetArea,
+  type WorldAssetDef,
+  type WorldAssetKind,
+  type WorldLayer,
+} from "./world-assets";
+export { captureZones, getCaptureZone, type CaptureZone, type CaptureZoneId } from "./capture-zones";

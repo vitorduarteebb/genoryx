@@ -2,48 +2,40 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import type { CharacterAppearance } from "@nexora/config";
 import { api } from "./api";
 import { useAuthStore } from "./auth-store";
+import { useCharacterStore, type CharacterMe } from "./character-store";
 
-export type CharacterMe = {
-  id: string;
-  name: string;
-  level: number;
-  xp: number;
-  class: string;
-  mapKey: string;
-  starterChosen: boolean;
-  appearance?: CharacterAppearance;
-  appearanceConfirmed?: boolean;
-  wallets: Array<{ currency: string; balance: string }>;
-};
+export type { CharacterMe };
 
 export function useGameSession() {
   const router = useRouter();
   const { accessToken, ready } = useAuthStore();
-  const [character, setCharacter] = useState<CharacterMe | null>(null);
+  const character = useCharacterStore((state) => state.character);
+  const setCharacter = useCharacterStore((state) => state.setCharacter);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!ready) return;
     if (!accessToken) {
+      setCharacter(null);
       router.replace("/login");
       return;
     }
     void api<CharacterMe>("/characters/me", { accessToken })
       .then((row) => {
-        setCharacter(row);
+        const current = useCharacterStore.getState().character;
+        if (current?.id === row.id) {
+          setCharacter({ ...row, wallets: current.wallets });
+        } else {
+          setCharacter(row);
+        }
         const path = window.location.pathname;
         if (!row.appearanceConfirmed && !path.startsWith("/game/appearance")) {
           router.replace("/game/appearance");
           return;
         }
-        if (
-          row.appearanceConfirmed &&
-          !row.starterChosen &&
-          !path.startsWith("/game/starter")
-        ) {
+        if (row.appearanceConfirmed && !row.starterChosen && !path.startsWith("/game/starter")) {
           router.replace("/game/starter");
         }
       })
@@ -54,7 +46,7 @@ export function useGameSession() {
         }
         setError("Falha ao carregar o personagem.");
       });
-  }, [accessToken, ready, router]);
+  }, [accessToken, ready, router, setCharacter]);
 
   return { accessToken, character, error };
 }

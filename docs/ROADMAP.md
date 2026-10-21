@@ -13,7 +13,7 @@ Ordem absoluta: `docs/GAME_DESIGN.md` seção 99.
 | M2 | Mundo Phaser | **concluída** (oficial) |
 | Alpha Loop V1 | Starter → combate → captura → breed → market → PvP | **live** em https://alpha.genoryx.com.br (fina, ADR 0013) |
 | Unity Game V1 | World + Battle renderer + Maturation PvE | **em curso** (ADR 0025); flag `web` |
-| Visual World | Bíblia 3D + DEV_WORLD vs slice | **em curso** (ADR 0026 + 0027); Phaser = DEV_WORLD; fundação = HavenSlice Unity |
+| Visual World | Bíblia 3D + DEV_WORLD vs slice | **V2 runtime live** em `/game/adventure` (ADR 0041); arte de produção = assets (ADR 0042), kit Canvas = debug |
 | Criatura 3D | Chassi montado do DNA como visual canônico | **live** no Alpha (ADR 0032); pacote Art04; OpenAI em `mock` |
 | Character 3D | Avatar modular + Meshy FASE 1 | **em curso** (ADR 0028); um Tamer real antes do catálogo |
 | M3–M6+ | Profundidade de cada sistema | fatias finas no loop; não “completas” |
@@ -204,7 +204,7 @@ Registrada na aprovação da M1. Sem refatoração até a direção pedir.
 - [x] Schema da carta (`cost`, `range`, `momentumAltCost`, `interventionTrigger`, `draftWeightBase`, `effects`)
 - [x] Módulos puros: pesos T/+3 e T-1/+1, pilha LIFO com fadiga 0/+1/+2, fórmulas \(P_F\) / \(C_F\)
 - [x] Spec + log do turno 5 em `docs/COMBAT_ENGINE.md`
-- [ ] Ligar presença, compra ponderada e pilha no `reduceBattle` atrás de flag (não quebra V1 casual)
+- [x] Timing Engine + Mana do Embate ligados no `reduceBattle` (ADR 0039). Pilha só pausa se houver resposta válida.
 
 ### Fluxograma canônico (ADR 0031)
 
@@ -282,11 +282,15 @@ Detalhe: `docs/BREEDING.md`.
 - [x] Unity Game Client V1 (estrutura): World+Battle C#, flags `WORLD_RENDERER`/`BATTLE_RENDERER`, `/game-unity`. Phaser e arena React permanecem fallback. Primeiro WebGL publicado é o da cena de criaturas (ADR 0029); World/Battle seguem sem bundle.
 - [x] Direção visual do World: `docs/VISUAL_DESIGN.md` + ADR 0026 (3D estilizado, Haven distritos, combate no cenário, continente). Sem construir Ashenreach. Sem apagar Phaser.
 - [x] ADR 0027: Phaser = DEV_WORLD. Fundação estética = Vertical Slice Unity (HavenSliceBuilder). Sem art pass no tilemap.
+- [x] World Adventure V1 (ADR 0040): Haven Plaza + Green Road em diorama, tap-to-move, 1 companion 3D, wild visível, encounter → `/game/battle` → retorno. Unity builders v9; Alpha jogável em `/game/adventure`. Sem open world. Sem CrowdTest.
+- [x] World Visual Reboot / Isometric 2.5D V2 (ADR 0041): canvas isométrico, câmera perto, kit modular, World Avatar atlas 8 dirs a partir do chassi 3D. Loop e APIs intactos. Sem refinar o greybox Three.js.
+- [x] World asset-driven (ADR 0042): renderer consome plates/sprites; kit Canvas = debug; Creature World Avatar preservado; Character/NPC pipeline NEEDS_ART. Sem art pass de primitivas. Sem deploy até plate READY da Genesis Plaza.
 - [x] Criatura 3D montada do DNA (ADR 0032): pacote Art04 (42 peças + `motions.glb` 120 KB), `serverGeneMapping`, contexto WebGL único, idade em escala, animação por evento do servidor. Prova em `/dev/creature-visual`. Cliente não gera fenótipo.
 - [x] Anatomia expressa + ovos 3D (ADR 0033): 4 cabeças e 5 tamanhos de olho deformam a malha; paleta avivada sem inventar cor; cinco cascos com incubar/rachar/eclodir na Lyra e no Genesis Reveal. HatchAt continua do servidor.
 - [x] Lab competitivo: chassi 3D no draft/catálogo; formação da IA sem slot repetido (Ready não trava ao banir CONTROL). Campo da arena com pit e faixas em português.
 - [ ] Clipes reais de morte, defesa e vitória (hoje procedurais e declarados como tal). Sem chamar de oficial antes de existir no pacote.
 - [ ] Reativar retrato OpenAI como camada opcional sobre o chassi — decisão de produto, depende de crédito.
+- [ ] Produzir arte real da Genesis Plaza (plate base + Core/casas/portão) e marcar READY no `worldAssetCatalog`. Runtime já consome. Sem novo passe em polígonos.
 - [ ] Abrir Unity 6, `GENORYX / Rebuild Visual Slice`, screenshot de referência (praça + Core + rua + portão + Tamer + Baby). Sem WebGL até essa cena estar aprovada.
 - [x] Direção de arte dos personagens: `docs/CHARACTER_ART.md` + kit silhueta Unity (tamer / 5 NPCs / Pyron Baby). Sem modelo final / Mixamo. Sem art pass de Haven.
 - [ ] Personagem 3D FASE 1 (ADR 0028): Creator Unity 3D + assembler real + 8 peças GLB Meshy. Web `/game/appearance` não finge 3D. Validar Game View (cabelo/peito/pele). Sem catálogo extra.
@@ -306,6 +310,12 @@ Detalhe: `docs/BREEDING.md`.
 - [x] Personal Resource por criatura: regras/thresholds/decay data-driven, tooltip gerado das regras (não glossário HEAT), HUD + chips + recusa authoritative (ADR 0036).
 - [x] Deck de batalha = manifestações G1–G10 das criaturas da formação (3×10=30) + targeting FRONT→MID→BACKLINE com exceções genéticas (ADR 0037).
 - [x] Combat V1.5: mesmo engine Casual/Ranked via MatchRules; Action Queue; Genetic Chain + Team Resonance; Reaction Slot; Status/Resolve/Pressure; draft Ranked 5/ban/pick 3; timer/replay foundation (ADR 0038). Casual Lab preparado e desligado.
+- [x] Combat V2.3: Timing Engine (ACTION/Ímpeto/REACTION/COUNTER/PREPARATION/CHANNEL/RITUAL/PASSIVE); Energy ≠ Mana; Reserva Arcana; janelas de resposta; counters parciais; Fusion V2 105 receitas + Genetic Power como manifestação virtual (ADR 0039).
+- [x] Combat Genome V2: os 11 genes na resolução (iniciativa SPD+velocidade da carta, PREC×EVA, ATK/DEF vs MAG/RES, CRIT/CDMG, STA/RES), breakpoints A/S, identidade ≠ arquétipo detectado. Hidratação, sem rerolar kit (ADR 0043, `docs/COMBAT_GENOME_V2.md`).
+- [x] Combat Genome V2.4 (fatia): domínio/velocidade hidratados, sinergia por estado (Mark), vocabulário anatômico, build detectada, preview de timeline, filtros do grimório, simulador sem auto-balance (ADR 0044). Texto legado preservado; overlay de regra por cima. Sem rerolar kit.
+- [x] Card Face UX: hierarquia nome/custo/arte/efeito; detalhes avançados; frame pelo elemento da criatura; readout estruturado; `/dev/card-face` (`docs/CARD_FACE_UX.md`). Alpha só após QA visual local.
+- [x] Grimório Content Pass V2: auditoria 1200 cartas; anti-redundância; anatomia/genes; composições Kyrum/Brynix/Doron; sem reroll; sem deploy (`docs/GRIMOIRE_CONTENT_PASS.md`, `docs/grimoire-content-pass-report.json`).
+- [ ] Grimório de conteúdo: cartas novas (Brasa Ardente, Caçada Voltaica, catalisadores) e reescrita armazenada do texto. Fora desta fatia — kit selado continua a fonte do snapshot.
 - [ ] Sinergia evolutiva FORNALHA VIVA → FORTALEZA VIVA (após rounds/condições). Catálogo 105/455 ainda não.
 - [x] Genetic Power V1 (framework): 1 poder + 10 manifestações, herança 1/3, 5 typologies, 5 doubles + PHOENIX_CYCLE, resonance, budget, flag `GENETIC_POWER_V1` (ADR 0021). Sem deploy. Sem 105+455 manuais.
 - [x] Genesis Lab V2: UI laboratório, CrossPotential ≠ GenesisGrade, ovo único (EggVisualAsset), incubação Alpha por complexidade, ovos existentes normalizados (ADR 0022). Regras genéticas intactas.

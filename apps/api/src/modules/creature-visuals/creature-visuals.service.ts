@@ -1,7 +1,7 @@
 import { Injectable, Logger, NotFoundException, StreamableFile } from "@nestjs/common";
 import { visualGenerationConfig } from "@nexora/config";
 import type { CreatureVisualGenome } from "@nexora/game-engine";
-import { assembleVisualGenome, buildCreatureImagePrompt, deriveVisualSeed, visualSpecFromGenome } from "@nexora/game-engine";
+import { assembleVisualGenome, buildCreatureImagePrompt, deriveVisualSeed, growthFromLifeStage, visualSpecFromGenome } from "@nexora/game-engine";
 import type { LifeStage, VisualImageProvider } from "@nexora/types";
 import type { CreatureRecord } from "../../common/creature-io";
 import { revealStatusOf } from "../../common/creature-visual-present";
@@ -120,12 +120,20 @@ export class CreatureVisualsService {
       throw new NotFoundException("Criatura não encontrada.");
     }
     const genome = (creature.visualGenomeJson ?? {}) as CreatureVisualGenome;
-    const updated = { ...genome, lifeStage: nextStage };
+    const chassis = genome.chassis && typeof genome.chassis === "object"
+      ? { ...genome.chassis, growthStage: growthFromLifeStage(nextStage) }
+      : genome.chassis;
+    const updated = { ...genome, lifeStage: nextStage, chassis };
     await this.prisma.client.creature.update({
       where: { id: creatureId },
-      data: { lifeStage: nextStage, visualGenomeJson: updated },
+      data: { lifeStage: nextStage, visualGenomeJson: updated as object },
     });
-    return this.enqueue(creatureId, nextStage);
+    try {
+      return await this.enqueue(creatureId, nextStage);
+    } catch (error) {
+      this.log.warn(`Retrato ${nextStage} enfileirado com falha após o Despertar de ${creatureId}: ${error}`);
+      return null;
+    }
   }
 
   async backfillMissing(limit: number = visualGenerationConfig.backfillBatchSize) {

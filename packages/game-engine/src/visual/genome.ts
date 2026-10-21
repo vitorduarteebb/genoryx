@@ -193,6 +193,11 @@ export function deriveVisualSeed(creatureId: string, genomeHash: string): string
   return geneticHash([creatureId, genomeHash, "visual-seed"]);
 }
 
+/** Mesmo seed na luta selvagem e na ficha da coleção. Não usa o UUID novo da captura. */
+export function wildVisualSeed(geneticHash: string): string {
+  return deriveVisualSeed(`wild:${geneticHash}`, geneticHash);
+}
+
 export function assembleVisualGenome(input: AssembleVisualGenomeInput): CreatureVisualGenome {
   const visual = speciesVisuals[input.speciesKey];
   const speciesKey = visual?.key ?? input.speciesKey;

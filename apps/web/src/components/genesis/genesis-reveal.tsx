@@ -137,6 +137,7 @@ export function GenesisReveal({
       {beat === "wait" && !ready && !failed ? (
         <FormationStage
           chassis={payload.chassis}
+          bodyPlan={payload.bodyPlan}
           element={payload.element}
           lifeStage={payload.visual.lifeStage}
           temperament={payload.temperament}
@@ -149,6 +150,7 @@ export function GenesisReveal({
           <FormationStage
             failed
             chassis={payload.chassis}
+            bodyPlan={payload.bodyPlan}
             element={payload.element}
             lifeStage={payload.visual.lifeStage}
             temperament={payload.temperament}
@@ -182,6 +184,7 @@ export function GenesisReveal({
         <div className="flex justify-center py-10 opacity-40">
           <CreatureGxrFigure
             chassis={payload.chassis}
+            bodyPlan={payload.bodyPlan}
             element={payload.element ?? "ARCANE"}
             lifeStage={payload.visual.lifeStage}
             temperament={payload.temperament}
@@ -207,6 +210,7 @@ export function GenesisReveal({
             creatureId={payload.creatureId}
             context="HATCH"
             animationState="HATCH"
+            bodyPlan={payload.bodyPlan}
             animationKey={payload.creatureId}
             label={payload.speciesName}
             size={280}

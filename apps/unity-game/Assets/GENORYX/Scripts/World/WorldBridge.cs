@@ -11,6 +11,7 @@ namespace Genoryx
 
         public PlayerMotor player;
         public CompanionFollower companion;
+        public Transform companionRoot;
         public WorldCameraRig cameraRig;
 
         void Awake()
@@ -21,6 +22,10 @@ namespace Genoryx
         public void ApplyWorldState(string json)
         {
             Debug.Log($"[GENORYX:world] state {json.Length}");
+            if (json.Contains("encounterCleared") || json.Contains("ENCOUNTER_CLEAR"))
+            {
+                WorldEncounterSystem.Instance?.ClearFocusTarget();
+            }
         }
 
         public void ApplyMobs(string json)
@@ -31,24 +36,33 @@ namespace Genoryx
         public void BeginEncounter(string json)
         {
             AudioHooks.Play(AudioHooks.BattleStart);
-            var cinematic = FindFirstObjectByType<EncounterCinematic>();
-            if (cinematic != null)
+            var cinematic = gameObject.GetComponent<EncounterCinematic>() ?? gameObject.AddComponent<EncounterCinematic>();
+            cinematic.worldCamera = cameraRig != null ? cameraRig.GetComponent<Camera>() : Camera.main;
+            if (WorldEncounterSystem.Instance != null && WorldEncounterSystem.Instance.Focus != null)
             {
-                cinematic.Play(json);
+                cinematic.focus = WorldEncounterSystem.Instance.Focus.transform;
             }
+
+            cinematic.Play(json);
+            SendIntent(json);
         }
 
         public void SendMove(float x, float y, int sequence)
         {
-#if UNITY_WEBGL && !UNITY_EDITOR
-            Application.ExternalCall("genoryxWorldIntent", $"{{\"type\":\"MOVE\",\"x\":{x},\"y\":{y},\"sequence\":{sequence}}}");
-#endif
+            SendIntent($"{{\"type\":\"MOVE\",\"x\":{x},\"y\":{y},\"sequence\":{sequence}}}");
         }
 
         public void SendInteract(string spawnKey, string npcKey)
         {
+            SendIntent($"{{\"type\":\"INTERACT\",\"spawnKey\":\"{spawnKey}\",\"npcKey\":\"{npcKey}\"}}");
+        }
+
+        void SendIntent(string json)
+        {
 #if UNITY_WEBGL && !UNITY_EDITOR
-            Application.ExternalCall("genoryxWorldIntent", $"{{\"type\":\"INTERACT\",\"spawnKey\":\"{spawnKey}\",\"npcKey\":\"{npcKey}\"}}");
+            Application.ExternalCall("genoryxWorldIntent", json);
+#else
+            Debug.Log("[GENORYX:world-intent] " + json);
 #endif
         }
 

@@ -62,6 +62,7 @@ export type GeneticCardManifest = {
   text: string;
   sourceGenes: string[];
   luckVariant: "STABLE" | "EFFICIENT" | "UNSTABLE" | "CONDITIONAL";
+  timingClass?: "ACTION" | "IMPETUS" | "REACTION" | "COUNTER" | "PREPARATION" | "CHANNEL" | "RITUAL" | "PASSIVE";
 };
 
 export type GeneticCombatManifest = {

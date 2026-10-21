@@ -14,6 +14,26 @@ function unique(rows: string[]): string[] {
   return [...new Set(rows.filter(Boolean))];
 }
 
+const TAG_PRODUCES: Record<string, string> = {
+  HEAL: "HEAL",
+  SHIELD: "GUARD",
+  DEFENSE: "GUARD",
+  BURN: "BURN",
+  DOT: "DOT",
+  CONTROL: "CONTROL",
+  TANK: "TANK",
+  DEBUFF: "MARK",
+};
+
+const TAG_CONSUMES: Record<string, readonly string[]> = {
+  SYNERGY: ["HEAL", "GUARD", "TANK", "CONTROL", "BURN", "DOT", "HIT"],
+  SUSTAIN: ["HEAL", "GUARD"],
+  ADVANCED: ["HIT", "GUARD", "HEAL"],
+  EXECUTE: ["MARK", "EXPOSED", "HIT"],
+  COUNTER: ["HIT"],
+  REACTION: ["HIT"],
+};
+
 export function effectMetaOf(card: PlayableCard | null | undefined): EffectMeta {
   const ability = card?.ability;
   const produces = [...(ability?.produces ?? [])];
@@ -25,6 +45,15 @@ export function effectMetaOf(card: PlayableCard | null | undefined): EffectMeta 
     if (effect.op === "APPLY_STATUS" && effect.status) {
       produces.push(effect.status);
     }
+    if (effect.op === "DAMAGE") {
+      produces.push("HIT");
+    }
+    if (effect.op === "HEAL") {
+      produces.push("HEAL");
+    }
+    if (effect.op === "GAIN_SHIELD" || effect.op === "SHIELD") {
+      produces.push("GUARD");
+    }
     if (effect.condition?.targetHas) {
       reactsTo.push(effect.condition.targetHas);
     }
@@ -32,7 +61,20 @@ export function effectMetaOf(card: PlayableCard | null | undefined): EffectMeta 
       consumes.push(effect.resource);
     }
   }
+  if (card?.typology) {
+    produces.push(card.typology);
+  }
   const tags = card?.tags ?? [];
+  for (const tag of tags) {
+    const token = TAG_PRODUCES[tag];
+    if (token) {
+      produces.push(token);
+    }
+    const needed = TAG_CONSUMES[tag];
+    if (needed) {
+      consumes.push(...needed);
+    }
+  }
   let retarget: RetargetPolicy = "NONE";
   if (tags.includes("RETARGET_NEAREST") || tags.includes("NEAREST_VALID")) retarget = "NEAREST_VALID";
   else if (tags.includes("RETARGET_SAME_LINE") || tags.includes("SAME_LINE")) retarget = "SAME_LINE";

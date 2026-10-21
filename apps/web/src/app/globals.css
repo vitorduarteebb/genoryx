@@ -7,8 +7,14 @@
   background: #07060c;
 }
 
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
 body {
   min-height: 100vh;
+  min-height: 100dvh;
   background:
     radial-gradient(ellipse 90% 50% at 50% -20%, rgba(228, 195, 106, 0.1), transparent 50%),
     radial-gradient(circle at 12% 18%, rgba(126, 224, 214, 0.1), transparent 28%),

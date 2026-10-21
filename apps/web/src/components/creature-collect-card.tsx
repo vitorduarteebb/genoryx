@@ -32,6 +32,8 @@ export function CreatureCollectCard({
   lockHint,
   href,
   onSelect,
+  caption,
+  badge,
 }: {
   creature: CreaturePick;
   level?: number;
@@ -43,6 +45,8 @@ export function CreatureCollectCard({
   lockHint?: string | null;
   href?: string;
   onSelect?: () => void;
+  caption?: string;
+  badge?: string | null;
 }) {
   const element = String(creature.elementPrimary);
   const locked = Boolean(disabled);
@@ -60,6 +64,7 @@ export function CreatureCollectCard({
           revealStatus={creature.revealStatus}
           visual={creature.visual}
           chassis={creature.chassis}
+          bodyPlan={creature.bodyPlan}
           element={element}
           lifeStage={creature.lifeStage}
           temperament={creature.temperament}
@@ -68,12 +73,15 @@ export function CreatureCollectCard({
           context="MARKET"
           size={200}
         />
+        {badge ? <span className="gx-collect__badge">{badge}</span> : null}
+        {href ? <span className="gx-collect__open">Abrir ficha</span> : null}
       </div>
       <div className="gx-collect__foot">
         <span className="gx-collect__id">
           <span>{ELEMENT_MARK[element] ?? "✧"}</span>#{shortCreatureId(creature.id)}
         </span>
         <p className="gx-collect__name">{creature.name}</p>
+        {caption ? <p className="gx-collect__caption">{caption}</p> : null}
         {priceGold ? (
           <p className="gx-collect__price">
             {priceGold} GOLD

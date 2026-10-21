@@ -1,4 +1,4 @@
-import { fusionFamilies, geneticPowerConfig, type FusionFamilyDef } from "@nexora/config";
+import { fusionCatalogV23, fusionFamilies, geneticPowerConfig, type FusionFamilyDef } from "@nexora/config";
 import type { Typology } from "@nexora/types";
 
 export type FusionCandidate = {
@@ -20,6 +20,7 @@ export function familyFor(typologies: readonly Typology[]): FusionFamilyDef | nu
   const id = fusionIdentity(typologies);
   return (
     fusionFamilies.find((row) => fusionIdentity(row.typologies) === id && Boolean(row.triple) === (new Set(typologies).size > 2)) ??
+    fusionCatalogV23().find((row) => fusionIdentity(row.typologies) === id && Boolean(row.triple) === (new Set(typologies).size > 2)) ??
     null
   );
 }

@@ -52,6 +52,27 @@ describe("creature progress", () => {
     ).toBe("READY_TO_EVOLVE");
   });
 
+  it("YOUNG com nível e maturação desperta para ADULT mesmo com status NONE", () => {
+    expect(
+      canEvolve({
+        level: 20,
+        xp: xpToReachLevel(20),
+        lifeStage: "YOUNG",
+        evolutionStatus: "NONE",
+        maturationXp: 350,
+      }),
+    ).toBe(true);
+    expect(
+      evaluateEvolutionStatus({
+        level: 20,
+        xp: xpToReachLevel(20),
+        lifeStage: "YOUNG",
+        evolutionStatus: "NONE",
+        maturationXp: 350,
+      }),
+    ).toBe("READY_TO_EVOLVE");
+  });
+
   it("não evolui Adulto", () => {
     const adult = applyCreatureXp({ level: 25, xp: xpToReachLevel(25), lifeStage: "ADULT", evolutionStatus: "NONE" }, 80);
     expect(adult.lifeStage).toBe("ADULT");

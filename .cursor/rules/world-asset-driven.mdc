@@ -1,0 +1,22 @@
+---
+description: Mundo web consome assets reais; kit Canvas é só debug
+alwaysApply: true
+---
+
+# Mundo asset-driven (ADR 0042)
+
+O runtime isométrico (movimento, colisão, encounter, return) está aprovado.
+
+**Proibido** tratar Canvas/polígonos/primitivas como arte de produção:
+
+- não criar `drawHouse` / `drawTree` / `drawCore` / NPC retângulo como visual final
+- não fazer art pass em tiles-diamante, casas geométricas ou árvores simbólicas
+- kit em `apps/web/src/lib/world-art/iso-kit.ts` = **debug fallback** (`debugArt`)
+
+O renderer só posiciona, ordena, anima, colide, oclui e enquadra.
+
+Arte nova = arquivo em `apps/web/public/world-art/` + `status: "READY"` em `packages/config/src/world-assets.ts`.
+
+Ausente = `NEEDS_ART`. Não fingir que placeholder é final.
+
+Criatura 3D → atlas de mundo permanece. Humano/NPC seguem o mesmo contrato, não primitivas.

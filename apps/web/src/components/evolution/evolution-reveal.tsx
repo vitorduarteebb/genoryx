@@ -1,10 +1,15 @@
 "use client";
 
+import type { ChassisView } from "@nexora/config";
+import { CreatureGxrFigure } from "../creature-gxr-figure";
 import { officialPortraitSrc } from "../../lib/creature-art";
+import { stageLabel } from "../../lib/creature-lexicon";
 import { useReducedMotion } from "../genesis/use-reduced-motion";
-import "../genesis/genesis-reveal.css";
+import "./evolution-reveal.css";
 
 export type EvolutionPayload = {
+  chassis?: ChassisView | null;
+  bodyPlan?: string | null;
   creatureId: string;
   name: string;
   speciesName: string;
@@ -12,9 +17,50 @@ export type EvolutionPayload = {
   toStage: string;
   evolutionStatus: string;
   canEvolve: boolean;
+  evolved?: boolean;
   fromVisual: { status: string; lifeStage: string; url: string | null; imageHash: string | null };
   toVisual: { status: string; lifeStage: string; url: string | null; imageHash: string | null };
 };
+
+function StageFigure({
+  payload,
+  stage,
+  variant,
+  label,
+  pose,
+}: {
+  payload: EvolutionPayload;
+  stage: string;
+  variant: "before" | "after";
+  label: string;
+  pose?: "IDLE" | "VICTORY";
+}) {
+  const portrait = officialPortraitSrc(variant === "before" ? payload.fromVisual.url : payload.toVisual.url);
+  const adult = stage === "ADULT";
+  return (
+    <figure
+      className={`gx-awaken__figure ${variant === "after" ? "gx-awaken__figure--after" : ""} ${adult ? "gx-awaken__figure--adult" : ""}`}
+    >
+      {payload.chassis ? (
+        <CreatureGxrFigure
+          chassis={payload.chassis}
+          bodyPlan={payload.bodyPlan}
+          creatureId={payload.creatureId}
+          lifeStage={stage}
+          size={420}
+          animationState={pose ?? "IDLE"}
+          label={label}
+        />
+      ) : portrait ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={portrait} alt="" className="aspect-square w-full object-cover" />
+      ) : (
+        <div className="grid aspect-square place-items-center text-gold">{stageLabel(stage)}</div>
+      )}
+      <figcaption className="gx-awaken__cap">{label}</figcaption>
+    </figure>
+  );
+}
 
 export function EvolutionReveal({
   payload,
@@ -28,52 +74,60 @@ export function EvolutionReveal({
   error?: string | null;
 }) {
   const reduced = useReducedMotion();
-  const from = officialPortraitSrc(payload.fromVisual.url);
-  const to = officialPortraitSrc(payload.toVisual.url);
-  const ready = payload.canEvolve;
-  const showingResult = payload.fromStage !== payload.toStage;
+  const showingResult = Boolean(payload.evolved) || (!payload.canEvolve && payload.fromStage !== payload.toStage);
+  const toAdult = payload.toStage === "ADULT";
+  const ready = payload.canEvolve && !showingResult;
+  const continueAdult = showingResult && payload.canEvolve && payload.toStage !== "ADULT";
 
   return (
-    <section className="genesis-reveal" data-reduced={reduced}>
-      <p className="text-[11px] uppercase tracking-[0.22em] text-crystal">Evolução · Genesis</p>
-      <h1 className="font-display text-4xl text-gold">{payload.name}</h1>
-      <p className="text-muted">
-        {payload.speciesName} · {payload.fromStage}
-        {showingResult ? ` → ${payload.toStage}` : payload.canEvolve ? ` → ${payload.toStage}` : ""}
+    <section className="gx-awaken" data-reduced={reduced}>
+      <p className="gx-awaken__kicker">{toAdult ? "Despertar · Forma adulta" : "Despertar · Genesis"}</p>
+      <h1 className="gx-awaken__title">{payload.name}</h1>
+      <p className="gx-awaken__lead">
+        {payload.speciesName} · {stageLabel(payload.fromStage)}
+        {payload.canEvolve || showingResult ? ` → ${stageLabel(payload.toStage)}` : ""}
+        . O DNA não muda. Só o corpo amadurece.
       </p>
-      <div className="mt-6 grid gap-6 md:grid-cols-[1fr_auto_1fr] md:items-center">
-        <figure className="overflow-hidden rounded-3xl border border-[#2a2438] bg-black/30">
-          {from ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={from} alt="" className="aspect-square w-full object-cover" />
-          ) : (
-            <div className="grid aspect-square place-items-center text-gold">{payload.fromStage}</div>
-          )}
-        </figure>
-        <p className="text-center text-gold">{showingResult ? "↓" : "→"}</p>
-        <figure className="overflow-hidden rounded-3xl border border-gold/30 bg-black/30">
-          {to ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={to} alt="" className="aspect-square w-full object-cover" />
-          ) : (
-            <div className="grid aspect-square place-items-center text-crystal">
-              {payload.toVisual.status === "FORMING" || payload.toVisual.status === "PENDING" ? "Energia Genesis…" : payload.toStage}
-            </div>
-          )}
-        </figure>
+      <div className="gx-awaken__duel">
+        <StageFigure
+          payload={payload}
+          stage={payload.fromStage}
+          variant="before"
+          label={`Antes · ${stageLabel(payload.fromStage)}`}
+        />
+        <p className="gx-awaken__arrow" aria-hidden>
+          {showingResult ? "↓" : "→"}
+        </p>
+        <StageFigure
+          payload={payload}
+          stage={payload.toStage}
+          variant="after"
+          label={showingResult ? `Agora · ${stageLabel(payload.toStage)}` : `Depois · ${stageLabel(payload.toStage)}`}
+          pose={showingResult ? "VICTORY" : "IDLE"}
+        />
       </div>
-      {error ? <p className="mt-4 text-ember">{error}</p> : null}
-      {ready && !showingResult ? (
-        <button
-          type="button"
-          disabled={busy}
-          className="mt-6 rounded-xl border border-gold/50 px-5 py-2 text-gold disabled:opacity-40"
-          onClick={() => void onEvolve()}
-        >
-          Evoluir
-        </button>
+      {error ? <p className="gx-awaken__error">{error}</p> : null}
+      {ready ? (
+        <div className="gx-awaken__acts">
+          <button type="button" disabled={busy} className="gx-cta" onClick={() => void onEvolve()}>
+            {toAdult ? "Despertar forma adulta" : `Despertar ${stageLabel(payload.toStage).toLowerCase()}`}
+          </button>
+        </div>
+      ) : showingResult ? (
+        <div className="gx-awaken__acts">
+          <p className="gx-awaken__note">
+            {toAdult
+              ? "A linhagem alcançou a forma adulta. Mesmo indivíduo, mesmo certificado genético."
+              : "O mesmo indivíduo amadureceu. DNA, loci e linhagem permanecem intactos."}
+          </p>
+          {continueAdult ? (
+            <button type="button" disabled={busy} className="gx-cta" onClick={() => void onEvolve()}>
+              Continuar para forma adulta
+            </button>
+          ) : null}
+        </div>
       ) : (
-        <p className="mt-6 text-sm text-muted">O mesmo indivíduo amadurece. DNA, loci e linhagem permanecem intactos.</p>
+        <p className="gx-awaken__note">Leve esta criatura à Arena até o círculo acender. Nível e maturação precisam fechar juntos.</p>
       )}
     </section>
   );

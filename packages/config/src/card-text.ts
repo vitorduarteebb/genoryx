@@ -181,6 +181,8 @@ export function presentCard(key: string) {
       tags: [] as string[],
       locus: null as string | null,
       variant: "BASE",
+      timingClass: "ACTION" as const,
+      timingLabel: "Ação",
     };
   }
   const locus = def.locusRole
@@ -202,6 +204,8 @@ export function presentCard(key: string) {
     tags: [...def.tags],
     locus,
     variant: "BASE",
+    timingClass: def.locusRole === "ULTIMATE" ? "RITUAL" : def.type === "REACTION" ? "REACTION" : "ACTION",
+    timingLabel: def.locusRole === "ULTIMATE" ? "Ritual" : def.type === "REACTION" ? "Reação" : "Ação",
   };
 }
 
@@ -241,5 +245,7 @@ export function presentPlayableCard(card: {
       ? (GENETIC_CARD_LOCI.find((row) => row.role === card.locusRole)?.key ?? base.locus)
       : base.locus) as GeneticCardLocusKey | null,
     effects: card.effects,
+    timingClass: card.locusRole === "ULTIMATE" || type === "ULTIMATE" ? "RITUAL" : type === "REACTION" ? "REACTION" : "ACTION",
+    timingLabel: card.locusRole === "ULTIMATE" || type === "ULTIMATE" ? "Ritual" : type === "REACTION" ? "Reação" : "Ação",
   };
 }

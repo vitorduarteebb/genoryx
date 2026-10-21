@@ -2,7 +2,7 @@
 
 Fonte de regras: `@nexora/game-engine`. Números: `@nexora/config`. Cliente só envia intenção. Combate **não** roda no Colyseus — é HTTP (`POST /battles/:id/actions`).
 
-Visão / fluxograma (alvo, não substitui este arquivo): [`COMBAT.md`](COMBAT.md), [`COMBAT_SYSTEM.md`](COMBAT_SYSTEM.md). Snapshot do produto: [`ESTADO_ATUAL.md`](ESTADO_ATUAL.md). ADRs: `0009`, `0034`–`0038`.
+Visão / fluxograma (alvo, não substitui este arquivo): [`COMBAT.md`](COMBAT.md), [`COMBAT_SYSTEM.md`](COMBAT_SYSTEM.md). Snapshot do produto: [`ESTADO_ATUAL.md`](ESTADO_ATUAL.md). ADRs: `0009`, `0034`–`0039`.
 
 ---
 
@@ -94,6 +94,10 @@ Se a frente morre: **collapse** — MID vira frente, BACKLINE avança. Cartas da
 | Momentum | 0–8 (config; não é o recurso pessoal) |
 
 **Action Queue (V1.5):** em vez de resolver na hora, o jogador pode `QUEUE_CARD`. A energia é **reservada**, não gasta. `CONFIRM_TURN` resolve a fila em ordem.
+
+**Duas economias (V2.3):** Energy (1–10) monta a fila. Mana do **time** (começa 2, cap 10, persiste) paga Guerra Mágica / Ímpeto / intervenção. Energy sobrando no confirmar vira Mana (Reserva Arcana). Recurso pessoal (Heat, Tide…) e Team Resonance **não** são Mana.
+
+**Timing:** toda carta hidrata `ResolutionProfile`. ACTION só no Planning. ÍMPETO é FAST e pode entrar na pilha. REACTION exige trigger. COUNTER interfere no frame (cancelar / mitigar / redirecionar / suprimir — não “anula tudo”). PREPARATION arma `PreparedEffects[]`. CHANNEL leva rounds e quebra com STUN/SILENCE/DISRUPT/morte. RITUAL sempre *pode* abrir Embate; se `eligibleResponses = 0`, resolve direto. Janelas: DECLARE, PRE_IMPACT, POST_IMPACT, STATUS, LETHAL, FUSION.
 
 Se uma ação anterior mata o alvo:
 
@@ -262,7 +266,7 @@ chance  = clamp(raw, 0.08, 0.92)
 | nexorb_ultra | 1.80 | 350 |
 | nexorb_ancient | 2.40 | 1000 |
 
-Sucesso: consome o orb, cria Creature no jogador (origem WILD), encerra a batalha. Falha: consome o orb, luta continua. Chance nunca vem do cliente.
+Sucesso: consome o orb, persiste o `wildBlueprint` da luta (mesmo DNA/chassi/kit, `wildVisualSeed`), encerra a batalha. Falha: consome o orb, luta continua. Chance nunca vem do cliente. Não rerrolar o selvagem na captura.
 
 ---
 

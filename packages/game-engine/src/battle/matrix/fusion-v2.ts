@@ -20,6 +20,15 @@ export function livingTypologies(creatures: readonly { hp: number; typology?: st
   ];
 }
 
+/** Vivas agora + tipologias que este lado já jogou (KO não apaga o par conquistado). */
+export function poolTypologies(input: {
+  livingTypologies: readonly Typology[];
+  usage: readonly BattleUsageEntry[];
+  side: 0 | 1;
+}): Typology[] {
+  return [...new Set([...input.livingTypologies, ...contributedTypologies(input.usage, input.side)])];
+}
+
 export function evaluateMatrixFusion(input: {
   livingTypologies: readonly Typology[];
   usage: readonly BattleUsageEntry[];
@@ -29,7 +38,7 @@ export function evaluateMatrixFusion(input: {
   momentum: number;
   alreadyAwakened: readonly string[];
 }): MatrixFusionCandidate[] {
-  const unique = [...new Set(input.livingTypologies)];
+  const unique = poolTypologies(input);
   const used = contributedTypologies(input.usage, input.side);
   const doubles: MatrixFusionCandidate[] = [];
   for (let i = 0; i < unique.length; i += 1) {

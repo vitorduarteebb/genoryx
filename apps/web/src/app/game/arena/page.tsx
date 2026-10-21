@@ -208,15 +208,15 @@ function ArenaLobby() {
             <Panel>
               <p className="gx-page__kicker">Adventure / Career</p>
               <h2 className="gx-page__title !text-3xl">Explorar GENORYX</h2>
-              <p className="mt-3 text-muted">PvE de progresso: encontro selvagem agora, mapa vivo a seguir. A arena já reconhece esse modo.</p>
+              <p className="mt-3 text-muted">Mapa 3D compacto: Haven, Green Road, companion e criatura visível. O combate continua no motor authoritative.</p>
               {error ? <p className="mt-2 text-ember">{error}</p> : null}
               <div className="mt-5 flex flex-wrap gap-2">
-                <button type="button" disabled={busy || !accessToken} className="gx-cta" onClick={() => void hunt()}>
-                  Caçar no mundo
-                </button>
-                <Link href="/game-unity" className="gx-cta gx-cta--ghost">
-                  Abrir o mapa
+                <Link href="/game/adventure" className="gx-cta">
+                  Entrar no mundo
                 </Link>
+                <button type="button" disabled={busy || !accessToken} className="gx-cta gx-cta--ghost" onClick={() => void hunt()}>
+                  Caçar agora
+                </button>
               </div>
             </Panel>
             <Panel>

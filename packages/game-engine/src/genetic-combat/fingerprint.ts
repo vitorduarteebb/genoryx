@@ -12,6 +12,7 @@ export function mechanicalFingerprint(identity: CombatIdentity, cards: readonly 
     ...cards.flatMap((card) => [
       card.function,
       card.cost,
+      card.locus === "G10" ? "RITUAL" : card.function === "COUNTER" ? "COUNTER" : card.function === "MOBILITY" ? "IMPETUS" : "ACTION",
       ...card.ability.produces,
       ...card.ability.consumes,
       ...card.ability.reactsTo,

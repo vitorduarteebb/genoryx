@@ -25,9 +25,9 @@ export const contextQuality = {
 } as const;
 export function visualGrowth(stage?: string | null) {
   switch (stage?.toUpperCase()) {
-    case "BABY": return { stage: "BABY", scale: .72, head: 1.10, breathPeriod: 3.65, actionGain: .72 };
-    case "YOUNG": case "JUVENILE": return { stage: "YOUNG", scale: .88, head: 1.045, breathPeriod: 4.05, actionGain: .88 };
-    default: return { stage: "ADULT", scale: 1, head: 1, breathPeriod: 4.6, actionGain: 1 };
+    case "BABY": return { stage: "BABY", scale: .72, head: 1.14, breathPeriod: 3.65, actionGain: .72 };
+    case "YOUNG": case "JUVENILE": return { stage: "YOUNG", scale: .88, head: 1.015, breathPeriod: 4.05, actionGain: .88 };
+    default: return { stage: "ADULT", scale: 1, head: .88, breathPeriod: 4.6, actionGain: 1 };
   }
 }
 export function visualIdentity(input: CreatureVisualInput) {

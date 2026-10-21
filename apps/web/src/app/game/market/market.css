@@ -175,3 +175,26 @@
   font-size: 0.78rem;
   color: #9a90a8;
 }
+
+@media (max-width: 720px) {
+  .gx-bazaar__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .gx-bazaar__search {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .gx-bazaar__modal {
+    padding: 0.7rem;
+    align-items: end;
+  }
+
+  .gx-bazaar__dialog {
+    width: 100%;
+    max-height: min(88dvh, 40rem);
+    overflow: auto;
+    padding: 1rem 0.9rem calc(1rem + env(safe-area-inset-bottom));
+  }
+}

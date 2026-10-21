@@ -60,6 +60,7 @@ export function CreatureShrine({
       <div className="gx-shrine__stage">
         {chassis ? (
           <CreatureGxrFigure
+            bodyPlan={bodyPlan}
             chassis={chassis}
             element={element}
             lifeStage={lifeStage}

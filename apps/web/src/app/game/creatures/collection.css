@@ -1,0 +1,85 @@
+.gx-vault__bar {
+  position: sticky;
+  top: 0.55rem;
+  z-index: 12;
+  display: grid;
+  gap: 0.55rem;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid rgba(126, 224, 214, 0.18);
+  background: linear-gradient(180deg, rgba(16, 18, 28, 0.96), rgba(8, 8, 14, 0.94));
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.45);
+}
+
+.gx-vault__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.gx-vault__search {
+  flex: 1 1 14rem;
+  min-width: min(16rem, 100%);
+  padding: 0.55rem 0.75rem;
+  border: 1px solid rgba(126, 224, 214, 0.18);
+  background: rgba(7, 6, 12, 0.72);
+  color: #f4efe4;
+}
+
+.gx-vault__select {
+  padding: 0.5rem 0.65rem;
+  border: 1px solid rgba(42, 36, 56, 0.95);
+  background: rgba(10, 8, 16, 0.72);
+  color: #d7d0e2;
+  font-size: 0.78rem;
+}
+
+.gx-vault__chip {
+  padding: 0.38rem 0.62rem;
+  border: 1px solid rgba(42, 36, 56, 0.95);
+  background: rgba(10, 8, 16, 0.55);
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #8d8498;
+}
+
+.gx-vault__chip[data-active="true"] {
+  border-color: #7ee0d6;
+  color: #7ee0d6;
+  box-shadow: 0 0 16px rgba(126, 224, 214, 0.12);
+}
+
+.gx-vault__count {
+  margin-left: auto;
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #9a90a8;
+}
+
+.gx-vault__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15.2rem, 1fr));
+  gap: 0.85rem;
+}
+
+.gx-vault__grid .gx-collect {
+  height: 100%;
+}
+
+@media (max-width: 720px) {
+  .gx-vault__bar {
+    top: 0.35rem;
+    padding: 0.55rem 0.65rem;
+  }
+
+  .gx-vault__grid {
+    grid-template-columns: repeat(auto-fill, minmax(10.4rem, 1fr));
+    gap: 0.65rem;
+  }
+
+  a.gx-collect .gx-collect__open {
+    opacity: 0.92;
+  }
+}

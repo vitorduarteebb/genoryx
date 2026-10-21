@@ -8,7 +8,7 @@
       "label": "Presas curtas",
       "file": "GXR_MOUTH_SHORT_FANGS.glb",
       "teeth": 8,
-      "bytes": 152952,
+      "bytes": 139140,
       "animation": "Mouth_Roar"
     },
     {
@@ -17,7 +17,7 @@
       "label": "Caninos de sabre",
       "file": "GXR_MOUTH_SABER_FANGS.glb",
       "teeth": 12,
-      "bytes": 183188,
+      "bytes": 168128,
       "animation": "Mouth_Roar"
     },
     {
@@ -26,7 +26,7 @@
       "label": "Dentição serrilhada",
       "file": "GXR_MOUTH_SERRATED.glb",
       "teeth": 16,
-      "bytes": 213048,
+      "bytes": 196960,
       "animation": "Mouth_Roar"
     },
     {
@@ -35,7 +35,7 @@
       "label": "Bico dracônico com presas",
       "file": "GXR_MOUTH_BEAK_FANGS.glb",
       "teeth": 8,
-      "bytes": 160036,
+      "bytes": 146240,
       "animation": "Mouth_Roar"
     }
   ]

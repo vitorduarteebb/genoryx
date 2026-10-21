@@ -103,6 +103,7 @@ export function generateCreatureBlueprint(input: {
   speciesKey: string;
   origin: CreatureOrigin;
   level?: number;
+  lifeStage?: LifeStage;
   generation?: number;
   name?: string;
   gender?: Gender;
@@ -149,6 +150,7 @@ export function generateCreatureBlueprint(input: {
     generation: input.generation ?? 0,
     origin: input.origin,
     level: input.level ?? 1,
+    lifeStage: input.lifeStage ?? "BABY",
     fertility: 5,
     elementPrimary,
     genes,
@@ -163,7 +165,7 @@ export function generateCreatureBlueprint(input: {
     fatherId: input.fatherId,
     motherId: input.motherId,
     tags: [...(visual.tags ?? [])],
-    chassis: rollChassisDna({ seed: input.seed, lifeStage: "BABY" }),
+    chassis: rollChassisDna({ seed: input.seed, lifeStage: input.lifeStage ?? "BABY" }),
   };
   return sealCardKit(draft, `genesis:${hash}`);
 }

@@ -1,6 +1,7 @@
 import * as T from "three";
 import { headPoint } from "./creature-anatomy";
 import { smooth } from "./creature-life";
+import { jawHinge, jawAngle } from "./creature-jaw";
 export const mouthProfiles = {
  HEAD_01_SMOOTH:{label:"Presas curtas",type:"SHORT_FANGS",count:4,length:.030,width:.140,gape:.007},
  HEAD_02_PREDATOR:{label:"Caninos de sabre",type:"SABER_FANGS",count:6,length:.064,width:.176,gape:.009},
@@ -28,6 +29,7 @@ export class CreatureMouth {
  private readonly ownedMaterials:T.Material[]=[];
  private readonly moving:MovingMesh[]=[];
  private readonly point:Surface;
+ private readonly mandible=new T.Group();
  private readonly colors={root:new T.Color("#9c7951"),mid:new T.Color("#ded1ad"),tip:new T.Color("#fff4d7")};
  constructor(readonly head:string,readonly eyes:string,color:T.Color,surface?:Surface) {
   this.profile=mouthProfiles[head as MouthHead]??mouthProfiles.HEAD_01_SMOOTH;
@@ -44,7 +46,7 @@ export class CreatureMouth {
   // Pointed cheek corners and a recessed gradient replace the rectangular grin.
   const pos:number[]=[],cols:number[]=[],weights:number[]=[],idx:number[]=[];
   for(let row=0;row<=4;row++)for(let i=0;i<=40;i++){
-   const t=i/40,v=row/4,p=this.line(t,v);p.z+=.002;pos.push(...p);weights.push(v*this.corner(t));
+   const t=i/40,v=row/4,p=this.line(t,v);p.z+=.002;pos.push(...p);weights.push(v);
    const c=new T.Color("#08070a").lerp(new T.Color("#381820"),Math.abs(v-.5)*.6);cols.push(c.r,c.g,c.b);
   }
   for(let r=0;r<4;r++)for(let i=0;i<40;i++){const a=r*41+i;idx.push(a,a+1,a+41,a+1,a+42,a+41);}
@@ -67,11 +69,14 @@ export class CreatureMouth {
    const m=new T.Mesh(this.crown(.031,.024,"beak",false),enamel);m.name="DraconicBeak";
    m.position.copy(this.line(.5,0));m.position.y+=.009;m.position.z+=.006;this.group.add(m);
   }
+  this.mandible.name="MandiblePivot";this.mandible.position.copy(jawHinge(head,eyes));this.group.add(this.mandible);this.group.updateMatrixWorld(true);
+  for(const name of ["LowerLip","LowerGum"]){const mesh=this.group.getObjectByName(name);if(mesh)this.mandible.attach(mesh);}
+  for(const tooth of this.teeth.filter(t=>t.lower)){this.mandible.attach(tooth.mesh);tooth.base.copy(tooth.mesh.position);}
   this.update(0);
  }
  private corner(t:number){return Math.sin(Math.PI*Math.max(0,Math.min(1,t)))**.65;}
  private line(t:number,row:number){
-  const a=t*2-1,y=-.194+.010*a*a;
+  const a=t*2-1,y=-.194;
   return this.point(a*this.profile.width,y-row*this.profile.gape*(1-a*a),.43);
  }
  private add(name:string,g:T.BufferGeometry,m:T.Material,weights?:number[]){
@@ -109,27 +114,26 @@ export class CreatureMouth {
  }
  update(open:number){
   const amount=Math.max(0,Math.min(1,open));
+  const hinge=this.mandible.position,rotation=new T.Quaternion().setFromAxisAngle(new T.Vector3(1,0,0),jawAngle(amount));this.mandible.quaternion.copy(rotation);
   for(const {mesh,rest,weights} of this.moving){
+   if(mesh.name!=="OralCavity")continue;
    const p=mesh.geometry.getAttribute("position");
-   for(let i=0;i<p.count;i++){const a=amount*weights[i];p.setXYZ(i,rest[i*3],rest[i*3+1]-a*.055,rest[i*3+2]-a*.016);}p.needsUpdate=true;
+   for(let i=0;i<p.count;i++){const base=new T.Vector3().fromArray(rest,i*3),rotated=base.clone().sub(hinge).applyQuaternion(rotation).add(hinge);base.lerp(rotated,weights[i]);p.setXYZ(i,base.x,base.y,base.z);}p.needsUpdate=true;
   }
   for(const t of this.teeth){
    t.mesh.position.copy(t.base);
-   if(t.lower){const a=amount*this.corner(t.mesh.userData.t);t.mesh.position.y-=a*.055;t.mesh.position.z-=a*.016;}
   }
  }
  exportClip(){
   this.update(0);const tracks:T.KeyframeTrack[]=[],times=[0,.2,.6,1,1.4],values=[0,0,1,.7,0];this.update(1);
   for(const {mesh,rest} of this.moving){
+   if(mesh.name!=="OralCavity")continue;
    const p=mesh.geometry.getAttribute("position"),delta=new Float32Array(rest.length);for(let i=0;i<delta.length;i++)delta[i]=p.array[i]-rest[i];
    const attr=new T.Float32BufferAttribute(delta,3);attr.name="MouthOpen";mesh.geometry.morphAttributes.position=[attr];mesh.geometry.morphTargetsRelative=true;mesh.updateMorphTargets();
    tracks.push(new T.NumberKeyframeTrack(`${mesh.name}.morphTargetInfluences`,times,values));
   }
-  for(const t of this.teeth.filter(t=>t.lower)){
-   const positions:number[]=[];
-   for(const w of values){const a=w*this.corner(t.mesh.userData.t);positions.push(t.base.x,t.base.y-a*.055,t.base.z-a*.016);}
-   tracks.push(new T.VectorKeyframeTrack(`${t.mesh.name}.position`,times,positions));
-  }
+  const rotations:number[]=[];for(const w of values)rotations.push(...new T.Quaternion().setFromAxisAngle(new T.Vector3(1,0,0),jawAngle(w)));
+  tracks.push(new T.QuaternionKeyframeTrack("MandiblePivot.quaternion",times,rotations));
   this.update(0);return new T.AnimationClip("Mouth_Roar",1.4,tracks);
  }
  dispose(){this.group.traverse(o=>{if((o as T.Mesh).isMesh)(o as T.Mesh).geometry.dispose();});this.ownedMaterials.forEach(m=>m.dispose());this.group.removeFromParent();}

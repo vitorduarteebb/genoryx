@@ -1,4 +1,4 @@
-import { combatConfig, energyForRound, matchRulesFor, seedPowerForSpecies, type MatchMode } from "@nexora/config";
+import { combatConfig, combatV23Config, energyForRound, matchRulesFor, seedPowerForSpecies, type MatchMode } from "@nexora/config";
 import { hydratePersonalResource } from "../genetic-combat/resource";
 import type { BattleRulesVersion, FormationSlot } from "@nexora/types";
 import { createSeededRandom } from "../random/random-service";
@@ -54,6 +54,7 @@ function toCombatant(
     res: stats.res,
     spd: stats.spd,
     crit: stats.crit,
+    genes: { ...row.blueprint.genes },
     tags: [...row.blueprint.tags],
     statuses: [],
     slot: row.slot ?? formationSlotFromIndex(index, version),
@@ -106,6 +107,8 @@ export function createBattleState(input: {
       characterId: fighter.characterId,
       displayName: fighter.displayName,
       energy: energyForRound(1),
+      mana: combatV23Config.startingMana,
+      maxMana: combatV23Config.maxMana,
       momentum: combatConfig.startingMomentum,
       deck: dealt.deck,
       hand: dealt.hand,
@@ -123,6 +126,9 @@ export function createBattleState(input: {
       reactionSlot: null,
       teamResonance: emptyTeamResonance(matchRules),
       geneticChain: emptyChain(),
+      preparedEffects: [],
+      channels: [],
+      impetusUsed: {},
     };
     return side;
   };

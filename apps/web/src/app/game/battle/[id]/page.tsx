@@ -11,6 +11,7 @@ import { GameShell } from "../../../../components/game-shell";
 import type { GeneticCardState } from "../../../../lib/card-chrome";
 import type { CreatureVisualState } from "../../../../lib/creature-visual-contract";
 import { api } from "../../../../lib/api";
+import { adventureExitHref } from "../../../../lib/adventure-return";
 import { useGameSession } from "../../../../lib/use-game-session";
 
 type HandCard = {
@@ -21,6 +22,8 @@ type HandCard = {
   locus?: string | null;
   type?: string;
   typeLabel?: string;
+  timingClass?: string;
+  timingLabel?: string;
   element?: string;
   text?: string;
   description?: string;
@@ -31,6 +34,8 @@ type HandCard = {
   sourceCreature?: string;
   sourceCreatureId?: string;
   sourceTypology?: string;
+  genome?: { domain: string; domainLabel: string; speed: string; speedLabel: string; rulesText: string; scale: number };
+  estimatedDamage?: number;
   effects?: Array<{
     op: string;
     value?: number;
@@ -42,6 +47,8 @@ type HandCard = {
 type SideView = {
   displayName: string;
   energy: number;
+  mana?: number;
+  maxMana?: number;
   momentum?: number;
   handCount?: number;
   deckCount?: number;
@@ -72,6 +79,7 @@ type DraftView = {
     keySynergies: string[];
     signatureSummary: string;
     supremeSummary: string;
+    timingProfile?: { impetus: number; counter: number; channel: number; reaction: number; ritual: number; style: string };
   }>;
   foeRoster: Array<{ creatureId: string; name: string; combatIdentity: string; role: string; primaryElement: string; personalResource: string; produces: string[]; keySynergies: string[] }>;
   yourBanLocked?: boolean;
@@ -123,6 +131,7 @@ type BattleView = {
   middleWindow?: "OPEN" | "CLOSED";
   captured?: { name: string } | null;
   energyCap?: number;
+  genomeTimeline?: Array<{ id: string; name: string; cardName: string; speed: string; initiative: number; ghost: boolean }>;
   linear?: boolean;
   fusionEnabled?: boolean;
   matchRules?: { mode?: string; hintsEnabled?: boolean; actionQueueEnabled?: boolean; resonanceEnabled?: boolean; rulesVersion?: string };
@@ -130,6 +139,21 @@ type BattleView = {
   pressure?: { tier: number; label: string | null };
   casualRecap?: { bestSynergies: string[]; maxChain: number; resonanceGenerated: number };
   reactionArmed?: [boolean, boolean];
+  arcaneReserve?: { leftover: number; manaGain: number; overcommit: boolean };
+  magicWar?: {
+    open?: boolean;
+    window?: string | null;
+    frames?: Array<{
+      id: string;
+      cardName: string;
+      timingClass: string;
+      stackSpeed: string;
+      manaPaid: number;
+      surcharge: number;
+      interventionOp?: string;
+    }>;
+  };
+  magicWarRespondIds?: string[];
   clock?: { timeBank: [number, number] };
   returnMapKey?: string;
   orbs?: { nexorb: number; nexorb_plus: number };
@@ -143,11 +167,11 @@ function needsTarget(card: HandCard) {
   return card.targetType === "ENEMY" || card.targetType === "ALLY";
 }
 
-function fusionLockHint(reason?: string) {
+function fusionLockHint(reason?: string, resonance = 0) {
   if (reason === "usage") return "Jogue as duas tipologias.";
-  if (reason === "resonance") return "Ressonância insuficiente.";
+  if (reason === "resonance") return `Ressonância ${resonance}/4`;
   if (reason === "momentum") return "Momentum insuficiente.";
-  if (reason?.startsWith("round")) return "Ainda não é o round.";
+  if (reason?.startsWith("round")) return "Libera no round 5.";
   return "Ainda selada.";
 }
 
@@ -193,7 +217,7 @@ export default function BattlePage() {
     if (!accessToken) return;
     try {
       await api("/pvp/leave", { method: "POST", accessToken });
-      router.push("/game/arena");
+      router.push(adventureExitHref());
     } catch (err) {
       setLoadError(err instanceof Error ? err.message : "Não saiu do PvP.");
     }
@@ -299,6 +323,11 @@ export default function BattlePage() {
                 <small>{row.role} · {row.combatIdentity}</small>
                 <small>{row.primaryElement} · {row.personalResource}</small>
                 <small>Produces {row.produces.slice(0, 3).join(", ") || "—"}</small>
+                {row.timingProfile ? (
+                  <small>
+                    {row.timingProfile.style} · {row.timingProfile.impetus} Ímpetos · {row.timingProfile.counter} Counters · {row.timingProfile.channel} Channels
+                  </small>
+                ) : null}
                 <small>G9 {row.signatureSummary} · G10 {row.supremeSummary}</small>
               </button>
             ))}
@@ -353,7 +382,7 @@ export default function BattlePage() {
               <button type="button" className="rounded-xl border border-ember/40 px-3 py-2 text-ember" onClick={() => void concedeActivePvp()}>
                 Desistir do PvP ativo
               </button>
-              <button type="button" className="rounded-xl border border-gold/40 px-3 py-2 text-gold" onClick={() => router.push("/game/arena")}>
+              <button type="button" className="rounded-xl border border-gold/40 px-3 py-2 text-gold" onClick={() => router.push(adventureExitHref())}>
                 Voltar à arena
               </button>
             </div>
@@ -395,11 +424,35 @@ export default function BattlePage() {
     return { owner, def, current, gate: resourcePlayGate(card.effects ?? [], current, def) };
   }
 
+  function estimateDamage(card: HandCard) {
+    const owner = ownerOf(card);
+    const damage = card.effects?.find((row) => row.op === "DAMAGE");
+    if (!damage) return null;
+    if (!owner) return damage.value ?? null;
+    const scale = card.genome?.scale ?? 0.35;
+    const domain = card.genome?.domain;
+    const atk = owner.atk ?? 0;
+    const mag = owner.mag ?? 0;
+    const stat = domain === "PHYSICAL" ? atk : domain === "HYBRID" ? Math.round((atk + mag) * 0.55) : mag;
+    return (damage.value ?? 0) + Math.round(stat * scale);
+  }
+
   function cardState(card: HandCard): GeneticCardState {
+    const warOpen = Boolean(view?.magicWar?.open);
+    const respondIds = view?.magicWarRespondIds ?? [];
     if (playingId === card.instanceId) {
       return "PLAYING";
     }
-    if (finished || !yourTurn || !ownerAlive(card) || resourceOf(card).gate) {
+    if (finished || !yourTurn || !ownerAlive(card)) {
+      return "DISABLED";
+    }
+    if (warOpen) {
+      if (respondIds.includes(card.instanceId)) {
+        return selectedId === card.instanceId ? "SELECTED" : "REACTION_AVAILABLE";
+      }
+      return "DISABLED";
+    }
+    if (resourceOf(card).gate) {
       return "DISABLED";
     }
     if (card.cost > me.energy) {
@@ -415,7 +468,20 @@ export default function BattlePage() {
   }
 
   function playCard(card: HandCard) {
-    if (!yourTurn || finished || card.cost > me.energy || !ownerAlive(card) || resourceOf(card).gate) {
+    if (!yourTurn || finished || !ownerAlive(card)) {
+      return;
+    }
+    const warOpen = Boolean(view?.magicWar?.open);
+    const respondIds = view?.magicWarRespondIds ?? [];
+    if (warOpen) {
+      if (!respondIds.includes(card.instanceId)) {
+        return;
+      }
+      setPlayingId(card.instanceId);
+      void act({ type: "STACK_RESPOND", cardInstanceId: card.instanceId });
+      return;
+    }
+    if (card.cost > me.energy || resourceOf(card).gate) {
       return;
     }
     if (card.type === "REACTION" || card.tags?.includes("COUNTER") || card.tags?.includes("INTERCEPT")) {
@@ -469,7 +535,7 @@ export default function BattlePage() {
   const energyCap = view.energyCap ?? Math.min(10, Math.max(1, view.state.round));
 
   function backToMap() {
-    router.push("/game/arena");
+    router.push(adventureExitHref());
   }
 
   const laneName: Record<string, string> = { FRONT: "Frente", MIDDLE: "Meio", BACK: "Retaguarda", BACK_LEFT: "Esquerda", BACK_RIGHT: "Direita" };
@@ -516,7 +582,7 @@ export default function BattlePage() {
             Casual
             <small>Play for fun</small>
           </Link>
-          <Link href="/game/arena?mode=adventure" className="gx-mode" data-active={mode === "adventure"}>
+          <Link href="/game/adventure" className="gx-mode" data-active={mode === "adventure"}>
             Adventure / Career
             <small>Explore GENORYX</small>
           </Link>
@@ -592,15 +658,45 @@ export default function BattlePage() {
             <p className="gx-chain">{me.geneticChain.links.map((row) => row.creatureName).join(" ↓ ")} · x{me.geneticChain.links.length}</p>
           ) : null}
           {view.reactionArmed?.[foeSideIndex] ? <p className="gx-arena__hint">REAÇÃO PREPARADA</p> : null}
+          {view.magicWar?.open ? (
+            <div className="gx-magic-war">
+              <p className="gx-magic-war__title">GUERRA MÁGICA · {view.magicWar.window ?? "DECLARE"}</p>
+              <ol>
+                {[...(view.magicWar.frames ?? [])].reverse().map((frame, index, list) => (
+                  <li key={frame.id}>
+                    <b>{list.length - index}</b> {frame.cardName}
+                    <small>
+                      {frame.timingClass} · {frame.stackSpeed}
+                      {frame.interventionOp ? ` · ${frame.interventionOp}` : ""} · {frame.manaPaid} Mana
+                      {frame.surcharge ? ` (+${frame.surcharge})` : ""}
+                    </small>
+                  </li>
+                ))}
+              </ol>
+              <p className="gx-magic-war__resolve">RESOLVE ↓</p>
+              <p className="gx-arena__hint">
+                {(view.magicWarRespondIds?.length ?? 0) > 0
+                  ? `Prioridade sua · ${view.magicWarRespondIds!.length} carta(s) podem responder (Mana do time).`
+                  : yourTurn
+                    ? "Prioridade sua · sem resposta válida na mão — passe o embate."
+                    : "Aguardando prioridade…"}
+              </p>
+              <div className="gx-magic-war__acts">
+                <button type="button" className="gx-endturn" disabled={!yourTurn || finished} onClick={() => void act({ type: "PASS_PRIORITY" })}>
+                  Passar Embate
+                </button>
+              </div>
+            </div>
+          ) : null}
           {me.creatures.some((unit) => unit.supremeReady) ? (
             <p className="gx-arena__hint">{me.creatures.filter((unit) => unit.supremeReady).map((unit) => `${unit.name} · SUPREME READY`).join(" · ")}</p>
           ) : null}
           {resonanceUnlock ? <p className="gx-arena__hint">RESSONÂNCIA GENÉTICA DESPERTADA</p> : null}
           {recycleFlash ? <p className="gx-arena__hint">DISCARD → SHUFFLE → DRAW</p> : null}
-          {fusionOn && view.state.round >= 5 && view.state.fusion?.awakened ? (
+          {fusionOn && view.state.fusion?.awakened ? (
             <p className="gx-arena__hint">SINERGIA DESPERTADA · {fusionPool.find((row) => row.familyKey === view.state.fusion?.awakened)?.namePt}</p>
           ) : null}
-          {fusionOn && view.state.round >= 7 && view.state.fusion?.convergence ? (
+          {fusionOn && view.state.fusion?.convergence ? (
             <p className="gx-arena__hint">GENETIC CONVERGENCE · {fusionPool.find((row) => row.familyKey === view.state.fusion?.convergence)?.namePt}</p>
           ) : null}
           <p className="gx-arena__hint">
@@ -641,32 +737,41 @@ export default function BattlePage() {
             </div>
           ) : null}
         </section>
-        {fusionOn && view.state.round >= 5 && fusionPool.length > 0 ? (
-          <div className="gx-fusion-pool">
-            {fusionPool.map((row) => {
-              const playable = row.ready && yourTurn && !finished;
-              return (
-                <button
-                  key={row.familyKey}
-                  type="button"
-                  disabled={!playable}
-                  className={`gx-fusion-card ${row.triple || row.kind === "CONVERGENCE" ? "gx-fusion-card--convergence" : ""} ${row.ready ? "" : "gx-fusion-card--locked"}`}
-                  onClick={() => {
-                    if (!playable) return;
-                    void act({ type: row.triple || row.kind === "CONVERGENCE" ? "PLAY_CONVERGENCE" : "PLAY_FUSION", familyKey: row.familyKey });
-                  }}
-                >
-                  <span className="gx-fusion-card__art" />
-                  <span>
-                    {row.kind === "CONVERGENCE" || row.triple ? "CONVERGENCE" : "FUSION"} · {row.namePt}
-                  </span>
-                  <small>{row.ready ? row.textPt : fusionLockHint(row.reason)}</small>
-                </button>
-              );
-            })}
+        {fusionOn ? (
+          <div className="gx-fusion-bay">
+            <p className="gx-fusion-meter">
+              Fusão · ressonância {view.state.fusion?.resonance ?? 0}/4
+              {view.state.round < 5 ? " · libera no round 5" : ""}
+              {fusionPool.some((row) => row.ready) ? " · pronta" : ""}
+            </p>
+            {fusionPool.length > 0 ? (
+              <div className="gx-fusion-pool">
+                {fusionPool.map((row) => {
+                  const playable = row.ready && yourTurn && !finished;
+                  return (
+                    <button
+                      key={row.familyKey}
+                      type="button"
+                      disabled={!playable}
+                      className={`gx-fusion-card ${row.triple || row.kind === "CONVERGENCE" ? "gx-fusion-card--convergence" : ""} ${row.ready ? "" : "gx-fusion-card--locked"}`}
+                      onClick={() => {
+                        if (!playable) return;
+                        void act({ type: row.triple || row.kind === "CONVERGENCE" ? "PLAY_CONVERGENCE" : "PLAY_FUSION", familyKey: row.familyKey });
+                      }}
+                    >
+                      <span className="gx-fusion-card__art" />
+                      <span>
+                        {row.kind === "CONVERGENCE" || row.triple ? "CONVERGENCE" : "FUSION"} · {row.namePt}
+                      </span>
+                      <small>{row.ready ? row.textPt : fusionLockHint(row.reason, view.state.fusion?.resonance ?? 0)}</small>
+                    </button>
+                  );
+                })}
+              </div>
+            ) : (
+              <p className="gx-arena__hint">Fusão: jogue cartas das tipologias do time para despertar o par.</p>
+            )}
           </div>
-        ) : fusionOn && view.state.round >= 5 ? (
-          <p className="gx-arena__hint">Fusão: jogue cartas das tipologias vivas para despertar.</p>
         ) : null}
         <div className="gx-stage__dock">
           <div className="gx-energy-dial">
@@ -675,7 +780,20 @@ export default function BattlePage() {
               {Math.max(0, me.energy - (me.reservedEnergy ?? 0))}/{energyCap}
             </b>
             {(me.reservedEnergy ?? 0) > 0 ? <small>Reservada {me.reservedEnergy}</small> : null}
+            <span>Mana</span>
+            <b className="gx-mana">
+              {me.mana ?? 2}/{me.maxMana ?? 10}
+            </b>
+            {view.arcaneReserve && yourTurn && !view.magicWar?.open ? (
+              <small>Se confirmar agora: +{view.arcaneReserve.manaGain} Mana</small>
+            ) : null}
+            {view.arcaneReserve?.overcommit && yourTurn ? <small className="gx-overcommit">SEM RESERVA</small> : null}
             <p className="gx-piles">Draw {me.deckCount ?? 0} · Disc {me.discardCount ?? 0}</p>
+            {view.genomeTimeline && view.genomeTimeline.length > 0 ? (
+              <p className="gx-piles">
+                Timeline: {view.genomeTimeline.map((row) => `${row.ghost ? "fantasma " : ""}${row.name} ${row.cardName} (${row.speed})`).join(" → ")}
+              </p>
+            ) : null}
           </div>
           <div>
             <div className="gx-arena__hand">
@@ -686,9 +804,10 @@ export default function BattlePage() {
                   locus={card.locus}
                   artUrl={card.artUrl}
                   imageHash={card.imageHash}
-                  element={card.element}
+                  element={ownerOf(card)?.element ?? card.element}
                   chassis={ownerOf(card)?.chassis ?? ownerOf(card)?.visual?.chassis ?? null}
                   lifeStage={ownerOf(card)?.visual?.lifeStage}
+                  creatureId={card.sourceCreatureId}
                   disabled={!yourTurn || finished}
                   state={cardState(card)}
                   onPlay={() => playCard(card)}
@@ -701,6 +820,12 @@ export default function BattlePage() {
                     resourceCurrent: resourceOf(card).current,
                     resourceName: resourceOf(card).def?.displayName,
                     sourceCreature: card.sourceCreature,
+                    domain: card.genome?.domain,
+                    speed: card.genome?.speed,
+                    domainLabel: card.genome?.domainLabel,
+                    speedLabel: card.genome?.speedLabel,
+                    genomeDetails: card.genome?.rulesText,
+                    estimatedDamage: estimateDamage(card),
                   }}
                 />
               ))}
@@ -755,9 +880,13 @@ export default function BattlePage() {
                 </button>
               </div>
             ) : null}
-            <button type="button" className="gx-endturn" disabled={!yourTurn || finished || !(me.actionQueue?.length)} onClick={() => void act({ type: "CONFIRM_TURN" })}>
+            <button type="button" className="gx-endturn" disabled={!yourTurn || finished || !(me.actionQueue?.length) || Boolean(view.magicWar?.open)} onClick={() => void act({ type: "CONFIRM_TURN" })}>
               Confirmar turno
+              {view.arcaneReserve && view.arcaneReserve.manaGain > 0 ? ` · +${view.arcaneReserve.manaGain} Mana` : ""}
             </button>
+            {view.arcaneReserve?.overcommit && yourTurn ? (
+              <p className="gx-arena__hint">SEM RESERVA · pouca capacidade de intervenção na resolução.</p>
+            ) : null}
             <button type="button" className="gx-endturn" disabled={!yourTurn || finished} onClick={() => void act({ type: "END_TURN" })}>
               Passar
             </button>
@@ -787,6 +916,15 @@ export default function BattlePage() {
               </button>
             ) : null}
             <details className="gx-history">
+              <summary>Ímpeto / Intervenção / Preparação / Canalização</summary>
+              <ul>
+                <li>ÍMPETO — ação rápida em janelas da resolução. Entra no topo da Guerra Mágica com prioridade FAST.</li>
+                <li>INTERVENÇÃO — carta que altera uma ação que ainda não terminou de resolver.</li>
+                <li>PREPARAÇÃO — ação armada que espera uma condição.</li>
+                <li>CANALIZAÇÃO — habilidade poderosa que leva tempo e pode ser interrompida.</li>
+              </ul>
+            </details>
+            <details className="gx-history">
               <summary>View log</summary>
               <ul>
                 {view.state.log.slice(-16).map((row, index) => (
@@ -807,10 +945,14 @@ export default function BattlePage() {
             {
               rulesVersion: view.state.rulesVersion,
               validTargets: view.validTargets,
-              resonance: view.state.fusion?.resonance,
+              resonance: me.teamResonance?.value ?? view.state.fusion?.resonance ?? 0,
+              teamResonance: me.teamResonance,
+              fusionResonance: view.state.fusion?.resonance,
               byTypology: view.state.fusion?.byTypology,
               usage: view.state.usageHistory,
               combatDebug: view.combatDebug,
+              mana: [me.mana, foe.mana],
+              magicWar: view.magicWar,
               selectedTarget: selected
                 ? {
                     card: selected.definitionKey,

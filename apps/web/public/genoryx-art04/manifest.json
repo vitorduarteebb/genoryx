@@ -979,6 +979,114 @@
       "skinCount": 0,
       "genomeMask": "COLOR_1",
       "previewColor": "COLOR_0"
+    },
+    "GXR_HORNS_06_ANTLERS_L": {
+      "id": "GXR_HORNS_06_ANTLERS_L",
+      "category": "horns",
+      "label": "Galhada ancestral",
+      "url": "/genoryx-art04/parts/GXR_HORNS_06_ANTLERS_L.glb",
+      "bytes": 58688,
+      "triangles": 1864,
+      "meshes": 9
+    },
+    "GXR_HORNS_06_ANTLERS_R": {
+      "id": "GXR_HORNS_06_ANTLERS_R",
+      "category": "horns",
+      "label": "Galhada ancestral",
+      "url": "/genoryx-art04/parts/GXR_HORNS_06_ANTLERS_R.glb",
+      "bytes": 58676,
+      "triangles": 1864,
+      "meshes": 9
+    },
+    "GXR_HORNS_07_SABER_L": {
+      "id": "GXR_HORNS_07_SABER_L",
+      "category": "horns",
+      "label": "Sabres recurvados",
+      "url": "/genoryx-art04/parts/GXR_HORNS_07_SABER_L.glb",
+      "bytes": 42012,
+      "triangles": 1264,
+      "meshes": 7
+    },
+    "GXR_HORNS_07_SABER_R": {
+      "id": "GXR_HORNS_07_SABER_R",
+      "category": "horns",
+      "label": "Sabres recurvados",
+      "url": "/genoryx-art04/parts/GXR_HORNS_07_SABER_R.glb",
+      "bytes": 42012,
+      "triangles": 1264,
+      "meshes": 7
+    },
+    "GXR_HORNS_08_CORAL_L": {
+      "id": "GXR_HORNS_08_CORAL_L",
+      "category": "horns",
+      "label": "Coroa coralina",
+      "url": "/genoryx-art04/parts/GXR_HORNS_08_CORAL_L.glb",
+      "bytes": 111224,
+      "triangles": 3560,
+      "meshes": 17
+    },
+    "GXR_HORNS_08_CORAL_R": {
+      "id": "GXR_HORNS_08_CORAL_R",
+      "category": "horns",
+      "label": "Coroa coralina",
+      "url": "/genoryx-art04/parts/GXR_HORNS_08_CORAL_R.glb",
+      "bytes": 111220,
+      "triangles": 3560,
+      "meshes": 17
+    },
+    "GXR_BACK_06_SAIL": {
+      "id": "GXR_BACK_06_SAIL",
+      "category": "back",
+      "label": "Vela dorsal",
+      "url": "/genoryx-art04/parts/GXR_BACK_06_SAIL.glb",
+      "bytes": 99912,
+      "triangles": 2990,
+      "meshes": 20
+    },
+    "GXR_BACK_07_PETALS": {
+      "id": "GXR_BACK_07_PETALS",
+      "category": "back",
+      "label": "P\u00c3\u00a9talas laminadas",
+      "url": "/genoryx-art04/parts/GXR_BACK_07_PETALS.glb",
+      "bytes": 49328,
+      "triangles": 960,
+      "meshes": 25
+    },
+    "GXR_BACK_08_SHIELDS": {
+      "id": "GXR_BACK_08_SHIELDS",
+      "category": "back",
+      "label": "Escudos sobrepostos",
+      "url": "/genoryx-art04/parts/GXR_BACK_08_SHIELDS.glb",
+      "bytes": 62420,
+      "triangles": 1710,
+      "meshes": 15
+    },
+    "GXR_TAIL_06_CLUB": {
+      "id": "GXR_TAIL_06_CLUB",
+      "category": "tail",
+      "label": "Cauda de clava",
+      "url": "/genoryx-art04/parts/GXR_TAIL_06_CLUB.glb",
+      "bytes": 98180,
+      "triangles": 3136,
+      "meshes": 15
+    },
+    "GXR_TAIL_07_FAN": {
+      "id": "GXR_TAIL_07_FAN",
+      "category": "tail",
+      "label": "Cauda de leque",
+      "url": "/genoryx-art04/parts/GXR_TAIL_07_FAN.glb",
+      "bytes": 112544,
+      "triangles": 3434,
+      "meshes": 23
+    },
+    "GXR_TAIL_08_FORKED": {
+      "id": "GXR_TAIL_08_FORKED",
+      "category": "tail",
+      "label": "Cauda bifurcada",
+      "url": "/genoryx-art04/parts/GXR_TAIL_08_FORKED.glb",
+      "bytes": 51188,
+      "triangles": 1608,
+      "meshes": 8
     }
   },
   "bones": [
@@ -1017,25 +1125,25 @@
         ]
       },
       "worldMatrixColumnMajor": [
-        1.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
+        1,
+        0,
+        0,
+        0,
+        0,
         0.9999997611016238,
         -7.406455438686183e-08,
-        0.0,
-        0.0,
+        0,
+        0,
         7.406455436821863e-08,
         0.9999997611016238,
-        0.0,
-        0.0,
+        0,
+        0,
         0.46000001056790163,
         0.10500002109400777,
-        1.0
+        1
       ],
       "worldPosition": [
-        0.0,
+        0,
         0.46000001056790163,
         0.10500002109400777
       ]
@@ -1061,22 +1169,22 @@
         ]
       },
       "worldMatrixColumnMajor": [
-        1.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
+        1,
+        0,
+        0,
+        0,
+        0,
         0.9999997611016238,
         -7.406455438686183e-08,
-        0.0,
-        0.0,
+        0,
+        0,
         7.406455436821863e-08,
         0.9999997611016238,
-        0.0,
+        0,
         0.12800000607967377,
         0.6679999862760116,
         0.2899999394164344,
-        1.0
+        1
       ],
       "worldPosition": [
         0.12800000607967377,
@@ -1105,22 +1213,22 @@
         ]
       },
       "worldMatrixColumnMajor": [
-        1.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
+        1,
+        0,
+        0,
+        0,
+        0,
         0.9999997611016238,
         -7.406455438686183e-08,
-        0.0,
-        0.0,
+        0,
+        0,
         7.406455436821863e-08,
         0.9999997611016238,
-        0.0,
+        0,
         -0.12800000607967377,
         0.6679999862760116,
         0.2899999394164344,
-        1.0
+        1
       ],
       "worldPosition": [
         -0.12800000607967377,
@@ -1149,25 +1257,25 @@
         ]
       },
       "worldMatrixColumnMajor": [
-        1.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
+        1,
+        0,
+        0,
+        0,
+        0,
         0.9999993100223953,
         -4.240753119577608e-06,
-        0.0,
-        0.0,
+        0,
+        0,
         -4.174776766155239e-06,
         1.0000000909665698,
-        0.0,
-        0.0,
+        0,
+        0,
         0.40500016884271667,
         -0.48000008353452556,
-        1.0
+        1
       ],
       "worldPosition": [
-        0.0,
+        0,
         0.40500016884271667,
         -0.48000008353452556
       ]
@@ -1191,19 +1299,19 @@
         0.9999999966178492,
         2.807320312890802e-08,
         2.9542110198381406e-08,
-        0.0,
+        0,
         -3.3006464447147935e-09,
         1.0000000286955633,
         8.552470337954083e-09,
-        0.0,
+        0,
         -4.553234506540949e-08,
         2.050468605372232e-08,
         1.0000000776875844,
-        0.0,
+        0,
         0.17999999891196755,
         0.45000006121749014,
         0.11499997467580514,
-        1.0
+        1
       ],
       "worldPosition": [
         0.17999999891196755,
@@ -1230,19 +1338,19 @@
         0.9999999966178492,
         -2.807320312890802e-08,
         -2.9542110198381406e-08,
-        0.0,
+        0,
         3.3006464447147935e-09,
         1.0000000286955633,
         8.552470337954083e-09,
-        0.0,
+        0,
         4.553234506540949e-08,
         2.050468605372232e-08,
         1.0000000776875844,
-        0.0,
+        0,
         -0.17999999891196755,
         0.45000006121749014,
         0.11499997467580514,
-        1.0
+        1
       ],
       "worldPosition": [
         -0.17999999891196755,
@@ -1274,19 +1382,19 @@
         0.9999999998341021,
         -2.0049492912284062e-08,
         -3.483712969237829e-08,
-        0.0,
+        0,
         2.4042877696612392e-08,
         0.9999999386940228,
         -6.101616936298652e-08,
-        0.0,
+        0,
         3.6390354425467896e-08,
         6.132472330625747e-08,
         0.9999999981140243,
-        0.0,
+        0,
         0.1799999989743561,
         0.4499999604981425,
         -0.31499996018569104,
-        1.0
+        1
       ],
       "worldPosition": [
         0.1799999989743561,
@@ -1318,19 +1426,19 @@
         0.9999999998341021,
         2.0049492912284062e-08,
         3.483712969237829e-08,
-        0.0,
+        0,
         -2.4042877696612392e-08,
         0.9999999386940228,
         -6.101616936298652e-08,
-        0.0,
+        0,
         -3.6390354425467896e-08,
         6.132472330625747e-08,
         0.9999999981140243,
-        0.0,
+        0,
         -0.1799999989743561,
         0.4499999604981425,
         -0.31499996018569104,
-        1.0
+        1
       ],
       "worldPosition": [
         -0.1799999989743561,
@@ -1359,25 +1467,25 @@
         ]
       },
       "worldMatrixColumnMajor": [
-        1.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
+        1,
+        0,
+        0,
+        0,
+        0,
         0.9999997359116318,
         1.648568159362102e-07,
-        0.0,
-        0.0,
+        0,
+        0,
         -1.648568159539295e-07,
         0.9999997359116318,
-        0.0,
-        0.0,
+        0,
+        0,
         0.7160000042811295,
         -0.15000003293976924,
-        1.0
+        1
       ],
       "worldPosition": [
-        0.0,
+        0,
         0.7160000042811295,
         -0.15000003293976924
       ]
@@ -1403,22 +1511,22 @@
         ]
       },
       "worldMatrixColumnMajor": [
-        1.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
+        1,
+        0,
+        0,
+        0,
+        0,
         0.9999997359116318,
         1.648568159362102e-07,
-        0.0,
-        0.0,
+        0,
+        0,
         -1.648568159539295e-07,
         0.9999997359116318,
-        0.0,
+        0,
         0.24300000071525574,
         0.4499999911462084,
         -0.005000003585283824,
-        1.0
+        1
       ],
       "worldPosition": [
         0.24300000071525574,
@@ -1447,22 +1555,22 @@
         ]
       },
       "worldMatrixColumnMajor": [
-        1.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
+        1,
+        0,
+        0,
+        0,
+        0,
         0.9999997359116318,
         1.648568159362102e-07,
-        0.0,
-        0.0,
+        0,
+        0,
         -1.648568159539295e-07,
         0.9999997359116318,
-        0.0,
+        0,
         -0.24300000071525574,
         0.4499999911462084,
         -0.005000003585283824,
-        1.0
+        1
       ],
       "worldPosition": [
         -0.24300000071525574,
@@ -1482,16 +1590,16 @@
       "sourceMorphChannels": 3,
       "rootTranslationRange": {
         "x": [
-          0.0,
-          0.0
+          0,
+          0
         ],
         "y": [
-          0.0,
+          0,
           0.03812134265899658
         ],
         "z": [
-          0.0,
-          0.0
+          0,
+          0
         ]
       },
       "sourceBytes": 872052
@@ -1505,16 +1613,16 @@
       "sourceMorphChannels": 3,
       "rootTranslationRange": {
         "x": [
-          0.0,
-          0.0
+          0,
+          0
         ],
         "y": [
-          0.0,
+          0,
           0.040608614683151245
         ],
         "z": [
-          0.0,
-          0.0
+          0,
+          0
         ]
       },
       "sourceBytes": 872224
@@ -1528,16 +1636,16 @@
       "sourceMorphChannels": 3,
       "rootTranslationRange": {
         "x": [
-          0.0,
-          0.0
+          0,
+          0
         ],
         "y": [
-          0.0,
+          0,
           0.03824937343597412
         ],
         "z": [
-          0.0,
-          0.0
+          0,
+          0
         ]
       },
       "sourceBytes": 868036
@@ -1551,16 +1659,16 @@
       "sourceMorphChannels": 3,
       "rootTranslationRange": {
         "x": [
-          0.0,
-          0.0
+          0,
+          0
         ],
         "y": [
-          0.0,
+          0,
           0.0019410625100135803
         ],
         "z": [
-          0.0,
-          0.0
+          0,
+          0
         ]
       },
       "sourceBytes": 875020
@@ -1574,16 +1682,16 @@
       "sourceMorphChannels": 3,
       "rootTranslationRange": {
         "x": [
-          0.0,
-          0.0
+          0,
+          0
         ],
         "y": [
-          0.0,
+          0,
           0.043414704501628876
         ],
         "z": [
-          0.0,
-          0.0
+          0,
+          0
         ]
       },
       "sourceBytes": 875160
@@ -1597,16 +1705,16 @@
       "sourceMorphChannels": 3,
       "rootTranslationRange": {
         "x": [
-          0.0,
-          0.0
+          0,
+          0
         ],
         "y": [
-          0.0,
-          0.0
+          0,
+          0
         ],
         "z": [
-          0.0,
-          0.0
+          0,
+          0
         ]
       },
       "sourceBytes": 874228
@@ -1620,16 +1728,16 @@
       "sourceMorphChannels": 3,
       "rootTranslationRange": {
         "x": [
-          0.0,
-          0.0
+          0,
+          0
         ],
         "y": [
-          0.0,
+          0,
           0.029668129980564117
         ],
         "z": [
-          0.0,
-          0.0
+          0,
+          0
         ]
       },
       "sourceBytes": 870884
@@ -1643,16 +1751,16 @@
       "sourceMorphChannels": 3,
       "rootTranslationRange": {
         "x": [
-          0.0,
-          0.0
+          0,
+          0
         ],
         "y": [
-          0.0,
+          0,
           0.0364813469350338
         ],
         "z": [
-          0.0,
-          0.0
+          0,
+          0
         ]
       },
       "sourceBytes": 871632
@@ -1666,16 +1774,16 @@
       "sourceMorphChannels": 3,
       "rootTranslationRange": {
         "x": [
-          0.0,
-          0.0
+          0,
+          0
         ],
         "y": [
-          0.0,
+          0,
           0.03313625976443291
         ],
         "z": [
-          0.0,
-          0.0
+          0,
+          0
         ]
       },
       "sourceBytes": 871232
@@ -1689,16 +1797,16 @@
       "sourceMorphChannels": 3,
       "rootTranslationRange": {
         "x": [
-          0.0,
-          0.0
+          0,
+          0
         ],
         "y": [
-          0.0,
+          0,
           0.018533192574977875
         ],
         "z": [
-          0.0,
-          0.0
+          0,
+          0
         ]
       },
       "sourceBytes": 873912
@@ -1728,7 +1836,9 @@
       "HEAD_01_SMOOTH": "GXR_HEAD_03_SERPENT",
       "HEAD_02_PREDATOR": "GXR_HEAD_02_BEAST",
       "HEAD_03_DRACONIC": "GXR_HEAD_01_DRACONIC",
-      "HEAD_04_ARCANE": "GXR_HEAD_04_ABYSSAL"
+      "HEAD_04_ARCANE": "GXR_HEAD_04_ABYSSAL",
+      "HEAD_05_URSINE": "GXR_HEAD_02_BEAST",
+      "HEAD_06_VULPINE": "GXR_HEAD_03_SERPENT"
     },
     "eyes": {
       "EYES_01_PREDATOR": "GXR_EYES_01_PREDATOR",
@@ -1743,7 +1853,10 @@
       "HORNS_03_CRYSTAL": "GXR_HORNS_05_CRYSTAL",
       "HORNS_04_INFERNAL": "GXR_HORNS_01_DRACONIC",
       "HORNS_05_VOID_CRYSTAL": "GXR_HORNS_04_CROWN",
-      "HORNS_NONE": null
+      "HORNS_NONE": null,
+      "HORNS_06_ANTLERS": "GXR_HORNS_06_ANTLERS",
+      "HORNS_07_SABER": "GXR_HORNS_07_SABER",
+      "HORNS_08_CORAL": "GXR_HORNS_08_CORAL"
     },
     "back": {
       "BACK_01_PLATES": "GXR_BACK_01_DORSAL",
@@ -1751,14 +1864,20 @@
       "BACK_03_FIN": "GXR_BACK_03_WINGS",
       "BACK_04_CRYSTAL_SPINES": "GXR_BACK_05_CRYSTAL",
       "BACK_05_ARMORED_SPINES": "GXR_BACK_04_CARAPACE",
-      "BACK_NONE": null
+      "BACK_NONE": null,
+      "BACK_06_SAIL": "GXR_BACK_06_SAIL",
+      "BACK_07_PETALS": "GXR_BACK_07_PETALS",
+      "BACK_08_SHIELDS": "GXR_BACK_08_SHIELDS"
     },
     "tail": {
       "TAIL_01_SHORT": "GXR_TAIL_01_STANDARD",
       "TAIL_02_CURVED": "GXR_TAIL_02_PREDATOR",
       "TAIL_03_SPIKED": "GXR_TAIL_03_HEAVY",
       "TAIL_04_SERPENT": "GXR_TAIL_04_SERPENT",
-      "TAIL_05_ELEMENTAL": "GXR_TAIL_05_GENESIS"
+      "TAIL_05_ELEMENTAL": "GXR_TAIL_05_GENESIS",
+      "TAIL_06_CLUB": "GXR_TAIL_06_CLUB",
+      "TAIL_07_FAN": "GXR_TAIL_07_FAN",
+      "TAIL_08_FORKED": "GXR_TAIL_08_FORKED"
     },
     "limbs": {
       "LIMBS_01_SOFT": {
@@ -1819,35 +1938,35 @@
     },
     {
       "bone": "Front_L_Foot",
-      "maxRestTRSError": 0.0
+      "maxRestTRSError": 0
     },
     {
       "bone": "Front_L",
-      "maxRestTRSError": 0.0
+      "maxRestTRSError": 0
     },
     {
       "bone": "Front_R_Foot",
-      "maxRestTRSError": 0.0
+      "maxRestTRSError": 0
     },
     {
       "bone": "Front_R",
-      "maxRestTRSError": 0.0
+      "maxRestTRSError": 0
     },
     {
       "bone": "Rear_L_Foot",
-      "maxRestTRSError": 0.0
+      "maxRestTRSError": 0
     },
     {
       "bone": "Rear_L",
-      "maxRestTRSError": 0.0
+      "maxRestTRSError": 0
     },
     {
       "bone": "Rear_R_Foot",
-      "maxRestTRSError": 0.0
+      "maxRestTRSError": 0
     },
     {
       "bone": "Rear_R",
-      "maxRestTRSError": 0.0
+      "maxRestTRSError": 0
     },
     {
       "bone": "Body",

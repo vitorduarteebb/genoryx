@@ -1,4 +1,4 @@
-import { energyForRound, getCardDefinition, presentCard, presentPlayableCard, type BattleCreatureVisual, type ResolvedCardArt } from "@nexora/config";
+import { energyForRound, genomeV2, getCardDefinition, presentCard, presentPlayableCard, type BattleCreatureVisual, type ResolvedCardArt } from "@nexora/config";
 import {
   assignFormationSlots,
   battleFusionEnabled,
@@ -6,11 +6,16 @@ import {
   casualSummary,
   combatLineOf,
   currentPressure,
+  eligibleResponses,
   explainTargets,
+  hydrateResolutionProfile,
+  hydrateGenomeProfile,
   middleWindowOpen,
   presentBattleEvents,
   replayFoundation,
+  reservePreview,
   resolveMatchRules,
+  TIMING_LABEL_PT,
   usesLinearFormation,
   type BattleSide,
   type BattleState,
@@ -26,7 +31,20 @@ export type PresentedBattleCard = Omit<ReturnType<typeof presentCard>, "locus"> 
   sourceCreature?: string;
   sourceCreatureId?: string;
   sourceTypology?: string;
+  timingClass?: string;
+  timingLabel?: string;
+  resolutionMode?: string;
+  stackSpeed?: string;
+  effectDomain?: string;
   locus?: string | null;
+  genome?: {
+    domain: string;
+    domainLabel: string;
+    speed: string;
+    speedLabel: string;
+    rulesText: string;
+    scale: number;
+  };
   effects?: ReadonlyArray<{
     op: string;
     value?: number;
@@ -70,6 +88,14 @@ export type BattleView = {
     handByCreature: Record<string, number>;
     actionQueue?: unknown;
     reactionSlot?: unknown;
+    cardTiming?: unknown;
+    battleStack?: unknown;
+    priorityWindow?: unknown;
+    mana?: unknown;
+    surcharge?: unknown;
+    preparedEffects?: unknown;
+    channels?: unknown;
+    virtualManifestations?: unknown;
     statuses?: unknown;
     resources?: unknown;
     resonance?: unknown;
@@ -82,6 +108,7 @@ export type BattleView = {
   };
   middleWindow?: "OPEN" | "CLOSED";
   energyCap: number;
+  genomeTimeline?: Array<{ id: string; name: string; cardName: string; speed: string; initiative: number; ghost: boolean; side: 0 | 1 }>;
   linear: boolean;
   fusionEnabled: boolean;
   matchRules?: BattleState["matchRules"];
@@ -92,6 +119,10 @@ export type BattleView = {
   clock?: BattleState["clock"];
   reactionArmed?: [boolean, boolean];
   returnMapKey?: string;
+  arcaneReserve?: { leftover: number; manaGain: number; overcommit: boolean };
+  magicWar?: BattleState["magicWar"];
+  /** Cartas da sua mão que podem responder agora na Guerra Mágica. */
+  magicWarRespondIds?: string[];
   state: Omit<BattleState, "sides"> & { sides: [BattleSideView, BattleSideView] };
 };
 
@@ -124,10 +155,27 @@ export function presentBattleCard(
 ): PresentedBattleCard {
   const presented = card.resolved ? presentPlayableCard(card.resolved) : presentCard(card.definitionKey);
   const effects = card.resolved?.effects;
+  const profile = card.resolved ? hydrateResolutionProfile(card.resolved, card.locus ?? card.resolved.locusRole) : null;
+  const genome = card.resolved ? hydrateGenomeProfile(card.resolved, card.locus ?? card.resolved.locusRole) : null;
   return {
     instanceId: card.instanceId,
     definitionKey: card.definitionKey,
     ...presented,
+    timingClass: profile?.timingClass ?? presented.timingClass,
+    timingLabel: profile ? TIMING_LABEL_PT[profile.timingClass] : presented.timingLabel,
+    resolutionMode: profile?.resolutionMode,
+    stackSpeed: profile?.stackSpeed,
+    effectDomain: profile?.effectDomain,
+    genome: genome
+      ? {
+          domain: genome.domain,
+          domainLabel: genomeV2.domainLabel[genome.domain],
+          speed: genome.speed,
+          speedLabel: genomeV2.speedLabel[genome.speed],
+          rulesText: genome.rulesText,
+          scale: genome.scale,
+        }
+      : undefined,
     effects,
     artUrl: art?.artUrl ?? source?.portraitUrl ?? null,
     imageHash: art?.imageHash ?? null,
@@ -228,6 +276,31 @@ export function presentBattle(
       targetInfo[card.instanceId] = info;
     }
   }
+  const genomeTimeline = [
+    ...(clone.sides[yourSide].actionQueue ?? []).map((item) => {
+      const def = item.card.resolved ?? getCardDefinition(item.card.definitionKey);
+      const profile = hydrateGenomeProfile(def ?? undefined, item.card.locus);
+      const unit = clone.sides[yourSide].creatures.find((row) => row.creatureId === item.card.sourceCreatureId);
+      return {
+        id: item.id,
+        name: unit?.name ?? clone.sides[yourSide].displayName,
+        cardName: def?.name ?? item.card.definitionKey,
+        speed: genomeV2.speedLabel[profile.speed],
+        initiative: (unit?.spd ?? 0) + genomeV2.cardSpeedBonus[profile.speed],
+        ghost: false,
+        side: yourSide,
+      };
+    }),
+    ...clone.sides[other].creatures.filter((unit) => unit.hp > 0).map((unit) => ({
+      id: `ghost-${unit.id}`,
+      name: unit.name,
+      cardName: "se jogar Normal",
+      speed: genomeV2.speedLabel.NORMAL,
+      initiative: unit.spd + genomeV2.cardSpeedBonus.NORMAL,
+      ghost: true,
+      side: other as 0 | 1,
+    })),
+  ].sort((a, b) => b.initiative - a.initiative);
   const yours = clone.sides[yourSide];
   const allYours = [...yours.hand, ...yours.deck, ...yours.discard, ...yours.exile];
   const byCreature: Record<string, number> = {};
@@ -249,6 +322,12 @@ export function presentBattle(
     return map;
   };
   sides[other] = hidePrivate(sides[other]);
+  const magicWarRespondIds =
+    clone.magicWar?.open && clone.activeSide === yourSide
+      ? eligibleResponses(clone, clone.magicWar.window ?? "DECLARE", clone.magicWar.frames.at(-1))
+          .filter((row) => row.side === yourSide)
+          .map((row) => row.card.instanceId)
+      : [];
   return {
     battleId,
     yourSide,
@@ -292,7 +371,42 @@ export function presentBattle(
       damageBreakdown: clone.log.filter((row) => row.damageBreakdown).slice(-6),
       rng: { seed: clone.seed, rngIndex: clone.rngIndex },
       winCondition: clone.status === "FINISHED" ? { winnerSide: clone.winnerSide } : null,
+      cardTiming: yours.hand.map((card) => {
+        const def = card.resolved ?? getCardDefinition(card.definitionKey);
+        const profile = hydrateResolutionProfile(def ?? undefined, card.locus ?? def?.locusRole);
+        return {
+          cardManifestationId: card.instanceId,
+          definitionKey: card.definitionKey,
+          sourceCreatureId: card.sourceCreatureId ?? "none",
+          grade: card.locus ?? null,
+          timingClass: profile.timingClass,
+          resolutionMode: profile.resolutionMode,
+          stackSpeed: profile.stackSpeed,
+          effectDomain: profile.effectDomain,
+          responseWindows: profile.responseWindows,
+          allowedResponses: profile.allowedResponses,
+          stackable: profile.stackable,
+          retargetPolicy: profile.retargetPolicy,
+          effectGraph: def?.effects ?? [],
+        };
+      }),
+      battleStack: clone.magicWar?.frames ?? [],
+      priorityWindow: clone.magicWar?.window ?? null,
+      mana: clone.sides.map((side) => ({ id: side.id, mana: side.mana ?? 0, max: side.maxMana ?? 10 })),
+      surcharge: clone.magicWar?.frames.map((row) => row.surcharge) ?? [],
+      preparedEffects: clone.sides.map((side) =>
+        (side.preparedEffects ?? []).map((row) => ({
+          name: row.visibility === "HIDDEN" ? "Armadilha preparada" : row.cardName,
+          trigger: row.trigger,
+          remainingRounds: row.remainingRounds,
+        })),
+      ),
+      channels: clone.sides.map((side) => side.channels ?? []),
+      virtualManifestations: clone.virtualManifestations ?? [],
     },
+    arcaneReserve: reservePreview(yours),
+    magicWar: clone.magicWar,
+    magicWarRespondIds,
     middleWindow: usesLinearFormation({
       rulesVersion: clone.rulesVersion,
       creatures: clone.sides.flatMap((side) => side.creatures),
@@ -302,6 +416,7 @@ export function presentBattle(
         : "CLOSED"
       : undefined,
     energyCap: energyForRound(clone.round),
+    genomeTimeline,
     linear: usesLinearFormation({
       rulesVersion: clone.rulesVersion,
       creatures: clone.sides.flatMap((side) => side.creatures),

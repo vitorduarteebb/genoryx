@@ -1,0 +1,138 @@
+.gx-awaken {
+  display: grid;
+  gap: 1rem;
+}
+
+.gx-awaken__kicker {
+  margin: 0;
+  font-size: 0.66rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: #7ee0d6;
+}
+
+.gx-awaken__title {
+  margin: 0;
+  font-family: var(--font-display), serif;
+  font-size: clamp(2rem, 6vw, 3.1rem);
+  line-height: 0.95;
+  color: #e4c36a;
+}
+
+.gx-awaken__lead {
+  margin: 0;
+  max-width: 36rem;
+  color: #9a90a8;
+}
+
+.gx-awaken__duel {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.gx-awaken__figure {
+  position: relative;
+  overflow: hidden;
+  min-height: 18rem;
+  border: 1px solid rgba(228, 195, 106, 0.18);
+  border-radius: 22px;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 62%, rgba(126, 224, 214, 0.12), transparent 64%),
+    linear-gradient(180deg, #141018, #08060c);
+}
+
+.gx-awaken__figure--after {
+  border-color: rgba(228, 195, 106, 0.55);
+  box-shadow: 0 0 36px rgba(228, 195, 106, 0.12);
+}
+
+.gx-awaken__figure--adult {
+  border-color: rgba(255, 196, 92, 0.7);
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 62%, rgba(228, 195, 106, 0.2), transparent 64%),
+    linear-gradient(180deg, #1a140c, #08060c);
+}
+
+.gx-awaken__figure .gx-gxr {
+  width: 100% !important;
+  max-width: 100%;
+}
+
+.gx-awaken__cap {
+  position: absolute;
+  left: 0.8rem;
+  bottom: 0.7rem;
+  margin: 0;
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #c6b48a;
+}
+
+.gx-awaken__arrow {
+  margin: 0;
+  font-family: var(--font-display), serif;
+  font-size: 1.6rem;
+  color: #e4c36a;
+}
+
+.gx-awaken__acts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  align-items: center;
+}
+
+.gx-awaken__error {
+  margin: 0;
+  color: #ff6b35;
+}
+
+.gx-awaken__note {
+  margin: 0;
+  color: #9a90a8;
+}
+
+.gx-chamber-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.gx-chamber-card {
+  display: grid;
+  grid-template-columns: minmax(10rem, 14rem) 1fr;
+  gap: 1rem;
+  align-items: center;
+}
+
+.gx-chamber-card__art {
+  overflow: hidden;
+  min-height: 12rem;
+  border-radius: 18px;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 60%, rgba(126, 224, 214, 0.12), transparent 64%),
+    #0b0910;
+}
+
+.gx-chamber-card__art .gx-gxr {
+  width: 100% !important;
+}
+
+@media (max-width: 820px) {
+  .gx-awaken__duel,
+  .gx-chamber-card {
+    grid-template-columns: 1fr;
+  }
+
+  .gx-awaken__arrow {
+    justify-self: center;
+    transform: rotate(90deg);
+  }
+
+  .gx-awaken__figure,
+  .gx-chamber-card__art {
+    min-height: 14rem;
+  }
+}

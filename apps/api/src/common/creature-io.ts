@@ -33,10 +33,16 @@ import {
   deriveVisualSeed,
   expressionFromCard,
   isCardKitManifest,
+  kitCardsToDefinitions,
+  growthFromLifeStage,
   parseChassisDna,
   rollChassisDna,
   withUniqueChassis,
   xpToReachLevel,
+  analyzeCardSynergy,
+  anatomicalAffordances,
+  detectCombatArchetype,
+  hydrateGenomeProfile,
   type CardKitManifest,
   type ChassisDna,
   type CreatureBlueprint,
@@ -129,6 +135,7 @@ export async function persistCreature(
     temperament?: Temperament;
     revealStatus?: CreatureRevealStatus;
     reservedSignatures?: Set<string>;
+    visualSeed?: string;
   },
 ) {
   const species = await tx.creatureSpecies.findUniqueOrThrow({ where: { key: blueprint.speciesKey } });
@@ -137,7 +144,7 @@ export async function persistCreature(
     : null;
 
   const id = randomUUID();
-  const visualSeed = deriveVisualSeed(id, blueprint.geneticHash);
+  const visualSeed = extras?.visualSeed ?? deriveVisualSeed(id, blueprint.geneticHash);
   const revealStatus: CreatureRevealStatus =
     extras?.revealStatus ??
     (blueprint.origin === "BRED" ? (officialImageJobsEnabled() ? "PENDING_VISUAL" : "REVEALED") : "NOT_REQUIRED");
@@ -152,7 +159,7 @@ export async function persistCreature(
     headRecessive: blueprint.headRecessive,
     geneticHash: blueprint.geneticHash,
     genesisSeed: blueprint.genesisSeed % 2147483647,
-    lifeStage: "BABY",
+    lifeStage: blueprint.lifeStage ?? "BABY",
     mutationKey: blueprint.mutationKey,
     expressedCardKeys: blueprint.loci.map((locus) => locus.expressed.cardFamily),
     temperament: extras?.temperament,
@@ -195,7 +202,7 @@ export async function persistCreature(
       bodyPlanRecessive: blueprint.bodyPlanRecessive,
       headExpressed: blueprint.headExpressed,
       headRecessive: blueprint.headRecessive,
-      lifeStage: "BABY",
+      lifeStage: blueprint.lifeStage ?? "BABY",
       temperament: genome.temperament,
       visualSeed,
       visualStatus: "PENDING",
@@ -232,6 +239,9 @@ export function presentCreature(row: CreatureRecord) {
         ["RES", row.resistanceGene],
         ["SPD", row.speedGene],
         ["CRIT", row.critGene],
+        ["CRIT_DAMAGE", row.critDamageGene],
+        ["PRECISION", row.precisionGene],
+        ["EVASION", row.evasionGene],
         ["EVA", row.evasionGene],
         ["STATUS", row.statusGene],
       ] as Array<[GeneKey | "EVA", GeneRank]>
@@ -298,6 +308,9 @@ export function presentCreature(row: CreatureRecord) {
     geneticPurity: hidden ? null : Number(row.geneticPurity),
     physical: hidden ? null : presentPhysical(row),
     genes: hidden ? {} : genes,
+    combatBuild: hidden ? null : detectCombatArchetype(genes, row.geneticPower?.power.typology ?? null, row.elementPrimary),
+    affordances: hidden ? [] : anatomicalAffordances(presentPhysical(row) ?? {}),
+    cardSynergy: hidden ? [] : analyzeCardSynergy(genes, []),
     combatIdentity: hidden || !row.combatManifestJson ? null : presentCombatIdentity(row.combatManifestJson),
     loci: hidden
       ? []
@@ -354,10 +367,13 @@ function presentMaturation(row: CreatureRecord) {
 }
 
 function presentChassis(row: CreatureRecord) {
-  return (
+  const chassis =
     parseChassisDna((row.visualGenomeJson as { chassis?: unknown } | null)?.chassis) ??
-    rollChassisDna({ seed: row.genesisSeed, lifeStage: row.lifeStage, salt: row.id })
-  );
+    rollChassisDna({ seed: row.genesisSeed, lifeStage: row.lifeStage, salt: row.id });
+  if (!chassis) {
+    return null;
+  }
+  return { ...chassis, growthStage: growthFromLifeStage(row.lifeStage) };
 }
 
 function presentPhysical(row: CreatureRecord) {
@@ -447,24 +463,50 @@ export function kitFromRecord(row: CreatureRecord): CreatureCardKit | null {
 }
 
 export function presentKitCards(kit: CreatureCardKit) {
-  return kit.cards.map((card) => ({
-    locus: card.locus,
-    role: card.locusRole,
-    name: card.name,
-    namePt: card.namePt,
-    text: card.text,
-    catalogKey: getCardDefinition(card.cardFamily) ? card.cardFamily : null,
-    cost: card.cost,
-    tier: card.tier,
-    function: card.function,
-    targetType: card.targetType,
-    effects: card.effects,
-    tags: [card.function, card.tier],
-    sourceGenes: card.sourceGenes ?? [],
-    luckVariant: card.luckVariant ?? null,
-    produces: card.ability?.produces ?? [],
-    consumes: card.ability?.consumes ?? [],
-  }));
+  const refined = kitCardsToDefinitions(kit.cards, {
+    quirks: kit.combat?.identity.quirks.map((row) => row.key) ?? [],
+    verbs: kit.combat?.identity.verbs ?? [],
+  });
+  return kit.cards.map((card, index) => {
+    const row = refined[index]!;
+    const genome = hydrateGenomeProfile(
+      {
+        key: card.cardFamily ?? card.locus,
+        name: card.namePt,
+        type: row.type,
+        cost: card.cost,
+        element: card.element as import("@nexora/types").Element,
+        targetType: row.targetType,
+        locusRole: card.locusRole,
+        tags: row.tags,
+        effects: row.effects,
+      },
+      card.locus,
+    );
+    return {
+      locus: card.locus,
+      role: card.locusRole,
+      name: card.name,
+      namePt: card.namePt,
+      text: card.text,
+      rulesText: genome.rulesText,
+      catalogKey: getCardDefinition(card.cardFamily) ? card.cardFamily : null,
+      cost: card.cost,
+      tier: card.tier,
+      function: card.function,
+      targetType: row.targetType,
+      effects: row.effects,
+      tags: [...row.tags],
+      domain: row.contentPass.domain,
+      speed: row.contentPass.speed,
+      roles: row.contentPass.roles,
+      contentChanges: row.contentPass.changes,
+      sourceGenes: card.sourceGenes ?? [],
+      luckVariant: card.luckVariant ?? null,
+      produces: card.ability?.produces ?? [],
+      consumes: card.ability?.consumes ?? [],
+    };
+  });
 }
 
 function presentCombatIdentity(value: unknown) {

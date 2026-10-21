@@ -43,7 +43,7 @@ function seededBattle(seed: number): BattleState {
   });
 }
 
-function playOut(state: BattleState, maxTurns = 24): BattleState {
+function playOut(state: BattleState, maxTurns = 80): BattleState {
   let current = state;
   let guard = 0;
   while (current.status === "ACTIVE" && guard < maxTurns) {

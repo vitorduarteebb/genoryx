@@ -5,6 +5,7 @@ import { createBattleState } from "../create";
 import { reduceBattle } from "../reduce";
 import { applyStructuredStatus } from "./status-engine";
 import { availableEnergy, cancelQueued, chooseRetarget, queueCard } from "./action-queue";
+import { effectMetaOf } from "./card-meta";
 import { recordChainLink } from "./genetic-chain";
 import { gainTeamResonance } from "./resonance";
 import { collapseFormation } from "./formation";
@@ -188,5 +189,33 @@ describe("combat v1.5", () => {
   it("status registry declara stack e duração", () => {
     expect(statusDefinition("BURN").tickTiming).toBe("END_OF_TURN");
     expect(statusDefinition("RESOLVE").dispellable).toBe(false);
+  });
+
+  it("effectMeta deriva HIT/HEAL e sinergia consome o que o time produziu", () => {
+    const strike = effectMetaOf({
+      key: "boulder_toss",
+      name: "Boulder",
+      type: "ATTACK",
+      cost: 1,
+      element: "EARTH",
+      targetType: "ENEMY",
+      tags: ["TANK", "FOUNDATION"],
+      typology: "TANK",
+      effects: [{ op: "DAMAGE", value: 15 }],
+    });
+    expect(strike.produces).toEqual(expect.arrayContaining(["HIT", "TANK"]));
+    const pact = effectMetaOf({
+      key: "tidal_pact",
+      name: "Pacto",
+      type: "SKILL",
+      cost: 2,
+      element: "NATURE",
+      targetType: "ALLY",
+      tags: ["SYNERGY", "HEAL"],
+      typology: "HEAL",
+      effects: [{ op: "HEAL", value: 10 }],
+    });
+    expect(pact.produces).toEqual(expect.arrayContaining(["HEAL"]));
+    expect(pact.consumes).toEqual(expect.arrayContaining(["HIT", "TANK"]));
   });
 });

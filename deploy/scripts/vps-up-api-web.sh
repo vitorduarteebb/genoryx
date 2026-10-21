@@ -16,5 +16,9 @@ fi
 docker compose -f docker-compose.vps.yml --env-file .env.production build api web
 docker compose -f docker-compose.vps.yml --env-file .env.production --profile migrate build migrate
 docker compose -f docker-compose.vps.yml --env-file .env.production --profile migrate run --rm migrate
+# Nomes hashed (ex. e5d88153b83c_nexora-alpha-api) bloqueiam o recreate do Compose.
+docker ps -a --format '{{.Names}}' | grep -E '^[0-9a-f]+_nexora-alpha-(api|web)$' | while read -r name; do
+  docker rm -f "$name" || true
+done
 docker compose -f docker-compose.vps.yml --env-file .env.production up -d api web
 echo "API/web atualizados. Postgres intocado. Volumes creature_visuals e card_art mantidos."

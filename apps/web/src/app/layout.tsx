@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Cinzel, Source_Sans_3 } from "next/font/google";
 import { brandConfig } from "@nexora/config";
 import { AlphaBadge } from "../components/alpha-badge";
@@ -21,6 +21,13 @@ const body = Source_Sans_3({
 export const metadata: Metadata = {
   title: isAlpha ? brandConfig.alphaLabel : brandConfig.fullName,
   description: `${brandConfig.tagline} RPG de genética evolutiva no navegador.`,
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#07060c",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

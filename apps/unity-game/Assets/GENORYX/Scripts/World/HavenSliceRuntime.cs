@@ -14,6 +14,13 @@ namespace Genoryx
                 return;
             }
 
+            if (WorldSession.AreaId == WorldAreaId.VerdantisGreenRoad || WorldSession.AreaId == WorldAreaId.VerdantisLuminaGrove)
+            {
+                VerdantisGreenRoadBuilder.Rebuild();
+                builtVersion = HavenSliceBuilder.Version;
+                return;
+            }
+
             if (builtVersion != HavenSliceBuilder.Version || GameObject.Find("GenesisCore") == null)
             {
                 HavenSliceBuilder.Rebuild();

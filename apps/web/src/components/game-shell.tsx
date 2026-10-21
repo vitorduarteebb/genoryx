@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import type { ReactNode } from "react";
 import { getRefreshToken, useAuthStore } from "../lib/auth-store";
+import { useCharacterStore } from "../lib/character-store";
 import { api } from "../lib/api";
 import { useEvolutionQueue } from "../lib/use-evolution-queue";
 import { useGameSession } from "../lib/use-game-session";
@@ -11,6 +12,7 @@ import { useGenesisQueue } from "../lib/use-genesis-queue";
 import "./game-shell.css";
 
 const links = [
+  { href: "/game/adventure", label: "Mundo", hint: "explorar" },
   { href: "/game/creatures", label: "Coleção", hint: "suas criaturas" },
   { href: "/game/party", label: "Time", hint: "formação de batalha" },
   { href: "/game/deck", label: "Cartas", hint: "grimório" },
@@ -28,11 +30,14 @@ function toneFor(path: string) {
     path.startsWith("/game/arena") ||
     path.startsWith("/game/lab") ||
     path.startsWith("/game/battle") ||
-    path.startsWith("/game/party")
+    path.startsWith("/game/party") ||
+    path.startsWith("/game/adventure")
   ) {
     return "ember";
   }
-  if (path.startsWith("/game/chamber") || path.startsWith("/game/evolution")) return "gold";
+  if (path.startsWith("/game/chamber") || path.startsWith("/game/evolution") || path.startsWith("/game/shop")) {
+    return "gold";
+  }
   return "crystal";
 }
 
@@ -53,6 +58,7 @@ export function GameShell({
   header,
   wide,
   stage,
+  world,
 }: {
   title?: string;
   subtitle?: string;
@@ -61,6 +67,7 @@ export function GameShell({
   header?: ReactNode;
   wide?: boolean;
   stage?: boolean;
+  world?: boolean;
 }) {
   const path = usePathname();
   const router = useRouter();
@@ -75,7 +82,16 @@ export function GameShell({
       await api("/auth/logout", { method: "POST", body: { refreshToken } }).catch(() => undefined);
     }
     clearSession();
+    useCharacterStore.getState().setCharacter(null);
     router.replace("/");
+  }
+
+  if (world) {
+    return (
+      <div className="gx-realm gx-realm--world" data-tone="ember" data-stage="true" data-world="true">
+        {children}
+      </div>
+    );
   }
 
   return (

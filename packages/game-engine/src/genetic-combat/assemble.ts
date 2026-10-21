@@ -3,6 +3,7 @@ import type { CreatureBlueprint } from "../genes/generate";
 import { generateIdentityCards } from "./cards";
 import { expressGenome } from "./expression";
 import { fingerprintTokens, mechanicalFingerprint, similarityScore } from "./fingerprint";
+import { rollTimingStyle } from "../battle/v23/identity";
 import { buildCombatIdentity } from "./identity";
 import { birthSeedOf, rollBirth } from "./seeds";
 import type { GeneticCombatManifest } from "./types";
@@ -27,6 +28,10 @@ export function assembleGeneticCombat(input: AssembleCombatInput): GeneticCombat
   const rolls = rollBirth(birthSeed, starter);
   const expression = expressGenome(input.blueprint, birthSeed);
   let identity = buildCombatIdentity({ blueprint: input.blueprint, expression, rolls, birthSeed });
+  const timingStyle = rollTimingStyle(birthSeed, identity.archetype);
+  if (!identity.synergyTags.includes(timingStyle)) {
+    identity = { ...identity, synergyTags: [...identity.synergyTags, timingStyle] };
+  }
   let cards = generateIdentityCards({ blueprint: input.blueprint, identity, expression, rolls, birthSeed, retryIndex: 0 });
   for (let retry = 0; retry < 6; retry += 1) {
     const badCard = cards.map(validateCard).find((row) => row);

@@ -1,3 +1,4 @@
+import { captureZones } from "@nexora/config";
 import { Body, Controller, Get, Param, Post, UseGuards } from "@nestjs/common";
 import { IsArray, IsIn, IsOptional, IsString, IsUUID } from "class-validator";
 import { CurrentUser, type RequestUser } from "../../common/auth/current-user.decorator";
@@ -7,6 +8,9 @@ import { BattlesService } from "./battles.service";
 import { LabService } from "./lab.service";
 
 class StartWildDto {
+  @IsOptional()
+  @IsIn(captureZones.map(zone=>zone.id))
+  zoneId?: string;
   @IsOptional()
   @IsUUID()
   offerId?: string;
@@ -20,6 +24,8 @@ class BattleActionDto {
     "REORDER_QUEUE",
     "RETARGET_QUEUE",
     "CONFIRM_TURN",
+    "PASS_PRIORITY",
+    "STACK_RESPOND",
     "ARM_REACTION",
     "RESONANCE_ACTION",
     "END_TURN",
@@ -37,6 +43,8 @@ class BattleActionDto {
     | "REORDER_QUEUE"
     | "RETARGET_QUEUE"
     | "CONFIRM_TURN"
+    | "PASS_PRIORITY"
+    | "STACK_RESPOND"
     | "ARM_REACTION"
     | "RESONANCE_ACTION"
     | "END_TURN"
@@ -161,7 +169,7 @@ export class BattlesController {
 
   @Post("battles/wild")
   wild(@CurrentUser() user: RequestUser, @Body() dto: StartWildDto) {
-    return this.battles.startWild(user.id, dto.offerId);
+    return this.battles.startWild(user.id, dto.offerId, dto.zoneId);
   }
 
   @Get("battles/:id")
@@ -174,12 +182,15 @@ export class BattlesController {
     if (dto.type === "PLAY_FUSION" || dto.type === "PLAY_CONVERGENCE") {
       return this.battles.act(user.id, id, { type: dto.type, familyKey: dto.familyKey ?? "", targetId: dto.targetId });
     }
-    if (dto.type === "PLAY_CARD" || dto.type === "QUEUE_CARD" || dto.type === "ARM_REACTION") {
+    if (dto.type === "PLAY_CARD" || dto.type === "QUEUE_CARD" || dto.type === "ARM_REACTION" || dto.type === "STACK_RESPOND") {
       if (!dto.cardInstanceId) {
         throw Errors.validation("cardInstanceId obrigatório.");
       }
       if (dto.type === "ARM_REACTION") {
         return this.battles.act(user.id, id, { type: "ARM_REACTION", cardInstanceId: dto.cardInstanceId });
+      }
+      if (dto.type === "STACK_RESPOND") {
+        return this.battles.act(user.id, id, { type: "STACK_RESPOND", cardInstanceId: dto.cardInstanceId, targetId: dto.targetId });
       }
       return this.battles.act(user.id, id, { type: dto.type, cardInstanceId: dto.cardInstanceId, targetId: dto.targetId });
     }

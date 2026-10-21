@@ -13,10 +13,25 @@ import "./deck.css";
 type DeckCard = {
   catalogKey?: string;
   key?: string;
+  name?: string;
+  cost?: number;
   locus?: string | null;
   artUrl?: string | null;
   imageHash?: string | null;
   sourceCreatureId?: string | null;
+  domain?: string | null;
+  speed?: string | null;
+  domainLabel?: string | null;
+  speedLabel?: string | null;
+  rulesText?: string | null;
+  effects?: Array<{
+    op: string;
+    value?: number;
+    status?: string;
+    duration?: number;
+    resource?: string;
+    condition?: { resourceAtLeast?: number; targetHas?: string; selfPosition?: string };
+  }>;
 };
 
 type DeckPayload = {
@@ -31,6 +46,7 @@ export default function DeckPage() {
   const [owned, setOwned] = useState(0);
   const [cards, setCards] = useState<DeckCard[]>([]);
   const [battleSize, setBattleSize] = useState<number>(geneticCardConfig.competitiveDeckSize);
+  const [filter, setFilter] = useState<"ALL" | "PHYSICAL" | "MAGIC" | "HYBRID" | "UTILITY" | "FAST" | "HEAVY">("ALL");
 
   useEffect(() => {
     if (!accessToken) return;
@@ -50,6 +66,7 @@ export default function DeckPage() {
     const buckets = new Map<string, DeckCard[]>();
     const extras: DeckCard[] = [];
     for (const card of cards) {
+      if (filter !== "ALL" && card.domain !== filter && card.speed !== filter && !(filter === "FAST" && card.speed === "VERY_FAST")) continue;
       const owner = card.sourceCreatureId;
       if (owner && byId.has(owner)) {
         const list = buckets.get(owner) ?? [];
@@ -64,7 +81,7 @@ export default function DeckPage() {
       cards: buckets.get(creature.id) ?? [],
     }));
     return { lined, extras };
-  }, [cards, party]);
+  }, [cards, party, filter]);
 
   const geneticCount = cards.filter((row) => row.sourceCreatureId).length;
 
@@ -87,6 +104,13 @@ export default function DeckPage() {
         <span>
           Baralho de batalha <strong>{battleSize}</strong>
         </span>
+      </div>
+      <div className="gx-grimoire__stats">
+        {(["ALL", "PHYSICAL", "MAGIC", "UTILITY", "FAST", "HEAVY"] as const).map((key) => (
+          <button key={key} type="button" className="gx-logbtn" onClick={() => setFilter(key)}>
+            {key === "ALL" ? "Todas" : key === "PHYSICAL" ? "Físico" : key === "MAGIC" ? "Mágico" : key === "UTILITY" ? "Utilidade" : key === "FAST" ? "Rápida" : "Pesada"}
+          </button>
+        ))}
       </div>
 
       {party.length === 0 ? (
@@ -133,6 +157,17 @@ export default function DeckPage() {
                   element={String(creature.elementPrimary)}
                   lifeStage={creature.lifeStage}
                   creatureId={creature.id}
+                  openDetail
+                  presentation={{
+                    name: card.name,
+                    cost: card.cost,
+                    domain: card.domain,
+                    speed: card.speed,
+                    domainLabel: card.domainLabel,
+                    speedLabel: card.speedLabel,
+                    genomeDetails: card.rulesText,
+                    effects: card.effects,
+                  }}
                 />
               );
             })}

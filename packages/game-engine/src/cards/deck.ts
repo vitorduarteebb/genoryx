@@ -1,7 +1,7 @@
 import { combatConfig, creatureLifeStageConfig, getCardDefinition, usableLociForStage } from "@nexora/config";
 import type { FormationSlot } from "@nexora/types";
 import type { PlayableCard } from "../battle/types";
-import { isCardKitManifest, kitToDefinition } from "./kit";
+import { isCardKitManifest, kitCardsToDefinitions, kitToDefinition } from "./kit";
 import type { RandomService } from "../random/random-service";
 import { resolveSynergies } from "../synergy/resolve";
 import type { CreatureBlueprint } from "../genes/generate";
@@ -43,14 +43,43 @@ export function collectCreatureManifestations(creatures: readonly DeckFighter[])
     const allowed = creatureLifeStageConfig.gateCardsByStage
       ? new Set(usableLociForStage(fighter.blueprint.lifeStage ?? "BABY"))
       : null;
+    const kitCards = fighter.blueprint.loci
+      .filter((locus) => !allowed || allowed.has(locus.locusKey))
+      .map((locus) => (isCardKitManifest(locus.expressed) ? locus.expressed : null))
+      .filter((row): row is NonNullable<typeof row> => Boolean(row));
+    const kitContext = {
+      genes: fighter.blueprint.genes as Partial<Record<string, string>>,
+      quirks: fighter.blueprint.combatManifest?.identity.quirks.map((row) => row.key) ?? [],
+      verbs: fighter.blueprint.combatManifest?.identity.verbs ?? [],
+    };
+    const refinedKit = kitCards.length > 0 ? kitCardsToDefinitions(kitCards, kitContext) : [];
+    const refinedByLocus = new Map(refinedKit.map((row, index) => [kitCards[index]!.locus, row]));
     for (const locus of fighter.blueprint.loci) {
       if (allowed && !allowed.has(locus.locusKey)) {
         continue;
       }
-      const kit = isCardKitManifest(locus.expressed) ? kitToDefinition(locus.expressed) : undefined;
+      const kitRaw = isCardKitManifest(locus.expressed)
+        ? refinedByLocus.get(locus.expressed.locus) ?? kitToDefinition(locus.expressed, kitContext)
+        : undefined;
+      const kit = kitRaw
+        ? {
+            key: kitRaw.key,
+            name: kitRaw.name,
+            type: kitRaw.type,
+            cost: kitRaw.cost,
+            element: kitRaw.element,
+            targetType: kitRaw.targetType,
+            locusRole: kitRaw.locusRole,
+            tags: kitRaw.tags,
+            visualTags: kitRaw.visualTags,
+            effects: kitRaw.effects,
+            ability: kitRaw.ability,
+            typology: fighter.typology,
+          }
+        : undefined;
       const catalog = getCardDefinition(locus.expressed.cardFamily);
       const resolved = kit
-        ? { ...kit, typology: fighter.typology }
+        ? kit
         : catalog
           ? { ...catalog, element: catalog.element, effects: [...catalog.effects], typology: fighter.typology ?? catalog.typology }
           : undefined;

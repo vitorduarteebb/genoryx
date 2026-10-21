@@ -76,6 +76,9 @@ export type CombatStatus = {
   key: string;
   stacks: number;
   remainingRounds: number;
+  potency?: number;
+  sourceName?: string;
+  evolved?: boolean;
 };
 
 export type Combatant = {
@@ -93,6 +96,10 @@ export type Combatant = {
   res: number;
   spd: number;
   crit: number;
+  genes?: Record<string, string>;
+  heavyGuardUsed?: boolean;
+  spdOpeningUsed?: boolean;
+  counterReady?: boolean;
   tags: string[];
   statuses: CombatStatus[];
   slot: FormationSlot;
@@ -157,6 +164,9 @@ export type BattleSide = {
   characterId?: string;
   displayName: string;
   energy: number;
+  /** Mana do Embate. Time, não criatura. Persiste entre rounds. */
+  mana?: number;
+  maxMana?: number;
   momentum: number;
   deck: CardInstance[];
   hand: CardInstance[];
@@ -175,6 +185,9 @@ export type BattleSide = {
   teamResonance?: TeamResonanceState;
   geneticChain?: GeneticChainState;
   reactionArmedVisible?: boolean;
+  preparedEffects?: import("./v23/types").PreparedEffect[];
+  channels?: import("./v23/types").ChannelState[];
+  impetusUsed?: Record<string, number>;
 };
 
 export type BattleEvent = {
@@ -234,6 +247,7 @@ export type BattleState = {
   sides: [BattleSide, BattleSide];
   winnerSide?: 0 | 1;
   wildSpeciesKey?: string;
+  wildBlueprint?: import("../genes/generate").CreatureBlueprint;
   mapKey?: string;
   matchRules?: MatchRules;
   clock?: BattleClock;
@@ -244,6 +258,11 @@ export type BattleState = {
   usageHistory: BattleUsageEntry[];
   /** Espelho do lado ativo. A fonte da verdade é `sides[n].fusion`. */
   fusion?: BattleFusionState;
+  magicWar?: import("./v23/types").MagicWarState;
+  virtualManifestations?: import("./v23/types").VirtualManifestation[];
+  magicWarDebug?: import("./v23/types").MagicWarDebug;
+  combatV23?: import("./v23/types").CombatV23Metrics;
+  flushHeldPlay?: { cardInstanceId: string; targetId?: string };
 };
 
 export type BattleAction =
@@ -253,6 +272,8 @@ export type BattleAction =
   | { type: Extract<BattleActionType, "REORDER_QUEUE">; order: string[] }
   | { type: Extract<BattleActionType, "RETARGET_QUEUE">; queueId: string; targetId: string }
   | { type: Extract<BattleActionType, "CONFIRM_TURN"> }
+  | { type: Extract<BattleActionType, "PASS_PRIORITY"> }
+  | { type: Extract<BattleActionType, "STACK_RESPOND">; cardInstanceId: string; targetId?: string; op?: import("@nexora/config").InterventionOp }
   | { type: Extract<BattleActionType, "ARM_REACTION">; cardInstanceId: string }
   | { type: Extract<BattleActionType, "RESONANCE_ACTION">; action: "RESONANCE_SHIFT" | "GENETIC_DRAW" | "RESONANCE_AMPLIFY"; creatureId?: string; destSlot?: string; discardInstanceId?: string }
   | { type: Extract<BattleActionType, "TIMEOUT"> }

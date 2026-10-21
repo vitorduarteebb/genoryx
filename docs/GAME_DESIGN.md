@@ -606,7 +606,7 @@ Burn, Poison, Freeze, Shock, Sleep, Bleed, Silence, Blind, Stun, Fear.
 
 GENORYX **não** é um TCG. Cartas são a UI das habilidades da build.
 
-Party: 1 personagem + 3 criaturas em formação FRONT / MIDDLE / BACKLINE. Deck = 10 manifestações por criatura (3×10=30). Combat V1.5 (ADR 0038): Casual e Ranked usam o **mesmo** Battle Engine. Diferenças só em `MatchRules` (hints, draft, timer, MMR). Action Queue reserva energia; Genetic Chain exige conexão mecânica entre criaturas diferentes; Team Resonance 0/3 recompensa a chain (não +% dano). Reaction Slot (1 carta, custo pago). Status/Resolve/Pressure data-driven. Ranked: squad 5 → ban simultâneo → pick 3 → formação. Fusion/Convergence de tipologia continua como camada V2, distinta da Team Resonance.
+Party: 1 personagem + 3 criaturas em formação FRONT / MIDDLE / BACKLINE. Deck = 10 manifestações por criatura (3×10=30). Combat V1.5 (ADR 0038) + Timing Engine V2.3 (ADR 0039): Casual e Ranked usam o **mesmo** Battle Engine. Energy paga o Planning; Mana do time paga o Embate. Toda carta tem `timingClass` (Ação, Ímpeto, Reação, Contra, Preparação, Canalização, Ritual, Passiva). Janela só abre se houver resposta válida. Fusion V2 (105 receitas) e Genetic Power entram no mesmo resolver. Genetic Chain / Team Resonance / recurso pessoal continuam camadas distintas. Ranked: squad 5 → ban simultâneo → pick 3 → formação.
 
 Números em config. Cliente não decide draw, dano ou vitória. Spec de visão: `docs/COMBAT.md`, ADR 0009. Fluxograma de batalha: `docs/COMBAT_SYSTEM.md`, ADR 0031.
 

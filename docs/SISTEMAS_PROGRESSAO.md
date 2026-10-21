@@ -93,7 +93,7 @@ Respawn: common 45 s, uncommon 90 s, elite 3 min, boss 10 min.
 
 Posição do personagem: só o game-server grava `mapKey/posX/posY`. Recusar x/y no REST.
 
-Phaser = DEV_WORLD. Unity `/game-unity` = vitrine (sem Colyseus).
+Phaser = DEV_WORLD. World Adventure V2 = `/game/adventure` (isométrico 2.5D, atlas de criatura, encounter HTTP). Unity `/game-unity` = vitrine; HavenSlice no Editor.
 
 ---
 

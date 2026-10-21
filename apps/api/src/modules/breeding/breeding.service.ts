@@ -8,12 +8,16 @@ import {
   createSeededRandom,
   deriveEggVisualGenome,
   inheritGeneticPower,
+  isReservedOffspringName,
+  normalizeOffspringName,
   parentPotentialFromBlueprint,
   priorBreedsFromFertility,
   seedFromParts,
+  uniqueOffspringName,
   type CreatureBlueprint,
   type PowerAssignment,
 } from "@nexora/game-engine";
+import type { Prisma } from "@nexora/database";
 import { persistCreature, toBlueprint, type CreatureRecord } from "../../common/creature-io";
 import { canUseRevealedCreature, presentCollectionVisual, revealStatusOf } from "../../common/creature-visual-present";
 import { Errors } from "../../common/errors/app-error";
@@ -145,6 +149,8 @@ export class BreedingService {
         where: { id: session.id },
         data: { status: "COMPLETED" },
       });
+      const taken = await this.takenOffspringNames(tx);
+      const offspring = { ...result.offspring, name: uniqueOffspringName(seed, taken) };
       return tx.egg.create({
         data: {
           ownerCharacterId: character.id,
@@ -158,8 +164,8 @@ export class BreedingService {
           geneticHash: result.offspring.geneticHash,
           parentAId,
           parentBId,
-          speciesKey: result.offspring.speciesKey,
-          offspringJson: result.offspring,
+          speciesKey: offspring.speciesKey,
+          offspringJson: offspring,
           genesisGrade: result.genesisGrade,
           complexityScore: result.complexityScore,
           eggVisualStatus: "PENDING",
@@ -250,7 +256,17 @@ export class BreedingService {
       if (egg.hatchesAt.getTime() > Date.now()) {
         throw Errors.breedInvalid("Incubação ainda não terminou.");
       }
-      const offspring = egg.offspringJson as unknown as CreatureBlueprint;
+      const draft = egg.offspringJson as unknown as CreatureBlueprint;
+      const taken = await this.takenOffspringNames(tx, egg.id);
+      const preferred = draft.name;
+      const keep =
+        preferred &&
+        !isReservedOffspringName(preferred) &&
+        !taken.has(normalizeOffspringName(preferred));
+      const offspring = {
+        ...draft,
+        name: keep ? preferred : uniqueOffspringName(egg.geneticSeed, taken),
+      };
       const creature = await persistCreature(tx, character.id, offspring, {
         fatherId: egg.parentAId,
         motherId: egg.parentBId,
@@ -360,6 +376,28 @@ export class BreedingService {
       geneticHash: blueprint.geneticHash,
     });
     return { genome: fallback.genome, lineageId: fallback.lineageId, creatureId: row.id };
+  }
+
+  private async takenOffspringNames(tx: Prisma.TransactionClient, exceptEggId?: string) {
+    const [creatures, species, eggs] = await Promise.all([
+      tx.creature.findMany({ select: { name: true } }),
+      tx.creatureSpecies.findMany({ select: { key: true, name: true } }),
+      tx.egg.findMany({ where: { status: "INCUBATING" }, select: { id: true, offspringJson: true } }),
+    ]);
+    const taken = new Set<string>();
+    for (const row of creatures) {
+      if (row.name) taken.add(normalizeOffspringName(row.name));
+    }
+    for (const row of species) {
+      taken.add(normalizeOffspringName(row.key));
+      taken.add(normalizeOffspringName(row.name));
+    }
+    for (const egg of eggs) {
+      if (egg.id === exceptEggId) continue;
+      const stored = egg.offspringJson as { name?: string } | null;
+      if (stored?.name) taken.add(normalizeOffspringName(stored.name));
+    }
+    return taken;
   }
 
   private async validatePair(userId: string, parentAId: string, parentBId: string) {

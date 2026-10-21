@@ -1,0 +1,985 @@
+{
+  "version": "gxr-content-v2",
+  "audited": 1200,
+  "changed": 833,
+  "kept": 367,
+  "problemTop": [
+    [
+      "escudo puro sem diferenciação",
+      120
+    ],
+    [
+      "require≠consume",
+      9
+    ],
+    [
+      "nome de descarga sem dano",
+      8
+    ]
+  ],
+  "changeKinds": [
+    [
+      "anti-redundância",
+      173
+    ],
+    [
+      "counterplay",
+      149
+    ],
+    [
+      "Labareda/Brasa",
+      136
+    ],
+    [
+      "electric-cycle",
+      136
+    ],
+    [
+      "Retorno",
+      115
+    ],
+    [
+      "gene STA",
+      73
+    ],
+    [
+      "face",
+      71
+    ],
+    [
+      "quirk COLD_BLOODED",
+      47
+    ],
+    [
+      "poison-cycle",
+      33
+    ],
+    [
+      "gene PREC",
+      33
+    ],
+    [
+      "nome Descarga/Arco",
+      31
+    ],
+    [
+      "Prisão",
+      30
+    ],
+    [
+      "Prisão/Laço",
+      27
+    ],
+    [
+      "Véu",
+      26
+    ],
+    [
+      "Guarda",
+      26
+    ],
+    [
+      "Pulso",
+      24
+    ],
+    [
+      "Mordida",
+      23
+    ],
+    [
+      "Labareda/Magma escudo-only",
+      17
+    ],
+    [
+      "quirk STUBBORN",
+      16
+    ],
+    [
+      "burn-cycle",
+      14
+    ],
+    [
+      "anatomia CHARGE",
+      12
+    ],
+    [
+      "synergy",
+      11
+    ],
+    [
+      "resource",
+      7
+    ],
+    [
+      "Marca",
+      4
+    ],
+    [
+      "stun-cycle",
+      4
+    ]
+  ],
+  "beforeAfter": [
+    {
+      "name": "Fornalha Ardente",
+      "locus": "G1",
+      "before": "DAMAGE",
+      "after": "DAMAGE > GAIN_RESOURCE{\"targetHas\":\"BURN\"} > APPLY_STATUS:BURN",
+      "domain": "MAGIC",
+      "speed": "NORMAL",
+      "roles": [
+        "FOUNDATION",
+        "PRESSURE",
+        "RESOURCE"
+      ],
+      "changes": [
+        "Labareda/Brasa: aplica Burn",
+        "Labareda/Brasa: +recurso se alvo já queima"
+      ]
+    },
+    {
+      "name": "Queima Ígnea",
+      "locus": "G3",
+      "before": "DAMAGE > APPLY_STATUS:BURN",
+      "after": "CONSUME_RESOURCE{\"resourceAtLeast\":2} > DAMAGE > APPLY_STATUS:BURN",
+      "domain": "MAGIC",
+      "speed": "NORMAL",
+      "roles": [
+        "SETUP",
+        "PRESSURE",
+        "FINISHER",
+        "RESOURCE",
+        "DISRUPTION"
+      ],
+      "changes": [
+        "burn-cycle: gasta recurso para burst",
+        "counterplay: tag GUARD_BREAK vs escudos"
+      ]
+    },
+    {
+      "name": "Égide Ígnea",
+      "locus": "G4",
+      "before": "SHIELD",
+      "after": "SHIELD > REMOVE_STATUS",
+      "domain": "UTILITY",
+      "speed": "FAST",
+      "roles": [
+        "DEFENSE",
+        "SYNERGY",
+        "SUSTAIN",
+        "DISRUPTION"
+      ],
+      "changes": [
+        "Véu: escudo rápido + Calor se FRONT",
+        "counterplay: escudo + cleanse"
+      ]
+    },
+    {
+      "name": "Magma Ígnea G5",
+      "locus": "G5",
+      "before": "CONSUME_RESOURCE{\"resourceAtLeast\":1} > GAIN_MOMENTUM",
+      "after": "CONSUME_RESOURCE{\"resourceAtLeast\":2} > GAIN_MOMENTUM",
+      "domain": "UTILITY",
+      "speed": "NORMAL",
+      "roles": [
+        "RESOURCE"
+      ],
+      "changes": [
+        "resource: require 1→2 alinhado ao consumo"
+      ]
+    },
+    {
+      "name": "Cinza Ardente",
+      "locus": "G7",
+      "before": "SHIELD > DAMAGE{\"targetHas\":\"BURN\"}",
+      "after": "SHIELD > DAMAGE{\"targetHas\":\"BURN\"}",
+      "domain": "MAGIC",
+      "speed": "VERY_FAST",
+      "roles": [
+        "PRESSURE",
+        "DEFENSE",
+        "REACTION",
+        "RESOURCE"
+      ],
+      "changes": [
+        "Labareda/Brasa: aplica Burn",
+        "Labareda/Brasa: +recurso se alvo já queima",
+        "Retorno: TRIGGER → escudo; payoff se status"
+      ]
+    },
+    {
+      "name": "Brasa Ardente",
+      "locus": "G9",
+      "before": "CONSUME_RESOURCE{\"resourceAtLeast\":1} > DAMAGE > APPLY_STATUS:BURN",
+      "after": "DAMAGE > GAIN_RESOURCE{\"targetHas\":\"BURN\"} > APPLY_STATUS:BURN > CONSUME_RESOURCE{\"resourceAtLeast\":1}",
+      "domain": "MAGIC",
+      "speed": "FAST",
+      "roles": [
+        "SETUP",
+        "PRESSURE",
+        "FINISHER",
+        "RESOURCE",
+        "TEMPO",
+        "POSITIONING"
+      ],
+      "changes": [
+        "Labareda/Brasa: +recurso se alvo já queima"
+      ]
+    },
+    {
+      "name": "Labareda Ígnea",
+      "locus": "G10",
+      "before": "CONSUME_RESOURCE{\"resourceAtLeast\":3} > DAMAGE",
+      "after": "DAMAGE > GAIN_RESOURCE{\"targetHas\":\"BURN\"} > APPLY_STATUS:BURN > CONSUME_RESOURCE{\"resourceAtLeast\":3}",
+      "domain": "MAGIC",
+      "speed": "HEAVY",
+      "roles": [
+        "PRESSURE",
+        "FINISHER",
+        "RESOURCE"
+      ],
+      "changes": [
+        "Labareda/Brasa: aplica Burn",
+        "Labareda/Brasa: +recurso se alvo já queima"
+      ]
+    },
+    {
+      "name": "Voltagem Voltaica",
+      "locus": "G1",
+      "before": "DAMAGE",
+      "after": "DAMAGE > APPLY_STATUS:SHOCK",
+      "domain": "MAGIC",
+      "speed": "NORMAL",
+      "roles": [
+        "FOUNDATION",
+        "PRESSURE",
+        "SETUP"
+      ],
+      "changes": [
+        "electric-cycle: aplica Shock"
+      ]
+    },
+    {
+      "name": "Tempestade Elétrica",
+      "locus": "G2",
+      "before": "DAMAGE > GAIN_MOMENTUM",
+      "after": "DAMAGE > GAIN_MOMENTUM > APPLY_STATUS:SHOCK",
+      "domain": "MAGIC",
+      "speed": "FAST",
+      "roles": [
+        "PRESSURE",
+        "TEMPO",
+        "SETUP",
+        "RESOURCE"
+      ],
+      "changes": [
+        "electric-cycle: aplica Shock",
+        "electric-cycle: recupera energia em Shocked",
+        "face: truncado a 3 batidas"
+      ]
+    },
+    {
+      "name": "Queima Elétrica",
+      "locus": "G3",
+      "before": "DAMAGE > APPLY_STATUS:SHOCK",
+      "after": "DAMAGE > APPLY_STATUS:SHOCK",
+      "domain": "MAGIC",
+      "speed": "NORMAL",
+      "roles": [
+        "SETUP",
+        "PRESSURE",
+        "DISRUPTION"
+      ],
+      "changes": [
+        "counterplay: tag GUARD_BREAK vs escudos"
+      ]
+    },
+    {
+      "name": "Descarga Estática",
+      "locus": "G5",
+      "before": "GAIN_MOMENTUM",
+      "after": "DAMAGE > GAIN_ENERGY{\"targetHas\":\"SHOCK\"}",
+      "domain": "MAGIC",
+      "speed": "FAST",
+      "roles": [
+        "RESOURCE",
+        "PRESSURE",
+        "TEMPO"
+      ],
+      "changes": [
+        "nome Descarga/Arco: dano leve + energia se status"
+      ]
+    },
+    {
+      "name": "Arco Voltaica",
+      "locus": "G7",
+      "before": "SHIELD > DAMAGE{\"targetHas\":\"SHOCK\"}",
+      "after": "SHIELD > DAMAGE{\"targetHas\":\"SHOCK\"}",
+      "domain": "MAGIC",
+      "speed": "VERY_FAST",
+      "roles": [
+        "PRESSURE",
+        "DEFENSE",
+        "REACTION"
+      ],
+      "changes": [
+        "Retorno: TRIGGER → escudo; payoff se status"
+      ]
+    },
+    {
+      "name": "Amparo Estática",
+      "locus": "G8",
+      "before": "SHIELD > HEAL",
+      "after": "SHIELD > REMOVE_STATUS",
+      "domain": "UTILITY",
+      "speed": "HEAVY",
+      "roles": [
+        "DEFENSE",
+        "SUSTAIN",
+        "DISRUPTION"
+      ],
+      "changes": [
+        "counterplay: escudo + cleanse"
+      ]
+    },
+    {
+      "name": "Prisão Estática",
+      "locus": "G9",
+      "before": "CONSUME_RESOURCE{\"resourceAtLeast\":1} > APPLY_STATUS:SHOCK > DAMAGE",
+      "after": "CONSUME_RESOURCE{\"resourceAtLeast\":1} > APPLY_STATUS:SHOCK > DAMAGE > APPLY_STATUS:SHOCK{\"targetHas\":\"SHOCK\"}",
+      "domain": "MAGIC",
+      "speed": "HEAVY",
+      "roles": [
+        "SETUP",
+        "PRESSURE",
+        "FINISHER",
+        "RESOURCE",
+        "CONTROL",
+        "TEMPO"
+      ],
+      "changes": [
+        "Prisão: prolonga status se já ativo"
+      ]
+    }
+  ],
+  "compositions": {
+    "frontline": true,
+    "setup": true,
+    "pressure": true,
+    "finisher": true,
+    "reaction": true,
+    "allyCombo": true,
+    "adversaryAnswer": true,
+    "timing": true,
+    "targeting": true,
+    "resource": true,
+    "sharedStates": [
+      "STUN",
+      "CRACKED",
+      "MARKED",
+      "BURN",
+      "SHOCK"
+    ],
+    "synergyCards": 13,
+    "counterCards": 5
+  },
+  "kits": {
+    "Kyrum": {
+      "archetype": "PRECISION / FINISHER",
+      "species": "sparkyn",
+      "genes": {
+        "HP": "B",
+        "ATK": "S",
+        "DEF": "B",
+        "MAG": "C",
+        "RES": "C",
+        "SPD": "B",
+        "CRIT": "B",
+        "CRIT_DAMAGE": "A",
+        "PRECISION": "A",
+        "EVASION": "C",
+        "STATUS": "B"
+      },
+      "identity": "Dança da Maré",
+      "resource": "MOMENTUM",
+      "coverage": {
+        "hasFoundation": true,
+        "hasSetup": true,
+        "hasPressure": true,
+        "hasFinisher": true,
+        "hasReaction": true,
+        "hasResource": true,
+        "hasSynergy": true,
+        "hasTiming": true
+      },
+      "cards": [
+        {
+          "locus": "G1",
+          "name": "Descarga Voltaica",
+          "cost": 1,
+          "domain": "PHYSICAL",
+          "speed": "NORMAL",
+          "roles": [
+            "FOUNDATION",
+            "PRESSURE",
+            "SETUP"
+          ],
+          "ops": "DAMAGE > APPLY_STATUS:SHOCK",
+          "changes": [
+            "electric-cycle: aplica Shock"
+          ]
+        },
+        {
+          "locus": "G2",
+          "name": "Voltagem Voltaica",
+          "cost": 1,
+          "domain": "MAGIC",
+          "speed": "FAST",
+          "roles": [
+            "PRESSURE",
+            "TEMPO",
+            "SETUP",
+            "RESOURCE"
+          ],
+          "ops": "APPLY_STATUS:MARKED > DAMAGE > GAIN_MOMENTUM",
+          "changes": [
+            "gene PREC: aplica Marked",
+            "electric-cycle: aplica Shock",
+            "face: truncado a 3 batidas",
+            "electric-cycle: recupera energia em Shocked",
+            "face: truncado a 3 batidas"
+          ]
+        },
+        {
+          "locus": "G3",
+          "name": "Voltagem Elétrica",
+          "cost": 2,
+          "domain": "MAGIC",
+          "speed": "NORMAL",
+          "roles": [
+            "FOUNDATION",
+            "SETUP",
+            "PRESSURE",
+            "DISRUPTION"
+          ],
+          "ops": "DAMAGE > APPLY_STATUS:SHOCK",
+          "changes": [
+            "counterplay: tag GUARD_BREAK vs escudos"
+          ]
+        },
+        {
+          "locus": "G4",
+          "name": "Descarga Estática",
+          "cost": 2,
+          "domain": "MAGIC",
+          "speed": "FAST",
+          "roles": [
+            "DEFENSE",
+            "PRESSURE",
+            "RESOURCE",
+            "TEMPO"
+          ],
+          "ops": "DAMAGE > GAIN_ENERGY@SHOCK",
+          "changes": [
+            "nome Descarga/Arco: dano leve + energia se status"
+          ]
+        },
+        {
+          "locus": "G5",
+          "name": "Corrente Elétrica",
+          "cost": 1,
+          "domain": "UTILITY",
+          "speed": "NORMAL",
+          "roles": [
+            "RESOURCE"
+          ],
+          "ops": "GAIN_MOMENTUM",
+          "changes": []
+        },
+        {
+          "locus": "G6",
+          "name": "Tempestade Estática",
+          "cost": 2,
+          "domain": "MAGIC",
+          "speed": "HEAVY",
+          "roles": [
+            "SETUP",
+            "PRESSURE",
+            "CONTROL"
+          ],
+          "ops": "APPLY_STATUS:SHOCK > DAMAGE",
+          "changes": []
+        },
+        {
+          "locus": "G7",
+          "name": "Réplica Estática",
+          "cost": 2,
+          "domain": "MAGIC",
+          "speed": "VERY_FAST",
+          "roles": [
+            "PRESSURE",
+            "DEFENSE",
+            "REACTION"
+          ],
+          "ops": "SHIELD > DAMAGE@SHOCK",
+          "changes": [
+            "Retorno: TRIGGER → escudo; payoff se status"
+          ]
+        },
+        {
+          "locus": "G8",
+          "name": "Elo Estática",
+          "cost": 2,
+          "domain": "UTILITY",
+          "speed": "FAST",
+          "roles": [
+            "DEFENSE",
+            "SUSTAIN",
+            "DISRUPTION"
+          ],
+          "ops": "SHIELD > REMOVE_STATUS",
+          "changes": [
+            "counterplay: escudo + cleanse"
+          ]
+        },
+        {
+          "locus": "G9",
+          "name": "Tempestade Elétrica",
+          "cost": 3,
+          "domain": "MAGIC",
+          "speed": "HEAVY",
+          "roles": [
+            "SETUP",
+            "PRESSURE",
+            "FINISHER",
+            "RESOURCE"
+          ],
+          "ops": "CONSUME_RESOURCE > APPLY_STATUS:MARKED > DAMAGE > APPLY_STATUS:SHOCK",
+          "changes": [
+            "gene PREC: aplica Marked",
+            "anti-redundância: finisher HEAVY vs status",
+            "face: truncado a 3 batidas"
+          ]
+        },
+        {
+          "locus": "G10",
+          "name": "Sentença Estática G10",
+          "cost": 4,
+          "domain": "MAGIC",
+          "speed": "FAST",
+          "roles": [
+            "PRESSURE",
+            "FINISHER",
+            "RESOURCE",
+            "SYNERGY",
+            "TEMPO"
+          ],
+          "ops": "CONSUME_RESOURCE > DAMAGE > DAMAGE@SHOCK > DAMAGE@MARKED",
+          "changes": [
+            "electric-cycle: pune Shocked",
+            "synergy: payoff contra Marked"
+          ]
+        }
+      ]
+    },
+    "Brynix": {
+      "archetype": "BURN / MAGIC PRESSURE",
+      "species": "pyron",
+      "genes": {
+        "HP": "C",
+        "ATK": "E",
+        "DEF": "D",
+        "MAG": "A",
+        "RES": "B",
+        "SPD": "A",
+        "CRIT": "C",
+        "CRIT_DAMAGE": "C",
+        "PRECISION": "B",
+        "EVASION": "C",
+        "STATUS": "A"
+      },
+      "identity": "Núcleo Magmático",
+      "resource": "HEAT",
+      "coverage": {
+        "hasFoundation": true,
+        "hasSetup": true,
+        "hasPressure": true,
+        "hasFinisher": true,
+        "hasReaction": true,
+        "hasResource": true,
+        "hasSynergy": true,
+        "hasTiming": true
+      },
+      "cards": [
+        {
+          "locus": "G1",
+          "name": "Golpe Incandescente",
+          "cost": 1,
+          "domain": "PHYSICAL",
+          "speed": "FAST",
+          "roles": [
+            "FOUNDATION",
+            "PRESSURE"
+          ],
+          "ops": "DAMAGE > APPLY_STATUS:BURN",
+          "changes": [
+            "Mordida: status elemental no impacto",
+            "gene STA: duração de status +1"
+          ]
+        },
+        {
+          "locus": "G2",
+          "name": "Mordida Incandescente",
+          "cost": 1,
+          "domain": "PHYSICAL",
+          "speed": "HEAVY",
+          "roles": [
+            "FOUNDATION",
+            "PRESSURE",
+            "FINISHER",
+            "SYNERGY"
+          ],
+          "ops": "DAMAGE > APPLY_STATUS:BURN > DAMAGE@BURN",
+          "changes": [
+            "Mordida: status elemental no impacto",
+            "gene STA: duração de status +1",
+            "burn-cycle: pune BURN"
+          ]
+        },
+        {
+          "locus": "G3",
+          "name": "Magma Incandescente",
+          "cost": 2,
+          "domain": "MAGIC",
+          "speed": "NORMAL",
+          "roles": [
+            "SETUP",
+            "PRESSURE",
+            "RESOURCE",
+            "FINISHER",
+            "DISRUPTION"
+          ],
+          "ops": "CONSUME_RESOURCE > DAMAGE > GAIN_RESOURCE@BURN > APPLY_STATUS:BURN",
+          "changes": [
+            "Labareda/Brasa: +recurso se alvo já queima",
+            "burn-cycle: gasta recurso para burst",
+            "counterplay: tag GUARD_BREAK vs escudos"
+          ]
+        },
+        {
+          "locus": "G4",
+          "name": "Égide Ígnea",
+          "cost": 2,
+          "domain": "UTILITY",
+          "speed": "FAST",
+          "roles": [
+            "DEFENSE",
+            "SYNERGY",
+            "SUSTAIN",
+            "DISRUPTION"
+          ],
+          "ops": "SHIELD > REMOVE_STATUS",
+          "changes": [
+            "Véu: escudo rápido + Calor se FRONT",
+            "counterplay: escudo + cleanse"
+          ]
+        },
+        {
+          "locus": "G5",
+          "name": "Ímpeto Ígnea",
+          "cost": 1,
+          "domain": "UTILITY",
+          "speed": "FAST",
+          "roles": [
+            "RESOURCE",
+            "TEMPO"
+          ],
+          "ops": "GAIN_RESOURCE > GAIN_ENERGY",
+          "changes": [
+            "Pulso: gera recurso e converte em energia"
+          ]
+        },
+        {
+          "locus": "G6",
+          "name": "Labareda Ardente",
+          "cost": 2,
+          "domain": "MAGIC",
+          "speed": "NORMAL",
+          "roles": [
+            "SETUP",
+            "PRESSURE",
+            "RESOURCE"
+          ],
+          "ops": "DAMAGE > GAIN_RESOURCE@BURN > APPLY_STATUS:BURN",
+          "changes": [
+            "Labareda/Brasa: +recurso se alvo já queima",
+            "gene STA: duração de status +1"
+          ]
+        },
+        {
+          "locus": "G7",
+          "name": "Fornalha Ígnea",
+          "cost": 2,
+          "domain": "MAGIC",
+          "speed": "VERY_FAST",
+          "roles": [
+            "PRESSURE",
+            "DEFENSE",
+            "REACTION",
+            "RESOURCE"
+          ],
+          "ops": "SHIELD > DAMAGE@BURN",
+          "changes": [
+            "Labareda/Brasa: aplica Burn",
+            "Labareda/Brasa: +recurso se alvo já queima",
+            "Retorno: TRIGGER → escudo; payoff se status"
+          ]
+        },
+        {
+          "locus": "G8",
+          "name": "Brasa Ardente",
+          "cost": 2,
+          "domain": "MAGIC",
+          "speed": "FAST",
+          "roles": [
+            "DEFENSE",
+            "SUSTAIN",
+            "PRESSURE",
+            "RESOURCE",
+            "TEMPO",
+            "POSITIONING"
+          ],
+          "ops": "DAMAGE > GAIN_RESOURCE@BURN > APPLY_STATUS:BURN",
+          "changes": [
+            "Labareda/Magma escudo-only: pressão + escudo se Burning",
+            "Labareda/Brasa: +recurso se alvo já queima",
+            "face: truncado a 3 batidas",
+            "gene STA: duração de status +1"
+          ]
+        },
+        {
+          "locus": "G9",
+          "name": "Labareda Incandescente",
+          "cost": 3,
+          "domain": "MAGIC",
+          "speed": "NORMAL",
+          "roles": [
+            "SETUP",
+            "PRESSURE",
+            "FINISHER",
+            "RESOURCE",
+            "CONTROL"
+          ],
+          "ops": "DAMAGE > GAIN_RESOURCE@BURN > APPLY_STATUS:BURN > CONSUME_RESOURCE",
+          "changes": [
+            "Labareda/Brasa: +recurso se alvo já queima",
+            "gene STA: duração de status +1"
+          ]
+        },
+        {
+          "locus": "G10",
+          "name": "Ruptura Incandescente",
+          "cost": 4,
+          "domain": "MAGIC",
+          "speed": "FAST",
+          "roles": [
+            "PRESSURE",
+            "FINISHER",
+            "RESOURCE",
+            "TEMPO",
+            "SYNERGY"
+          ],
+          "ops": "CONSUME_RESOURCE > DAMAGE > DAMAGE@BURN",
+          "changes": [
+            "anti-redundância: pressão rápida condicional"
+          ]
+        }
+      ]
+    },
+    "Doron": {
+      "archetype": "FRONTLINE / BRUISER",
+      "species": "terranox",
+      "genes": {
+        "HP": "S",
+        "ATK": "A",
+        "DEF": "S",
+        "MAG": "D",
+        "RES": "B",
+        "SPD": "D",
+        "CRIT": "C",
+        "CRIT_DAMAGE": "C",
+        "PRECISION": "C",
+        "EVASION": "E",
+        "STATUS": "B"
+      },
+      "identity": "Bastião Mineral",
+      "resource": "STONE",
+      "coverage": {
+        "hasFoundation": true,
+        "hasSetup": true,
+        "hasPressure": true,
+        "hasFinisher": true,
+        "hasReaction": true,
+        "hasResource": true,
+        "hasSynergy": true,
+        "hasTiming": true
+      },
+      "cards": [
+        {
+          "locus": "G1",
+          "name": "Descarga Pétrea",
+          "cost": 1,
+          "domain": "PHYSICAL",
+          "speed": "NORMAL",
+          "roles": [
+            "FOUNDATION",
+            "PRESSURE",
+            "SETUP"
+          ],
+          "ops": "DAMAGE > APPLY_STATUS:STUN",
+          "changes": [
+            "anti-redundância: setup de status"
+          ]
+        },
+        {
+          "locus": "G2",
+          "name": "Olhar Pesada",
+          "cost": 1,
+          "domain": "PHYSICAL",
+          "speed": "FAST",
+          "roles": [
+            "PRESSURE",
+            "TEMPO"
+          ],
+          "ops": "DAMAGE > GAIN_MOMENTUM",
+          "changes": []
+        },
+        {
+          "locus": "G3",
+          "name": "Orbe Pesada",
+          "cost": 2,
+          "domain": "PHYSICAL",
+          "speed": "NORMAL",
+          "roles": [
+            "SETUP",
+            "PRESSURE",
+            "DISRUPTION"
+          ],
+          "ops": "DAMAGE > APPLY_STATUS:CRACKED",
+          "changes": [
+            "counterplay: tag GUARD_BREAK vs escudos"
+          ]
+        },
+        {
+          "locus": "G4",
+          "name": "Placa Pesada",
+          "cost": 2,
+          "domain": "UTILITY",
+          "speed": "NORMAL",
+          "roles": [
+            "DEFENSE",
+            "POSITIONING"
+          ],
+          "ops": "SHIELD > SHIELD@FRONT",
+          "changes": [
+            "Guarda: escudo + bônus FRONT"
+          ]
+        },
+        {
+          "locus": "G5",
+          "name": "Rocha Telúrica",
+          "cost": 1,
+          "domain": "UTILITY",
+          "speed": "NORMAL",
+          "roles": [
+            "RESOURCE"
+          ],
+          "ops": "GAIN_MOMENTUM",
+          "changes": []
+        },
+        {
+          "locus": "G6",
+          "name": "Marca Pétrea",
+          "cost": 2,
+          "domain": "PHYSICAL",
+          "speed": "FAST",
+          "roles": [
+            "SETUP",
+            "PRESSURE"
+          ],
+          "ops": "APPLY_STATUS:MARKED > APPLY_STATUS:CRACKED > DAMAGE",
+          "changes": [
+            "Marca: Marked + pressão"
+          ]
+        },
+        {
+          "locus": "G7",
+          "name": "Retorno Telúrica",
+          "cost": 2,
+          "domain": "PHYSICAL",
+          "speed": "VERY_FAST",
+          "roles": [
+            "PRESSURE",
+            "DEFENSE",
+            "REACTION",
+            "POSITIONING"
+          ],
+          "ops": "SHIELD > DAMAGE@STUN",
+          "changes": [
+            "Retorno: TRIGGER → escudo; payoff se status"
+          ]
+        },
+        {
+          "locus": "G8",
+          "name": "Pó Pesada",
+          "cost": 2,
+          "domain": "UTILITY",
+          "speed": "NORMAL",
+          "roles": [
+            "SUSTAIN"
+          ],
+          "ops": "HEAL",
+          "changes": []
+        },
+        {
+          "locus": "G9",
+          "name": "Prisão Telúrica",
+          "cost": 3,
+          "domain": "PHYSICAL",
+          "speed": "HEAVY",
+          "roles": [
+            "SETUP",
+            "PRESSURE",
+            "FINISHER",
+            "RESOURCE",
+            "CONTROL",
+            "TEMPO"
+          ],
+          "ops": "CONSUME_RESOURCE > APPLY_STATUS:CRACKED > DAMAGE > APPLY_STATUS:CRACKED@CRACKED",
+          "changes": [
+            "Prisão: prolonga status se já ativo"
+          ]
+        },
+        {
+          "locus": "G10",
+          "name": "Tempestade Pétrea",
+          "cost": 4,
+          "domain": "PHYSICAL",
+          "speed": "FAST",
+          "roles": [
+            "SETUP",
+            "PRESSURE",
+            "FINISHER",
+            "RESOURCE",
+            "TEMPO",
+            "SYNERGY"
+          ],
+          "ops": "CONSUME_RESOURCE > DAMAGE > APPLY_STATUS:CRACKED > DAMAGE@STUN",
+          "changes": [
+            "anti-redundância: pressão rápida condicional"
+          ]
+        }
+      ]
+    }
+  }
+}

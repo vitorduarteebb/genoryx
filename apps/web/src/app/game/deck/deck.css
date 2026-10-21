@@ -56,6 +56,13 @@
   gap: 0.75rem;
 }
 
+@media (max-width: 720px) {
+  .gx-grimoire__grid {
+    grid-template-columns: repeat(auto-fill, minmax(9.2rem, 1fr));
+    gap: 0.55rem;
+  }
+}
+
 .gx-grimoire__grid .gx-card {
   width: 100%;
 }

@@ -2,6 +2,7 @@ import * as T from "three";
 import { frameBattleCamera, isLevitatingPlan } from "@nexora/game-engine";
 import { CreatureVisualController } from "./creature-visual-controller";
 import { EggVisualController } from "./egg-visual-controller";
+import { isBipedPlan } from "./creature-biped";
 import { contextQuality, type CreatureVisualInput, type CreatureVisualState } from "./creature-visual-contract";
 
 type Entry = { canvas:HTMLCanvasElement; input:CreatureVisualInput; visible:boolean; disposed:boolean; busy:boolean; controller?:CreatureVisualController|EggVisualController; scene:T.Scene;camera:T.PerspectiveCamera;last:number; rendered:boolean; onReady:()=>void;onError:(message:string)=>void; observer?:IntersectionObserver; resize?:ResizeObserver; };
@@ -32,9 +33,15 @@ async function ensureLoaded(entry:Entry) {
       entry.camera.lookAt(framed.target.x,framed.target.y,framed.target.z);
     } else {
       // Keep stage sizes comparable instead of fitting babies back to adult size.
-      const h=Math.max(.8,size.y),span=Math.max(1.05,size.x,size.z),distance=Math.max(h,span)*(entry.input.egg?1.75:1.83);
+      const h=Math.max(.8,size.y),span=Math.max(1.05,size.x,size.z),distance=Math.max(h,span)*(entry.input.egg?1.75:isBipedPlan(entry.input.bodyPlan)?2.25:1.83);
       entry.camera.position.set(distance*.50,h*.70,distance*.86);entry.camera.lookAt(0,h*.45,0);
       if(full)entry.camera.position.multiplyScalar(.96);
+      if(entry.input.chassis?.back.d==="BACK_03_FIN"){
+        const sphere=box.getBoundingSphere(new T.Sphere());
+        const distance=Math.max(.72,sphere.radius)*1.12/Math.sin(T.MathUtils.degToRad(entry.camera.fov/2));
+        entry.camera.position.copy(sphere.center).add(new T.Vector3(.50,.24,.86).normalize().multiplyScalar(distance));
+        entry.camera.lookAt(sphere.center);
+      }
     }
     entry.last=performance.now()-100;entry.onReady();wake();
   } catch(e){if(!entry.disposed){entry.visible=false; console.error("Creature preview failed",e);entry.onError(e instanceof Error?e.message:"Não foi possível abrir o modelo");}}finally{entry.busy=false;}

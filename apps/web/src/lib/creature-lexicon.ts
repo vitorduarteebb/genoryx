@@ -11,8 +11,8 @@ export const STAT_META: Record<StatKey, { name: string; hint: string }> = {
   DEF: { name: "Defesa", hint: "Resistência contra dano físico." },
   MAG: { name: "Magia", hint: "Poder das habilidades elementais e mágicas." },
   RES: { name: "Resistência", hint: "Proteção contra dano especial e efeitos." },
-  SPD: { name: "Velocidade", hint: "Quão rápido a criatura age e se posiciona." },
-  CRIT: { name: "Crítico", hint: "Chance de acertos devastadores." },
+  SPD: { name: "Velocidade", hint: "Ordem de ação na timeline, somada à velocidade da carta. Não dá turno extra." },
+  CRIT: { name: "Crítico", hint: "Chance de acerto crítico. O multiplicador vem de CDMG." },
   EVA: { name: "Evasão", hint: "Chance de evitar golpes inimigos." },
   STATUS: { name: "Efeitos", hint: "Força para aplicar queimadura, veneno, choque e similares." },
 };

@@ -51,7 +51,9 @@ describe("creature card kit G1–G10", () => {
     expect(kit.cards.find((row) => row.locus === "G10")?.tier).toBe("SUPREME");
     expect(kitToDefinition(kit.cards.find((row) => row.locus === "G10")!).type).toBe("ULTIMATE");
     const sample = kitToDefinition(kit.cards[0]!);
-    expect(sample.tags).toEqual([kit.cards[0]!.function, kit.cards[0]!.tier]);
+    expect(sample.tags[0]).toBe(kit.cards[0]!.function);
+    expect(sample.tags[1]).toBe(kit.cards[0]!.tier);
+    expect(sample.tags.length).toBeGreaterThan(2);
     expect(sample.visualTags).toEqual([...kit.cards[0]!.modifierGenes]);
   });
 

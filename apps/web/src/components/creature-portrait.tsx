@@ -31,6 +31,7 @@ export type PortraitInput = {
 export function CreaturePortrait({
   context,
   modelUrl,
+  bodyPlan,
   element,
   visual,
   portraitUrl,
@@ -64,6 +65,7 @@ export function CreaturePortrait({
       <CreatureGxrFigure
         context={context}
         modelUrl={modelUrl}
+        bodyPlan={bodyPlan}
         chassis={chassis}
         element={element}
         lifeStage={lifeStage}

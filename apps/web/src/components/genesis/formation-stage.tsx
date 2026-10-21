@@ -7,6 +7,7 @@ import { CreatureGxrFigure } from "../creature-gxr-figure";
 export function FormationStage({
   failed,
   chassis,
+  bodyPlan,
   element,
   lifeStage,
   temperament,
@@ -15,6 +16,7 @@ export function FormationStage({
 }: {
   failed?: boolean;
   chassis?: ChassisView | null;
+  bodyPlan?: string | null;
   element?: string | null;
   lifeStage?: string | null;
   temperament?: string | null;
@@ -27,6 +29,7 @@ export function FormationStage({
         <div className="genesis-forming-chassis">
           <CreatureGxrFigure
             chassis={chassis}
+            bodyPlan={bodyPlan}
             element={element ?? "ARCANE"}
             lifeStage={lifeStage}
             temperament={temperament}

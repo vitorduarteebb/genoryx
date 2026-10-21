@@ -37,7 +37,13 @@ export function canEvolve(progress: CreatureProgress): boolean {
   if (!next) {
     return false;
   }
-  return progress.evolutionStatus === "READY_TO_EVOLVE" && progress.level >= creatureLifeStageConfig.minLevel[next];
+  if (progress.level < creatureLifeStageConfig.minLevel[next]) {
+    return false;
+  }
+  if (progress.evolutionStatus === "READY_TO_EVOLVE") {
+    return true;
+  }
+  return meetsEvolutionThresholds(progress);
 }
 
 export function meetsEvolutionThresholds(progress: CreatureProgress): boolean {

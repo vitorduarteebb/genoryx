@@ -32,6 +32,20 @@ export {
   type LocusBlueprint,
 } from "./genes/generate";
 export { deriveCombatStats, type SpeciesBases } from "./stats/derive";
+export {
+  analyzeCardSynergy,
+  anatomicalAffordances,
+  detectCombatArchetype,
+  hydrateGenomeProfile,
+  initiativeOf,
+  orderTimeline,
+  personalityLean,
+  simulateGenomeMatchups,
+  type DetectedBuild,
+  type GenomeProfile,
+  type GenomeSimReport,
+  type TimelineMark,
+} from "./battle/genome";
 export { collectCardPool, collectCardContributions, collectCreatureManifestations, buildBattleDeck, dealOpeningHand } from "./cards/deck";
 export { combatLineOf, exposedLine, type CombatLine } from "./battle/formation-line";
 export { explainTargets, listFormationTargets, cardTargetRule } from "./battle/targeting-resolve";
@@ -52,6 +66,16 @@ export {
   type DraftCreatureSummary,
 } from "./battle/v15";
 export { simulateCombatV15 } from "./battle/v15/simulate";
+export {
+  combatV23Config,
+  eligibleResponses,
+  hydrateResolutionProfile,
+  inferTimingClass,
+  reservePreview,
+  simulateCombatV23,
+  summarizeTiming,
+  TIMING_LABEL_PT,
+} from "./battle/v23";
 export { assignFormationSlots, formationSlotFromIndex, linearSlotFromIndex, usesLinearFormation } from "./battle/formation";
 export { presentBattleEvents, type BattleVisualEvent } from "./battle/events";
 export type { BattleAction, BattleState, BattleSide, BattleFusionState, Combatant, CardInstance, FusionPoolEntry } from "./battle/types";
@@ -60,7 +84,7 @@ export { collapseLinearFormation, applyPositionMove } from "./battle/matrix/form
 export { middleWindowOpen, validTargets, listValidTargets, ruleFromCard, isSlotTargetable } from "./battle/matrix/targeting";
 export { canonicalPlayTypology, combatMechanicTags, isFunctionalTypology } from "./battle/matrix/combat-tags";
 export { recycleDiscard } from "./battle/matrix/recycle";
-export { evaluateMatrixFusion, livingTypologies } from "./battle/matrix/fusion-v2";
+export { evaluateMatrixFusion, livingTypologies, poolTypologies } from "./battle/matrix/fusion-v2";
 export {
   drawWeighted,
   presenceDrawCount,
@@ -111,6 +135,11 @@ export {
   priorBreedsFromFertility,
 } from "./breeding/calculate";
 export {
+  isReservedOffspringName,
+  normalizeOffspringName,
+  uniqueOffspringName,
+} from "./breeding/offspring-name";
+export {
   calculateCrossPotential,
   crossPotentialHasNoChild,
   isCloseLineage,
@@ -145,6 +174,7 @@ export { clampRewardToBudget, pvpGoldReward, rollPveCatalyst, rollPveGold } from
 export {
   assembleVisualGenome,
   deriveVisualSeed,
+  wildVisualSeed,
   type AssembleVisualGenomeInput,
   type CreatureVisualGenome,
   type VisualAllele,
@@ -198,12 +228,32 @@ export {
 export { inheritGeneticPower, rollPowerInheritance, seedForInheritanceRoll } from "./powers/inherit";
 export { generatePowerCards, type GeneticCardManifestation } from "./powers/cards";
 export {
+  CONTENT_PASS_VERSION,
+  TACTICAL_ROLES,
+  auditSealedCard,
+  contentPassFingerprint,
+  kitRoleCoverage,
+  refineSealedCard,
+  refineSealedKit,
+  summarizeContentPass,
+  type RefinedCardContent,
+  type SealedCardInput,
+  type TacticalRole,
+} from "./cards/content-pass";
+export {
+  buildShowcaseCreature,
+  buildShowcaseTrio,
+  compositionChecklist,
+  type ShowcaseCreature,
+} from "./cards/content-pass-showcase";
+export {
   applyKitToLoci,
   assembleCreatureCardKit,
   isCardKitManifest,
   kitCardType,
   kitSeed,
   kitToDefinition,
+  kitCardsToDefinitions,
   type CardKitDerived,
   type CardKitManifest,
   type CreatureCardKit,
